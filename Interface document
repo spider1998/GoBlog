@@ -1,0 +1,113 @@
+1.用户注册：
+    /user/register      Post
+    req:
+        {
+            "name":"spider1998",
+            "password":"spider1998"
+        }
+    res:
+        {
+          "id": "c8aeb683-1c6b-4c29-a84c-caa6a1cac94f",
+          "state": 1,
+          "password_hash": "JDJhJDEwJGlFWFNheG1PS1RydU5IeXRQUWwzeU9ZU2YwazdNWGg0RUZ2QVBPanQ3Z0dXTnY2SmZIdkVx",
+          "mobile": "",
+          "gender": 0,
+          "birthday": "",
+          "real_name": "",
+          "area": "",
+          "nick_name": "spider1998",
+          "head_img": "",
+          "motto": "",
+          "create_time": "2018-12-09 17:34:08",
+          "update_time": "2018-12-09 17:34:08"
+        }
+
+2.用户登录：
+    /user/login      Post
+    req:
+        {
+            "name":"spider1998",
+            "password":"spider1998"
+        }
+    res:
+        "67ed2428aaeb87e4ad992a9922feaccd"
+
+3.获取用户信息：
+    /user/sessions/<session_id>     GET
+    req:
+        /user/sessions/67ed2428aaeb87e4ad992a9922feaccd
+    res:
+        {
+          "id": "61214c02-3e54-4b40-97d8-da32f8d7e7fd",
+          "state": 1,
+          "password_hash": "JDJhJDEwJFFaZTA1dkZwTVliQnp2Ukg2Uk10dGU2M0duRWZMZzVDNC5hYk9ucFd4cUFLS2lONWhiT01X",
+          "mobile": "",
+          "gender": 0,
+          "birthday": "",
+          "real_name": "",
+          "area": "",
+          "name": "spider1998",
+          "head_img": "",
+          "motto": "",
+          "create_time": "2018-12-09 17:51:42",
+          "update_time": "2018-12-09 17:51:42"
+        }
+
+4.修改用户资料信息
+    /user/information/<user_id>     PATCH
+    req:
+        {
+        	"mobile": "17609270263",
+            "gender": 1,
+            "birthday": "1998.9.24",
+            "real_name": "testName",
+            "area": "陕西",
+            "head_img": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1544412477&di=56108080b190ec27af433af7454e7362&src=http://img.zcool.cn/community/0153a559a70d57a8012028a954444c.jpeg@1280w_1l_2o_100sh.png",
+            "motto": "so nice"
+        }
+        Header:
+            X-Access-Session:d834ef9148fb391f25067818c36df6b0
+
+    res:
+        {
+            "id": "4d34ffa2-33a2-445e-978a-619ae07be4f6",
+            "name": "spider1998",
+            "state": 1,
+            "password_hash": "JDJhJDEwJG9NZm1KbVpGbm1MeGJGb21lajIyZE9MMDR1WnRIT1VoS0lxbXRtUm9pYUwuLlMvcVhPUGp1",
+            "mobile": "17609270263",
+            "gender": 1,
+            "birthday": "1998.9.24",
+            "real_name": "testName",
+            "area": "陕西",
+            "head_img": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1544412477&di=56108080b190ec27af433af7454e7362&src=http://img.zcool.cn/community/0153a559a70d57a8012028a954444c.jpeg@1280w_1l_2o_100sh.png",
+            "motto": "so nice",
+            "create_time": "2018-12-10 09:10:10",
+            "update_time": "2018-12-10 11:50:06"
+        }
+
+5.修改密码
+    /password/<user_id>         Patch
+    req:
+        http://192.168.183.134:8080/user/password/4d34ffa2-33a2-445e-978a-619ae07be4f6
+        {
+        	"password":"spider1998",
+        	"new_password":"spider1999"
+        }
+        Header:
+            X-Access-Session:d834ef9148fb391f25067818c36df6b0
+    res:
+        nil
+
+
+
+
+
+
+
+
+
+
+
+
+
+
