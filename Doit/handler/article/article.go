@@ -13,6 +13,7 @@ import (
 	"strconv"
 )
 
+//获取最新版文章
 func GetArticle(c *routing.Context) error {
 	req := c.Param("article_id")
 	article, err := service.Article.GetArticle(req)
@@ -22,6 +23,7 @@ func GetArticle(c *routing.Context) error {
 	return c.Write(article)
 }
 
+//获取指定版本文章
 func GetVersionArticle(c *routing.Context) error {
 	ver := c.Param("version")
 	artId := c.Param("article_id")
@@ -30,10 +32,30 @@ func GetVersionArticle(c *routing.Context) error {
 		return err
 	}
 	article,err := service.Article.GetVersionArticle(version,artId)
+	if err != nil {
+		return err
+	}
+	return c.Write(article)
 }
 
+//恢复历史版本
+func RestoreVersionArticle(c *routing.Context) error {
+	var req entity.RestoreArticleRequest
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	req.UserId = session.GetUserSession(c).ID
 
+	article,err := service.Article.RestoreVersionArticle(req)
+	if err != nil {
+		return err
+	}
+	return c.Write(article)
 
+}
+
+//添加文章
 func AddArticle(c *routing.Context) error {
 	var request entity.CreateArticleRequest
 	err := c.Read(&request)
@@ -109,5 +131,5 @@ func UpdateArticle(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-
+	return c.Write(response)
 }

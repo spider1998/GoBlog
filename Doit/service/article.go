@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"crypto/sha1"
 	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
+	"strings"
 )
 
 var Article = ArticleService{}
@@ -50,7 +51,7 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
-			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
 			return
 		}
 		err = errors.WithStack(err)
@@ -60,6 +61,43 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 	content := LinkBlock(con,token)
 	art.Content = content
 	art.Version = version
+	return
+}
+
+//恢复历史版本
+func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article,err error)  {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Content, v.Required),
+		v.Field(&req.Version, v.Required),
+		v.Field(&req.ArtId, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": req.ArtId}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	if req.UserId != art.UserId{
+		err = code.New(http.StatusBadRequest, code.CodeDenied)
+		return
+	}
+	hs := sha1.Sum([]byte(art.Token))
+	node := hex.EncodeToString(hs[:])
+	art.Content = strings.Replace(art.Content,node,"",-1)
+	art.Version = req.Version
+	art.UpdateTime = util.DateTimeStd()
+
+	err = app.DB.Model(&art).Update("Content", "Version", "UpdateTime")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
 	return
 }
 
@@ -159,6 +197,11 @@ func (a *ArticleService)SaveArtBlock(req entity.Content) (err error) {
 }
 
 
+
+
+
+
+
 func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art entity.Article, err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.BaseArticle, v.Required),
@@ -211,5 +254,5 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 		err = code.New(http.StatusBadRequest, code.CodeArticleNotChange)
 		return
 	}
-
+	return
 }

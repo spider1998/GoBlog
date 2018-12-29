@@ -18,6 +18,7 @@ const (
 	CodeArticleExist                  = 10005
 	CodeArticleNotExist               = 10006
 	CodeArticleNotChange              = 10007
+	CodeDenied						  =	10008
 
 	CodeRecordNotExist Code = 10803
 )
@@ -38,6 +39,7 @@ var codeMap = map[Code]string{
 	CodeArticleExist:     "article exist",
 	CodeArticleNotExist:  "article not exist",
 	CodeArticleNotChange: "article not change any more",
+	CodeDenied:			"Permission denied",
 }
 
 //解析码的具体信息

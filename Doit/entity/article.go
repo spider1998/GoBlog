@@ -65,6 +65,15 @@ type UpdateArticleRequest struct {
 	Content string `json:"content" gorm:"not null;unique"` //内容
 }
 
+type RestoreArticleRequest struct {
+	ArtId		string 		`json:"art_id"`		 //	文章ID
+	UserId      string     `json:"user_id"`      //用户id
+	Version		int		`json:"version"`		//文章版本
+	Content string `json:"content" gorm:"not null;unique"` //内容
+
+}
+
+
 func (Article) TableName() string {
 	return TableArticle
 }
