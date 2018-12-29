@@ -1,11 +1,14 @@
 package entity
 
+
 const TableArticle = "article"
 
 type Article struct {
 	ID          string     `json:"id"`           //唯一id
+	ArtId		string 		`json:"art_id"`		 //	文章ID
 	UserId      string     `json:"user_id"`      //用户id
 	PartPersons []BaseUser `json:"part_persons"` //贡献者
+	Version		int		`json:"version"`		//文章版本
 	BaseArticle            //文章基本字段
 	ArticleContent
 	Comment
@@ -16,7 +19,7 @@ type BaseArticle struct {
 	Title   string `json:"title"`                          //标题
 	Auth    string `json:"auth"`                           //主作者
 	Sort    string `json:"sort"`                           //类别
-	Content string `json:"content" gorm:"not null;unique"` //内容
+	Content string `json:"content" gorm:"not null;unique"` //最新内容
 }
 
 type ArticleContent struct {

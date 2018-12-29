@@ -1,13 +1,15 @@
 package article
 
 import (
-	"DBInsert/code"
 	"Project/Doit/entity"
 	"Project/Doit/handler/session"
 	"Project/Doit/service"
 	"github.com/go-ozzo/ozzo-routing"
-	"github.com/mediocregopher/radix.v2/redis"
 	"net/http"
+	"crypto/sha1"
+	"Project/Doit/code"
+	"Project/Doit/app"
+	"encoding/hex"
 )
 
 func GetArticle(c *routing.Context) error {
@@ -26,12 +28,41 @@ func AddArticle(c *routing.Context) error {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
 	request.UserId = session.GetUserSession(c).ID
-	respons, err := service.Article.CreateArticle(request)
+	art, err := service.Article.CreateArticle(request)
 	if err != nil {
 		return err
 	}
-	return c.Write(respons)
+	if err = c.Write(art);err !=nil{
+		return err
+	}
+	var hashContent entity.Content
+	var hc string = ""
+	var de string = ""
+	for i := 0;;i+=app.Conf.ContentSize{
+		if i >= len(art.Content){
+			break
+		}
+		if i + app.Conf.ContentSize > len(art.Content){
+			de = art.Content[i:]
 
+		}else {
+			de = art.Content[i:i+app.Conf.ContentSize]
+		}
+		hashContent.VersionHash = art.Version								//片段版本
+		hashContent.Detail = de											//详细内容
+		hashContent.HeadUuid = hc										//头标识
+		hs := sha1.Sum([]byte(hashContent.Detail))
+		hc = hex.EncodeToString(hs[:])
+		hashContent.TailUuid = hc										//尾标识
+		hashContent.Changed = false										//改动标识
+		hashContent.UserId = art.UserId									//用户ID
+		hashContent.ArtId = art.ArtId									//文章ID
+		err := service.Article.SaveArtBlock(hashContent)
+		if err != nil{
+			return err
+		}
+	}
+	return nil
 }
 
 //用户修改文章

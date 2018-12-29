@@ -10,6 +10,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"net/http"
+	"crypto/sha1"
+	"fmt"
+	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 )
 
 var Article = ArticleService{}
@@ -38,8 +41,11 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	if err != nil {
 		return
 	}
-	art.BaseArticle = req.BaseArticle
-	art.ID = uuid.New().String()
+	art.Title = req.Title
+	art.Auth = req.Auth
+	art.Sort = req.Sort
+	art.Version = 1
+	art.ArtId = uuid.New().String()
 	art.UserId = req.UserId
 	art.SecondTitle = req.SecondTitle
 	art.Photo = req.Photo
@@ -63,6 +69,34 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	}
 	return
 }
+
+//存储文章区块
+func (a *ArticleService)SaveArtBlock(req entity.Content) (err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Detail, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	//用户自己修改，无需审核
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&req).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeArticleExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create article block")
+		return
+	}
+	return
+}
+
 
 func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art entity.Article, err error) {
 	err = v.ValidateStruct(&req,
