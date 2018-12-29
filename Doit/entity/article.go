@@ -9,6 +9,7 @@ type Article struct {
 	UserId      string     `json:"user_id"`      //用户id
 	PartPersons []BaseUser `json:"part_persons"` //贡献者
 	Version		int		`json:"version"`		//文章版本
+	Token		string 	`json:"token"`			//文章令牌
 	BaseArticle            //文章基本字段
 	ArticleContent
 	Comment
@@ -42,6 +43,7 @@ type BasePhoto struct {
 
 type CreateArticleRequest struct {
 	UserId string `json:"user_id"` //用户ID
+	Token		string 	`json:"token"`			//文章令牌
 	BaseArticle
 	SecondTitle string      `json:"second_title"` //副标题
 	Photo       []BasePhoto `json:"photo"`        //图片

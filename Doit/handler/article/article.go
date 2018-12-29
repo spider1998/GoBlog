@@ -10,6 +10,7 @@ import (
 	"Project/Doit/code"
 	"Project/Doit/app"
 	"encoding/hex"
+	"strconv"
 )
 
 func GetArticle(c *routing.Context) error {
@@ -20,6 +21,18 @@ func GetArticle(c *routing.Context) error {
 	}
 	return c.Write(article)
 }
+
+func GetVersionArticle(c *routing.Context) error {
+	ver := c.Param("version")
+	artId := c.Param("article_id")
+	version,err := strconv.Atoi(ver)
+	if err != nil{
+		return err
+	}
+	article,err := service.Article.GetVersionArticle(version,artId)
+}
+
+
 
 func AddArticle(c *routing.Context) error {
 	var request entity.CreateArticleRequest

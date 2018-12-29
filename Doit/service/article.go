@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 	"net/http"
 	"crypto/sha1"
-	"fmt"
 	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 )
 
@@ -19,8 +18,9 @@ var Article = ArticleService{}
 
 type ArticleService struct{}
 
+//获取最新版本文章
 func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) {
-	err = app.DB.Select().Where(dbx.HashExp{"id": req}).One(&art)
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": req}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
@@ -32,6 +32,66 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 	return
 }
 
+//获取历史版本文章
+func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity.Article,err error) {
+	var con []entity.Content
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).
+		AndWhere(dbx.NewExp("version<={:ver}", dbx.Params{"ver": version})).
+			AndWhere(dbx.HashExp{"changed": false}).All(&con)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	token := art.Token
+	content := LinkBlock(con,token)
+	art.Content = content
+	art.Version = version
+	return
+}
+
+//链接文章块
+func LinkBlock(con []entity.Content,token string) (string)  {
+	var content string
+	hs := sha1.Sum([]byte(token))
+	node := hex.EncodeToString(hs[:])
+	co := con[0]
+	con = con[1:]
+	content = node + co.Detail
+	for len(con)==0{
+		for j,c := range con{
+			if c.HeadUuid == co.TailUuid{
+				co = c
+				content = content + node + co.Detail
+				con = append(con[:j],con[j+1:]...)
+				break
+			}
+			if c.TailUuid == co.HeadUuid{
+				co = c
+				content = node + co.Detail+ content
+				con = append(con[:j],con[j+1:]...)
+				break
+			}
+		}
+	}
+	return content
+
+}
+
+
 //创建文章
 func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art entity.Article, err error) {
 
@@ -41,6 +101,7 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	if err != nil {
 		return
 	}
+	art.Token = req.Token
 	art.Title = req.Title
 	art.Auth = req.Auth
 	art.Sort = req.Sort
