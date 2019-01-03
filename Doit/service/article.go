@@ -64,6 +64,15 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 	return
 }
 
+func (a *ArticleService)DeleteMaxArticle(version int) (err error) {
+	var con entity.Content
+	err = app.DB.Select().Where(dbx.NewExp("version>{:ver}", dbx.Params{"ver": version})).All(&con)
+	if err = DbErrorHandler(err, false); err != nil {
+		return
+	}
+	return
+}
+
 //恢复历史版本
 func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article,err error)  {
 	err = v.ValidateStruct(&req,

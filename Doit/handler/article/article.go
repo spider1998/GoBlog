@@ -38,7 +38,7 @@ func GetVersionArticle(c *routing.Context) error {
 	return c.Write(article)
 }
 
-//恢复历史版本
+//恢复历史版本(同时删除大于该版本的所有版本)
 func RestoreVersionArticle(c *routing.Context) error {
 	var req entity.RestoreArticleRequest
 	err := c.Read(&req)
@@ -48,6 +48,10 @@ func RestoreVersionArticle(c *routing.Context) error {
 	req.UserId = session.GetUserSession(c).ID
 
 	article,err := service.Article.RestoreVersionArticle(req)
+	if err != nil {
+		return err
+	}
+	err = service.Article.DeleteMaxArticle(req.Version)
 	if err != nil {
 		return err
 	}
@@ -73,6 +77,7 @@ func AddArticle(c *routing.Context) error {
 	var hashContent entity.Content
 	var hc string = ""
 	var de string = ""
+	//拆分文章重新结合为带标识的文章块
 	for i := 0;;i+=app.Conf.ContentSize{
 		if i >= len(art.Content){
 			break
@@ -83,7 +88,7 @@ func AddArticle(c *routing.Context) error {
 		}else {
 			de = art.Content[i:i+app.Conf.ContentSize]
 		}
-		hashContent.VersionHash = art.Version								//片段版本
+		hashContent.VersionHash = art.Version							//片段版本
 		hashContent.Detail = de											//详细内容
 		hashContent.HeadUuid = hc										//头标识
 		hs := sha1.Sum([]byte(hashContent.Detail))
