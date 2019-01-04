@@ -23,6 +23,14 @@ func GetArticle(c *routing.Context) error {
 	return c.Write(article)
 }
 
+func GetVersion(c *routing.Context) error {
+	req := c.Param("article_id")
+	version,err := service.Article.GetVersion(req)
+	if err != nil {
+		return err
+	}
+}
+
 //获取指定版本文章
 func GetVersionArticle(c *routing.Context) error {
 	ver := c.Param("version")

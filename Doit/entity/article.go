@@ -73,7 +73,6 @@ type RestoreArticleRequest struct {
 
 }
 
-
 func (Article) TableName() string {
 	return TableArticle
 }
