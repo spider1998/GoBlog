@@ -23,12 +23,14 @@ func GetArticle(c *routing.Context) error {
 	return c.Write(article)
 }
 
+//获取历史版本
 func GetVersion(c *routing.Context) error {
 	req := c.Param("article_id")
 	version,err := service.Article.GetVersion(req)
 	if err != nil {
 		return err
 	}
+	return c.Write(version)
 }
 
 //获取指定版本文章
@@ -96,7 +98,7 @@ func AddArticle(c *routing.Context) error {
 		}else {
 			de = art.Content[i:i+app.Conf.ContentSize]
 		}
-		hashContent.VersionHash = art.Version							//片段版本
+		hashContent.Version = art.Version								//片段版本
 		hashContent.Detail = de											//详细内容
 		hashContent.HeadUuid = hc										//头标识
 		hs := sha1.Sum([]byte(hashContent.Detail))

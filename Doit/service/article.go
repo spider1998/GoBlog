@@ -33,6 +33,7 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 	return
 }
 
+//获取文章所有版本，返回版本列表
 func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 	var con []entity.Content
 	err = app.DB.Select("version").Where(dbx.HashExp{"art_id": req}).Distinct(true).All(&con)
