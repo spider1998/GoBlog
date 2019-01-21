@@ -8,7 +8,6 @@ import (
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/access"
 	"github.com/pkg/errors"
-	"html/template"
 	"net/http"
 	"strings"
 )
@@ -53,8 +52,7 @@ func RegisterUser(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-	t, _ := template.ParseFiles("/views/register.html")
-	return t.Execute(c.Response, user)
+	return c.Write(user)
 
 }
 
@@ -65,7 +63,6 @@ func LoginUser(c *routing.Context) error {
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
-
 	_, sessionID, err := service.User.LoginUser(req)
 	if err != nil {
 		return err

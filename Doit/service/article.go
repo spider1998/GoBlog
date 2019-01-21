@@ -5,13 +5,13 @@ import (
 	"Project/Doit/code"
 	"Project/Doit/entity"
 	"Project/Doit/util"
+	"crypto/sha1"
 	"github.com/go-ozzo/ozzo-dbx"
 	v "github.com/go-ozzo/ozzo-validation"
+	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"net/http"
-	"crypto/sha1"
-	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"strings"
 )
 
@@ -34,7 +34,7 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 }
 
 //获取文章所有版本，返回版本列表
-func (a *ArticleService) GetVersion(req string) (version []int,err error) {
+func (a *ArticleService) GetVersion(req string) (version []int, err error) {
 	var con []entity.Content
 	err = app.DB.Select("version").Where(dbx.HashExp{"art_id": req}).Distinct(true).All(&con)
 	if err != nil {
@@ -45,18 +45,18 @@ func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 		err = errors.WithStack(err)
 		return
 	}
-	for _,c := range con{
-		version = append(version,c.Version )
+	for _, c := range con {
+		version = append(version, c.Version)
 	}
 	return
 }
 
 //获取历史版本文章
-func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity.Article,err error) {
+func (a *ArticleService) GetVersionArticle(version int, artId string) (art entity.Article, err error) {
 	var con []entity.Content
 	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).
 		AndWhere(dbx.NewExp("version<={:ver}", dbx.Params{"ver": version})).
-			AndWhere(dbx.HashExp{"changed": false}).All(&con)
+		AndWhere(dbx.HashExp{"changed": false}).All(&con)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -76,13 +76,13 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 		return
 	}
 	token := art.Token
-	content := LinkBlock(con,token)
+	content := LinkBlock(con, token)
 	art.Content = content
 	art.Version = version
 	return
 }
 
-func (a *ArticleService)DeleteMaxArticle(version int) (err error) {
+func (a *ArticleService) DeleteMaxArticle(version int) (err error) {
 	var con entity.Content
 	err = app.DB.Select().Where(dbx.NewExp("version>{:ver}", dbx.Params{"ver": version})).All(&con)
 	if err = DbErrorHandler(err, false); err != nil {
@@ -92,7 +92,7 @@ func (a *ArticleService)DeleteMaxArticle(version int) (err error) {
 }
 
 //恢复历史版本
-func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article,err error)  {
+func (a *ArticleService) RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article, err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.Content, v.Required),
 		v.Field(&req.Version, v.Required),
@@ -110,13 +110,13 @@ func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) 
 		err = errors.WithStack(err)
 		return
 	}
-	if req.UserId != art.UserId{
+	if req.UserId != art.UserId {
 		err = code.New(http.StatusBadRequest, code.CodeDenied)
 		return
 	}
 	hs := sha1.Sum([]byte(art.Token))
 	node := hex.EncodeToString(hs[:])
-	art.Content = strings.Replace(art.Content,node,"",-1)
+	art.Content = strings.Replace(art.Content, node, "", -1)
 	art.Version = req.Version
 	art.UpdateTime = util.DateTimeStd()
 
@@ -129,25 +129,25 @@ func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) 
 }
 
 //链接文章块
-func LinkBlock(con []entity.Content,token string) (string)  {
+func LinkBlock(con []entity.Content, token string) string {
 	var content string
 	hs := sha1.Sum([]byte(token))
 	node := hex.EncodeToString(hs[:])
 	co := con[0]
 	con = con[1:]
 	content = node + co.Detail
-	for len(con)==0{
-		for j,c := range con{
-			if c.HeadUuid == co.TailUuid{
+	for len(con) != 0 {
+		for j, c := range con {
+			if c.HeadUuid == co.TailUuid {
 				co = c
 				content = content + node + co.Detail
-				con = append(con[:j],con[j+1:]...)
+				con = append(con[:j], con[j+1:]...)
 				break
 			}
-			if c.TailUuid == co.HeadUuid{
+			if c.TailUuid == co.HeadUuid {
 				co = c
-				content = node + co.Detail+ content
-				con = append(con[:j],con[j+1:]...)
+				content = node + co.Detail + content
+				con = append(con[:j], con[j+1:]...)
 				break
 			}
 		}
@@ -155,7 +155,6 @@ func LinkBlock(con []entity.Content,token string) (string)  {
 	return content
 
 }
-
 
 //创建文章
 func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art entity.Article, err error) {
@@ -197,7 +196,7 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 }
 
 //存储文章区块
-func (a *ArticleService)SaveArtBlock(req entity.Content) (err error) {
+func (a *ArticleService) SaveArtBlock(req entity.Content) (err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.Detail, v.Required),
 	)
@@ -222,12 +221,6 @@ func (a *ArticleService)SaveArtBlock(req entity.Content) (err error) {
 	}
 	return
 }
-
-
-
-
-
-
 
 func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art entity.Article, err error) {
 	err = v.ValidateStruct(&req,

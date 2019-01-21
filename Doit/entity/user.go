@@ -51,7 +51,8 @@ type RegisterUserRequest struct {
 }
 
 type LoginUserRequest struct {
-	RegisterUserRequest
+	Name     string `json:"name"`     //昵称
+	Password string `json:"password"` //密码
 }
 
 type InfoUpdateRequest struct {

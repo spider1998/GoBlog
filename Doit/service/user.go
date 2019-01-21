@@ -99,7 +99,6 @@ func (u *UserService) LoginUser(request entity.LoginUserRequest) (user entity.Us
 	if err != nil {
 		return
 	}
-
 	err = app.DB.Select().Where(dbx.HashExp{"name": request.Name}).One(&user)
 	if err != nil {
 		if util.IsDBNotFound(err) {

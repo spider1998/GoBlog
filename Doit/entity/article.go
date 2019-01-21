@@ -1,15 +1,14 @@
 package entity
 
-
 const TableArticle = "article"
 
 type Article struct {
 	ID          string     `json:"id"`           //唯一id
-	ArtId		string 		`json:"art_id"`		 //	文章ID
+	ArtId       string     `json:"art_id"`       //	文章ID
 	UserId      string     `json:"user_id"`      //用户id
 	PartPersons []BaseUser `json:"part_persons"` //贡献者
-	Version		int		`json:"version"`		//文章版本
-	Token		string 	`json:"token"`			//文章令牌
+	Version     int        `json:"version"`      //文章版本
+	Token       string     `json:"token"`        //文章令牌
 	BaseArticle            //文章基本字段
 	ArticleContent
 	Comment
@@ -43,7 +42,7 @@ type BasePhoto struct {
 
 type CreateArticleRequest struct {
 	UserId string `json:"user_id"` //用户ID
-	Token		string 	`json:"token"`			//文章令牌
+	Token  string `json:"token"`   //文章令牌
 	BaseArticle
 	SecondTitle string      `json:"second_title"` //副标题
 	Photo       []BasePhoto `json:"photo"`        //图片
@@ -52,8 +51,9 @@ type CreateArticleRequest struct {
 }
 
 type VerifyArticleRequest struct { //
-	ID     string `json:"id"`      //文章ID
-	UserId string `json:"user_id"` //用户id
+	ID      string `json:"id"`      //文章ID
+	UserId  string `json:"user_id"` //用户id
+	Version int    `json:"version"` //文章版本
 	BaseArticle
 	SecondTitle string      `json:"second_title"` //副标题
 	Photo       []BasePhoto `json:"photo"`        //图片
@@ -66,9 +66,9 @@ type UpdateArticleRequest struct {
 }
 
 type RestoreArticleRequest struct {
-	ArtId		string 		`json:"art_id"`		 //	文章ID
-	UserId      string     `json:"user_id"`      //用户id
-	Version		int		`json:"version"`		//文章版本
+	ArtId   string `json:"art_id"`                         //	文章ID
+	UserId  string `json:"user_id"`                        //用户id
+	Version int    `json:"version"`                        //文章版本
 	Content string `json:"content" gorm:"not null;unique"` //内容
 
 }
