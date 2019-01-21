@@ -95,6 +95,15 @@ func (a *ArticleService)DeleteMaxArticle(version int) (err error) {
 	return
 }
 
+//查询相关标题文章
+func (a *ArticleService) QueryLikeArticles(content string) (arts []entity.Article,err error) {
+	err = app.DB.Select().Where(dbx.NewExp("title like %{:con}%", dbx.Params{"con": content})).Where(dbx.NewExp("second_title like %{:con}%", dbx.Params{"con": content})).All(&arts)
+	if err = DbErrorHandler(err, false); err != nil {
+		return
+	}
+	return
+}
+
 //删除文章
 func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 	var art entity.Article

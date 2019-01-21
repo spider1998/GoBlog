@@ -58,6 +58,16 @@ func DeleteArticle(c *routing.Context) error {
 	return c.Write(http.StatusOK)
 }
 
+//查询相关标题文章
+func QueryLikeArticles(c *routing.Context) error {
+	content := c.Param("likes_content")
+	response,err := service.Article.QueryLikeArticles(content)
+	if err != nil{
+		return err
+	}
+	return c.Write(response)
+}
+
 //恢复历史版本(同时删除大于该版本的所有版本)
 func RestoreVersionArticle(c *routing.Context) error {
 	var req entity.RestoreArticleRequest

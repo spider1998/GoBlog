@@ -13,7 +13,8 @@ func RegisterRoutes(router *routing.RouteGroup) {
 	router.Get("/view/<article_id>/<version>",article.GetVersionArticle)		//获取指定版本文章
 	router.Post("/restore",article.RestoreVersionArticle)						//恢复指定版本文章
 	router.Post("/add", article.AddArticle)       								//创建文章
-	router.Delete("/<article_id>",article.DeleteArticle)
+	router.Delete("/<article_id>",article.DeleteArticle)						//删除文章
+	router.Get("/likes/<likes_content>",article.QueryLikeArticles)				//搜索相关文章
 	router.Post("/verify", article.VerifyArticle) 								//用户修改文章
 	router.Post("/update", article.UpdateArticle) 								//非用户用户修改文章
 }
