@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
+	"Project/Doit/service"
 )
 
 func main() {
@@ -18,6 +19,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	go service.App.CronRedis()
 
 	var wg sync.WaitGroup
 	wg.Add(3)

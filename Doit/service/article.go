@@ -72,7 +72,6 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 		err = errors.WithStack(err)
 		return
 	}
-
 	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -342,7 +341,7 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 }
 
 func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error) {
-	val,err := app.Redis.Cmd("EXISTS", app.Conf.LikeRedis+artID).Int()
+	val,err := app.Redis.Cmd("EXISTS", app.Conf.LikeRedis+":"+artID).Int()
 	if err != nil {
 		if err == redis.ErrRespNil {
 			err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
@@ -352,7 +351,7 @@ func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error)
 		return
 	}
 	if val == 1{
-		count,err = app.Redis.Cmd("SCARD",app.Conf.LikeRedis+artID).Int()
+		count,err = app.Redis.Cmd("SCARD",app.Conf.LikeRedis+":"+artID).Int()
 		if err != nil{
 			return
 		}
@@ -377,7 +376,7 @@ func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error)
 
 //文章点赞/取消带点赞
 func (a *ArticleService) LikeOneArticle(articleID,userID string) (err error) {
-	val,err := app.Redis.Cmd("SISMEMBER", app.Conf.LikeRedis+articleID,userID).Int()
+	val,err := app.Redis.Cmd("SISMEMBER", app.Conf.LikeRedis+":"+articleID,userID).Int()
 	if err != nil {
 		if err == redis.ErrRespNil {
 			err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
@@ -387,7 +386,7 @@ func (a *ArticleService) LikeOneArticle(articleID,userID string) (err error) {
 		return
 	}
 	if val == 1{
-		err := app.Redis.Cmd("SREM", app.Conf.LikeRedis+articleID,userID).Err
+		err := app.Redis.Cmd("SREM", app.Conf.LikeRedis+":"+articleID,userID).Err
 		if err != nil {
 			if err == redis.ErrRespNil {
 				err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
@@ -397,7 +396,7 @@ func (a *ArticleService) LikeOneArticle(articleID,userID string) (err error) {
 			return
 		}
 	}else {
-		err = app.Redis.Cmd("SADD", app.Conf.LikeRedis+articleID, userID).Err
+		err = app.Redis.Cmd("SADD", app.Conf.LikeRedis+":"+articleID, userID).Err
 		if err != nil {
 			err = errors.Wrap(err, "fail to set like members redis")
 			return
