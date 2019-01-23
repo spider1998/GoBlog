@@ -13,11 +13,18 @@ import (
 	"crypto/sha1"
 	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"strings"
+	"github.com/mediocregopher/radix.v2/redis"
+	"strconv"
 )
 
-var Article = ArticleService{}
 
-type ArticleService struct{}
+var Article = ArticleService{
+	sessionExp: 86400,
+}
+
+type ArticleService struct{
+	sessionExp int
+}
 
 //获取最新版本文章
 func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) {
@@ -221,7 +228,7 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	art.Auth = req.Auth
 	art.Sort = req.Sort
 	art.Version = 1
-	art.ArtId = uuid.New().String()
+	art.ID = uuid.New().String()
 	art.UserId = req.UserId
 	art.SecondTitle = req.SecondTitle
 	art.Photo = req.Photo
@@ -310,8 +317,8 @@ func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art ent
 	return
 }
 
-func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId string) (status string, err error) {
-	var art entity.Article
+//非用户修改文章
+func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId string) (art entity.Article, err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.Content, v.Required),
 	)
@@ -330,6 +337,71 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 	if req.Content == art.Content {
 		err = code.New(http.StatusBadRequest, code.CodeArticleNotChange)
 		return
+	}
+	return
+}
+
+func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error) {
+	val,err := app.Redis.Cmd("EXISTS", app.Conf.LikeRedis+artID).Int()
+	if err != nil {
+		if err == redis.ErrRespNil {
+			err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
+			return
+		}
+		err = errors.Wrap(err, "fail to get  likes count from redis")
+		return
+	}
+	if val == 1{
+		count,err = app.Redis.Cmd("SCARD",app.Conf.LikeRedis+artID).Int()
+		if err != nil{
+			return
+		}
+	}else {
+		var article entity.Article
+		err := app.DB.Select("hot").Where(dbx.HashExp{"art_id": artID}).One(&article)
+		if err != nil {
+			if util.IsDBNotFound(err) {
+				err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+				return
+			}
+			err = errors.WithStack(err)
+			return
+		}
+		count,err = strconv.Atoi(article.Hot)
+		if err != nil{
+			return
+		}
+	}
+	return
+}
+
+//文章点赞/取消带点赞
+func (a *ArticleService) LikeOneArticle(articleID,userID string) (err error) {
+	val,err := app.Redis.Cmd("SISMEMBER", app.Conf.LikeRedis+articleID,userID).Int()
+	if err != nil {
+		if err == redis.ErrRespNil {
+			err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
+			return
+		}
+		err = errors.Wrap(err, "fail to get email code from redis")
+		return
+	}
+	if val == 1{
+		err := app.Redis.Cmd("SREM", app.Conf.LikeRedis+articleID,userID).Err
+		if err != nil {
+			if err == redis.ErrRespNil {
+				err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
+				return
+			}
+			err = errors.Wrap(err, "fail to delete like members from redis")
+			return
+		}
+	}else {
+		err = app.Redis.Cmd("SADD", app.Conf.LikeRedis+articleID, userID).Err
+		if err != nil {
+			err = errors.Wrap(err, "fail to set like members redis")
+			return
+		}
 	}
 	return
 }

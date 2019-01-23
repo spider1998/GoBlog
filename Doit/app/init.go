@@ -63,5 +63,6 @@ func Init() error {
 	}
 	Logger.Info().Msg("loaded redis.")
 
+
 	return nil
 }

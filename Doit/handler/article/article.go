@@ -113,7 +113,7 @@ func SaveVerified(art entity.Article) (err error) {
 		hashContent.TailUuid = hc										//尾标识
 		hashContent.Changed = false										//改动标识
 		hashContent.UserId = art.UserId									//用户ID
-		hashContent.ArtId = art.ArtId									//文章ID
+		hashContent.ArtId = art.ID									//文章ID
 		err := service.Article.SaveArtBlock(hashContent)
 		if err != nil{
 			return err
@@ -180,4 +180,26 @@ func UpdateArticle(c *routing.Context) error {
 		return err
 	}
 	return c.Write(response)
+}
+
+// 点赞/取消点赞操作
+func LikeOneArticle(c *routing.Context) error {
+	articleID := c.Param("article_id")
+	userID := session.GetUserSession(c).ID
+	err := service.Article.LikeOneArticle(articleID, userID)
+	if err != nil {
+		return err
+	}
+	return c.Write(http.StatusOK)
+
+}
+
+//获取文章点赞数量
+func GetArticleLikeCount(c *routing.Context) error {
+	artID := c.Param("article_id")
+	count,err := service.Article.GetArticleLikeCount(artID)
+	if err != nil{
+		return err
+	}
+	return c.Write(count)
 }
