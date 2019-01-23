@@ -357,10 +357,11 @@ func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error)
 		}
 	}else {
 		var article entity.Article
-		err := app.DB.Select("hot").Where(dbx.HashExp{"art_id": artID}).One(&article)
-		if err != nil {
+		err1 := app.DB.Select("hot").Where(dbx.HashExp{"art_id": artID}).One(&article)
+		if err1 != nil {
 			if util.IsDBNotFound(err) {
-				err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+				err1 = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+				err = err1
 				return
 			}
 			err = errors.WithStack(err)
@@ -386,10 +387,11 @@ func (a *ArticleService) LikeOneArticle(articleID,userID string) (err error) {
 		return
 	}
 	if val == 1{
-		err := app.Redis.Cmd("SREM", app.Conf.LikeRedis+":"+articleID,userID).Err
-		if err != nil {
-			if err == redis.ErrRespNil {
-				err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
+		err1 := app.Redis.Cmd("SREM", app.Conf.LikeRedis+":"+articleID,userID).Err
+		if err1 != nil {
+			if err1 == redis.ErrRespNil {
+				err1 = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("record session not found.")
+				err = err1
 				return
 			}
 			err = errors.Wrap(err, "fail to delete like members from redis")
