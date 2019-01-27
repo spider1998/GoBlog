@@ -9,6 +9,13 @@ const (
 	UserStateBaned           = 2
 )
 
+type UserGender int8
+
+const (
+	UserGenderMale UserGender = 1 + iota
+	UserGenderFemale
+)
+
 func (us UserState) Text() string {
 	switch us {
 	case UserStateOK:
@@ -71,6 +78,7 @@ type SetUserPassRequest struct {
 type BaseUser struct {
 	ID   string `json:"id"`                          //ID
 	Name string `json:"name" gorm:"not null;unique"` //昵称
+	Tag  string `json:"tag"`                         //标签
 }
 
 func (User) TableName() string {

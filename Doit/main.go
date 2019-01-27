@@ -3,11 +3,11 @@ package main
 import (
 	"Project/Doit/app"
 	"Project/Doit/routing"
+	"Project/Doit/service"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
-	"Project/Doit/service"
 )
 
 func main() {

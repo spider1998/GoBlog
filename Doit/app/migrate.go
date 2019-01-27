@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	User 		entity.User
-	Article		entity.Article
-	Content 	entity.Content
+	User    entity.User
+	Article entity.Article
+	Content entity.Content
 )
 
 func Migrate(dsn string) error {
@@ -19,6 +19,6 @@ func Migrate(dsn string) error {
 		Logger.Error().Err(err).Msg("DB connection error.")
 		panic(err)
 	}
-	err = db.AutoMigrate(&User,&Article,&Content).Error
+	err = db.AutoMigrate(&User, &Article, &Content).Error
 	return err
 }

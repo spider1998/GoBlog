@@ -27,6 +27,12 @@ type Friend struct {
 	Status FriendStatus `json:"status"` //是否拉黑
 }
 
+type QueryUserRequest struct {
+	Name   string     `json:"name"`
+	Gender UserGender `json:"gender"`
+	Tag    string     `json:"tags"`
+}
+
 func (Friend) TableName() string {
 	return TableFriend
 }

@@ -2403,3 +2403,36 @@
 {"level":"info","time":"2019-01-21T11:49:04+08:00","message":"[192.168.35.248] [71.244ms] POST /user/login HTTP/1.1 200 35"}
 {"level":"info","time":"2019-01-21T11:51:07+08:00","message":"[192.168.35.248] [71.635ms] POST /user/login HTTP/1.1 200 35"}
 {"level":"info","time":"2019-01-21T11:51:18+08:00","message":"[192.168.35.248] [83.207ms] POST /user/login HTTP/1.1 200 35"}
+{"level":"info","pid":127515,"time":"2019-01-21T18:55:51+08:00","message":"app booted."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(localhost:3306)/doit?charset=utf8","redis":"localhost:6379","conf_path":".","pagination_page":1,"pagination_size":50,"email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500},"time":"2019-01-21T18:55:51+08:00","message":"loaded config."}
+{"level":"info","time":"2019-01-21T18:55:51+08:00","message":"start load db..."}
+{"level":"info","time":"2019-01-21T18:55:51+08:00","message":"loaded db."}
+{"level":"info","time":"2019-01-21T18:55:51+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-01-21T18:55:52+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-01-21T18:55:52+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-01-21T18:55:52+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-01-21T18:55:52+08:00","message":"registering routes."}
+{"level":"info","server_addr":":8081","time":"2019-01-21T18:55:52+08:00","message":"run http server."}
+{"level":"info","pid":1739,"time":"2019-01-23T20:30:07+08:00","message":"app booted."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(localhost:3306)/doit?charset=utf8","redis":"localhost:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500},"time":"2019-01-23T20:30:07+08:00","message":"loaded config."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"start load db..."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"loaded db."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-01-23T20:30:07+08:00","message":"registering routes."}
+{"level":"info","server_addr":":8081","time":"2019-01-23T20:30:07+08:00","message":"run http server."}
+{"level":"info","signal":2,"time":"2019-01-23T20:32:21+08:00","message":"received signal."}
+{"level":"info","time":"2019-01-23T20:32:21+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-01-23T20:32:21+08:00","message":"already shutdown http server."}
+{"level":"info","pid":5483,"time":"2019-01-24T17:55:04+08:00","message":"app booted."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(localhost:3306)/doit?charset=utf8","redis":"localhost:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500},"time":"2019-01-24T17:55:04+08:00","message":"loaded config."}
+{"level":"info","time":"2019-01-24T17:55:04+08:00","message":"start load db..."}
+{"level":"info","time":"2019-01-24T17:55:04+08:00","message":"loaded db."}
+{"level":"info","time":"2019-01-24T17:55:04+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-01-24T17:55:05+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-01-24T17:55:05+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-01-24T17:55:05+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-01-24T17:55:05+08:00","message":"registering routes."}
+{"level":"info","server_addr":":8081","time":"2019-01-24T17:55:05+08:00","message":"run http server."}

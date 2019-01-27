@@ -3,6 +3,7 @@ package routing
 import (
 	"Project/Doit/app"
 	"Project/Doit/routing/article"
+	"Project/Doit/routing/friend"
 	"Project/Doit/routing/user"
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/access"
@@ -58,6 +59,7 @@ func Run() error {
 	app.Logger.Info().Msg("registering routes.")
 	user.RegisterRoutes(router.Group("/user"))
 	article.RegisterRoutes(router.Group("/article"))
+	friend.RegisterRoutes(router.Group("/friend"))
 
 	//遍历路由
 	for _, route := range router.Routes() {
