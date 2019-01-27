@@ -5,10 +5,8 @@ import (
 	"Project/Doit/code"
 	"Project/Doit/util"
 	"github.com/go-ozzo/ozzo-dbx"
-	"github.com/go-ozzo/ozzo-routing"
 	"github.com/pkg/errors"
 	"net/http"
-	"strconv"
 )
 
 // 数据库错误处理
@@ -27,25 +25,6 @@ func DbErrorHandler(err error, allowNotFound bool) error {
 		}
 	}
 	return err
-}
-
-func PretreatmentQueryPage(c *routing.Context, query *dbx.SelectQuery) (err error) {
-	//记录总数
-	var cnt int
-	err = query.Row(&cnt)
-	if err = DbErrorHandler(err, true); err != nil {
-		return
-	}
-
-	c.Response.Header().Set("X-Total-Count", strconv.Itoa(cnt))
-	//解析页数和每页数量
-	page, pageSize, err := util.ParsePagination(c)
-	if err != nil {
-		err = errors.Wrap(err, "fail to parse pagination.")
-		return
-	}
-	query.Limit(pageSize).Offset((page - 1) * pageSize).OrderBy("create_time desc")
-	return
 }
 
 //获取一个 id-xxx 的图，根据：源slice，提取字段，查询表名，返回map包含(查询)的字段

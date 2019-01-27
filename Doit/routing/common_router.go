@@ -3,7 +3,6 @@ package routing
 import (
 	"Project/Doit/app"
 	"Project/Doit/routing/article"
-	"Project/Doit/routing/friend"
 	"Project/Doit/routing/user"
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/access"
@@ -12,6 +11,7 @@ import (
 	"github.com/go-ozzo/ozzo-routing/slash"
 	"net/http"
 	"sync"
+	"Project/Doit/routing/friend"
 )
 
 var (
@@ -31,7 +31,7 @@ func Run() error {
 			AllowOrigins:  "*",
 			AllowHeaders:  "*",
 			AllowMethods:  "*",
-			ExposeHeaders: "X-Total-Count, X-Page, X-Page-Size",
+			ExposeHeaders: "X-Page-Total, X-Page, X-Page-Size",
 		}),
 		//记录请求日志输出		[192.168.183.1] [0.137ms] GET /version HTTP/1.1 200 61(字节)
 		access.Logger(func(format string, a ...interface{}) {
@@ -57,9 +57,10 @@ func Run() error {
 
 	/*-----注册业务主路由-----*/
 	app.Logger.Info().Msg("registering routes.")
-	user.RegisterRoutes(router.Group("/user"))
-	article.RegisterRoutes(router.Group("/article"))
-	friend.RegisterRoutes(router.Group("/friend"))
+	UserRegisterRoutes(router.Group("/user"))
+	ArticleRegisterRoutes(router.Group("/article"))
+	FriendRegisterRoutes(router.Group("/friend"))
+
 
 	//遍历路由
 	for _, route := range router.Routes() {

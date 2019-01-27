@@ -1,16 +1,17 @@
 package article
 
 import (
-	"Project/Doit/app"
-	"Project/Doit/code"
 	"Project/Doit/entity"
 	"Project/Doit/handler/session"
 	"Project/Doit/service"
-	"crypto/sha1"
-	"encoding/hex"
 	"github.com/go-ozzo/ozzo-routing"
 	"net/http"
+	"crypto/sha1"
+	"Project/Doit/code"
+	"Project/Doit/app"
+	"encoding/hex"
 	"strconv"
+	"Project/Doit/util"
 )
 
 //获取最新版文章
@@ -26,7 +27,7 @@ func GetArticle(c *routing.Context) error {
 //获取历史版本
 func GetVersion(c *routing.Context) error {
 	req := c.Param("article_id")
-	version, err := service.Article.GetVersion(req)
+	version,err := service.Article.GetVersion(req)
 	if err != nil {
 		return err
 	}
@@ -37,11 +38,11 @@ func GetVersion(c *routing.Context) error {
 func GetVersionArticle(c *routing.Context) error {
 	ver := c.Param("version")
 	artId := c.Param("article_id")
-	version, err := strconv.Atoi(ver)
-	if err != nil {
+	version,err := strconv.Atoi(ver)
+	if err != nil{
 		return err
 	}
-	article, err := service.Article.GetVersionArticle(version, artId)
+	article,err := service.Article.GetVersionArticle(version,artId)
 	if err != nil {
 		return err
 	}
@@ -52,7 +53,7 @@ func GetVersionArticle(c *routing.Context) error {
 func DeleteArticle(c *routing.Context) error {
 	articleID := c.Param("article_id")
 	userID := session.GetUserSession(c).ID
-	err := service.Article.DeleteArticle(articleID, userID)
+	err := service.Article.DeleteArticle(articleID,userID)
 	if err != nil {
 		return err
 	}
@@ -62,11 +63,20 @@ func DeleteArticle(c *routing.Context) error {
 //查询相关标题文章
 func QueryLikeArticles(c *routing.Context) error {
 	content := c.Param("likes_content")
-	response, err := service.Article.QueryLikeArticles(content)
-	if err != nil {
+	response,err := service.Article.QueryLikeArticles(content)
+	if err != nil{
 		return err
 	}
-	return c.Write(response)
+
+	if len(response) == 0{
+		response = []entity.Article{}
+	}
+	pager := util.GetPaginatedListFromRequest(c, len(response))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		return c.Write(response[pager.Offset() : pager.Offset()+pager.Limit()])
+	} else {
+		return c.Write(response[pager.Offset():pager.TotalCount])
+	}
 }
 
 //恢复历史版本(同时删除大于该版本的所有版本)
@@ -78,7 +88,7 @@ func RestoreVersionArticle(c *routing.Context) error {
 	}
 	req.UserId = session.GetUserSession(c).ID
 
-	article, err := service.Article.RestoreVersionArticle(req)
+	article,err := service.Article.RestoreVersionArticle(req)
 	if err != nil {
 		return err
 	}
@@ -96,27 +106,27 @@ func SaveVerified(art entity.Article) (err error) {
 	var hc string = ""
 	var de string = ""
 	//拆分文章重新结合为带标识的文章块
-	for i := 0; ; i += app.Conf.ContentSize {
-		if i >= len(art.Content) {
+	for i := 0;;i+=app.Conf.ContentSize{
+		if i >= len(art.Content){
 			break
 		}
-		if i+app.Conf.ContentSize > len(art.Content) {
+		if i + app.Conf.ContentSize > len(art.Content){
 			de = art.Content[i:]
 
-		} else {
-			de = art.Content[i : i+app.Conf.ContentSize]
+		}else {
+			de = art.Content[i:i+app.Conf.ContentSize]
 		}
-		hashContent.Version = art.Version //片段版本
-		hashContent.Detail = de           //详细内容
-		hashContent.HeadUuid = hc         //头标识
+		hashContent.Version = art.Version								//片段版本
+		hashContent.Detail = de											//详细内容
+		hashContent.HeadUuid = hc										//头标识
 		hs := sha1.Sum([]byte(hashContent.Detail))
 		hc = hex.EncodeToString(hs[:])
-		hashContent.TailUuid = hc       //尾标识
-		hashContent.Changed = false     //改动标识
-		hashContent.UserId = art.UserId //用户ID
-		hashContent.ArtId = art.ID      //文章ID
+		hashContent.TailUuid = hc										//尾标识
+		hashContent.Changed = false										//改动标识
+		hashContent.UserId = art.UserId									//用户ID
+		hashContent.ArtId = art.ID									//文章ID
 		err := service.Article.SaveArtBlock(hashContent)
-		if err != nil {
+		if err != nil{
 			return err
 		}
 	}
@@ -157,7 +167,7 @@ func VerifyArticle(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-	if err = c.Write(response); err != nil {
+	if err = c.Write(response);err !=nil{
 		return err
 	}
 	err = SaveVerified(response)
@@ -198,8 +208,8 @@ func LikeOneArticle(c *routing.Context) error {
 //获取文章点赞数量
 func GetArticleLikeCount(c *routing.Context) error {
 	artID := c.Param("article_id")
-	count, err := service.Article.GetArticleLikeCount(artID)
-	if err != nil {
+	count,err := service.Article.GetArticleLikeCount(artID)
+	if err != nil{
 		return err
 	}
 	return c.Write(count)
