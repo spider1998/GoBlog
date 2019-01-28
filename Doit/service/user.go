@@ -65,6 +65,7 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 	user.ID = uuid.New().String()
 	user.Name = request.Name
 	user.PasswordHash, err = util.GeneratePasswordHash([]byte(request.Password))
+	user.Email = request.Email
 	if err != nil {
 		err = errors.Wrap(err, "fail to generate password hash")
 		return

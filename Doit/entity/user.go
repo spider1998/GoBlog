@@ -11,8 +11,8 @@ const (
 
 type UserGender int8
 
-const (
-	UserGenderMale UserGender = 1 + iota
+const(
+	UserGenderMale		UserGender	= 1+iota
 	UserGenderFemale
 )
 
@@ -46,8 +46,8 @@ type PersonInfo struct {
 }
 
 type AccountInfo struct {
-	HeadImg string `json:"head_img"` //头像
-	Motto   string `json:"motto"`    //个性签名
+	HeadImg string 		`json:"head_img"` //头像
+	Motto   string 		`json:"motto"`    //个性签名
 }
 
 type RegisterUserRequest struct {
@@ -76,9 +76,9 @@ type SetUserPassRequest struct {
 }
 
 type BaseUser struct {
-	ID   string `json:"id"`                          //ID
-	Name string `json:"name" gorm:"not null;unique"` //昵称
-	Tag  string `json:"tag"`                         //标签
+	ID  	string 		`json:"id"`                          					//ID
+	Name 	string 		`json:"name" gorm:"not null;unique"` 					//昵称
+	Tag 	string 		`json:"tag" gorm:"not null;index"`	  			//标签
 }
 
 func (User) TableName() string {

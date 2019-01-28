@@ -2,8 +2,6 @@ package routing
 
 import (
 	"Project/Doit/app"
-	"Project/Doit/routing/article"
-	"Project/Doit/routing/user"
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/access"
 	"github.com/go-ozzo/ozzo-routing/content"
@@ -11,7 +9,6 @@ import (
 	"github.com/go-ozzo/ozzo-routing/slash"
 	"net/http"
 	"sync"
-	"Project/Doit/routing/friend"
 )
 
 var (
