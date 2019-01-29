@@ -12,6 +12,10 @@ import (
 	"encoding/hex"
 	"strconv"
 	"Project/Doit/util"
+	"fmt"
+	"os"
+	"io"
+	"mime/multipart"
 )
 
 //获取最新版文章
@@ -80,7 +84,7 @@ func QueryLikeArticles(c *routing.Context) error {
 }
 
 //恢复历史版本(同时删除大于该版本的所有版本)
-func RestoreVersionArticle(c *routing.Context) error {
+/*func RestoreVersionArticle(c *routing.Context) error {
 	var req entity.RestoreArticleRequest
 	err := c.Read(&req)
 	if err != nil {
@@ -98,7 +102,7 @@ func RestoreVersionArticle(c *routing.Context) error {
 	}
 	return c.Write(article)
 
-}
+}*/
 
 //保存文章变动区块
 func SaveVerified(art entity.Article) (err error) {
@@ -135,21 +139,73 @@ func SaveVerified(art entity.Article) (err error) {
 
 //添加文章
 func AddArticle(c *routing.Context) error {
-	var request entity.CreateArticleRequest
-	err := c.Read(&request)
-	if err != nil {
-		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	fmt.Println("xxxxxxxxxxxx")
+	var req entity.CreateArticleRequest
+	req.UserId = c.Form("user")
+	req.Title = c.Form("title")
+	req.SecondTitle = c.Form("second_title")
+	modify := c.Form("modify_type")
+	if modify == "1"{
+		req.ModifyType = entity.ModifyTypeAble
+	}else{
+		req.ModifyType = entity.ModifyTypeEnable
 	}
-	request.UserId = session.GetUserSession(c).ID
-	art, err := service.Article.CreateArticle(request)
+	req.Sort = c.Form("sort")
+	req.Content = c.Form("content")
+	imgF,imgH,err := c.Request.FormFile("bacc")
+	if err != nil{
+		app.Logger.Info().Msg("no img")
+	}
+	//保存背景图
+	if imgF == nil{
+		fmt.Println("no img")
+	}else {
+		imgPath,err := saveFile(imgF,imgH)
+		if err != nil{
+			return err
+		}
+		defer imgF.Close()
+		req.Photo = imgPath
+	}
+	//保存附件
+	testF,testH,err := c.Request.FormFile("attach")
+	if err != nil{
+		app.Logger.Info().Msg("no attachment")
+	}
+	if testF == nil{
+		fmt.Println("no img")
+	}else {
+		testPath,err := saveFile(testF,testH)
+		if err != nil{
+			return err
+		}
+		defer testF.Close()
+		req.Attachment = testPath
+	}
+	art, err := service.Article.CreateArticle(req)
 	if err != nil {
 		return err
 	}
-	err = SaveVerified(art)
-	if err != nil {
-		return err
+	return c.Write(art.ID)
+}
+
+func saveFile(file multipart.File,head *multipart.FileHeader) (path string,err error) {
+	path = service.User.SaveAttachment(head)
+	if _, err1 := os.Stat(path); err1 != nil {
+		err1 := os.MkdirAll(path, 0711)
+		if err1 != nil{
+			err=err1
+			return
+		}
 	}
-	return c.Write(http.StatusOK)
+
+	fW, err := os.Create(path + head.Filename)
+	if err != nil {
+		return
+	}
+	defer fW.Close()
+	io.Copy(fW, file)
+	return
 }
 
 //用户修改文章

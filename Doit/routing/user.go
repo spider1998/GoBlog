@@ -11,7 +11,7 @@ func UserRegisterRoutes(router *routing.RouteGroup) {
 	router.Post("/upload", func(context *routing.Context) error {
 		fmt.Println("test upload file")
 		return nil
-	},user.TestUpload)
+	},user.AttachUpload)
 	router.Get("/verify/email/<email_account>", user.RegisterVerify) // 拉取邮箱验证码
 	router.Get("/verify/mobile/<mobile_account>", user.MobileVerify) // 拉取短信验证码
 	router.Post("/register", user.RegisterUser)                      // 注册

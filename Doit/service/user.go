@@ -18,6 +18,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"unsafe"
+	"mime/multipart"
+	"time"
+	"crypto/sha1"
+	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 )
 
 var User = UserService{
@@ -227,6 +231,14 @@ func (u *UserService) BindMobile(req entity.BindMobileRequest, uid string) (user
 	}
 	return
 
+}
+
+func (u *UserService) SaveAttachment(testH *multipart.FileHeader) (path string) {
+	fileDir := testH.Filename + time.Now().String()
+	hs := sha1.Sum([]byte(fileDir))
+	node := hex.EncodeToString(hs[:])
+	path = app.Conf.AttachmentPath + node[:3] + "/"
+	return
 }
 
 //修改密码

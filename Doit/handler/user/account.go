@@ -10,9 +10,6 @@ import (
 	"github.com/pkg/errors"
 	"net/http"
 	"strings"
-	"os"
-	"fmt"
-	"io"
 )
 
 /*---------------------------------获取验证码-----------------------------------------------------------------*/
@@ -142,19 +139,7 @@ func SetUserPass(c *routing.Context) (err error) {
 	return
 }
 
-func TestUpload(c *routing.Context) (err error) {
-	fmt.Println("=======")
-	testF,testH,err := c.Request.FormFile("file")
-	if err != nil{
-		return
-	}
-	defer testF.Close()
-	fW, err := os.Create(testH.Filename)
-	if err != nil {
-		fmt.Println("文件创建失败")
-		return
-	}
-	defer fW.Close()
-	io.Copy(fW, testF)
+func AttachUpload(c *routing.Context) (err error) {
+
 	return
 }

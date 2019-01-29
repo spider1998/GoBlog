@@ -1,15 +1,14 @@
 package service
 
 import (
+	"github.com/robfig/cron"
 	"Project/Doit/app"
-	"Project/Doit/code"
+	"github.com/pkg/errors"
+	"github.com/go-ozzo/ozzo-dbx"
 	"Project/Doit/entity"
 	"Project/Doit/util"
-	"github.com/go-ozzo/ozzo-dbx"
-	"github.com/pkg/errors"
-	"github.com/robfig/cron"
+	"Project/Doit/code"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -22,7 +21,7 @@ func (a *AppService) CronRedis() {
 		err := a.cronRun()
 		if err != nil {
 			app.Logger.Error().Err(err).Msg("fail to run cron !!!!!")
-			timer1 := time.NewTicker(time.Minute * 1)
+			timer1 := time.NewTicker(time.Minute*1)
 			for {
 				select {
 				case <-timer1.C:
@@ -38,14 +37,14 @@ func (a *AppService) cronRun() (err error) {
 	c := cron.New()
 	spec := "@daily"
 	c.AddFunc(spec, func() {
-		vals, err := app.Redis.Cmd("KEYS", app.Conf.LikeRedis+"*").List()
+		vals,err := app.Redis.Cmd("KEYS", app.Conf.LikeRedis+"*").List()
 		if err != nil {
 			err = errors.Wrap(err, "fail to get  likes count from redis")
 			return
 		}
-		for _, val := range vals {
-			count, err := app.Redis.Cmd("SCARD", app.Conf.LikeRedis+":"+val).Int()
-			if err != nil {
+		for _,val := range vals{
+			count,err := app.Redis.Cmd("SCARD",app.Conf.LikeRedis+":"+val).Int()
+			if err != nil{
 				return
 			}
 			var article entity.Article
@@ -58,7 +57,7 @@ func (a *AppService) cronRun() (err error) {
 				err = errors.WithStack(err)
 				return
 			}
-			article.Hot = strconv.Itoa(count)
+			article.Hot = count
 			err = app.DB.Model(&article).Update("Hot")
 			if err != nil {
 				err = errors.WithStack(err)
@@ -66,8 +65,6 @@ func (a *AppService) cronRun() (err error) {
 			}
 		}
 	})
-
 	c.Start()
-
-	select {}
+	select{}
 }
