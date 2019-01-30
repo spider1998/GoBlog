@@ -104,10 +104,10 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="#">
+                <a id="zan" onclick="zan();">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+                    <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
               </li>
@@ -138,7 +138,28 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
      <script>
-      
+        
+        //点赞/取消点赞
+      function zan() {
+        artID = getQueryVariable("article")
+        session = getQueryVariable("session")
+        $.ajax({
+                type: "PATCH",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/article/"+artID+"/like" ,
+                success: function (result) {
+                  location.reload(true);
+                },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-Access-Session", session);
+                },
+                error : function() {
+                  alert("error")
+                }
+            });
+      }
+
+      //提取url参数函数
       function getQueryVariable(variable)
         {
            var query = window.location.search.substring(1);
@@ -150,6 +171,7 @@
            return(false);
         }
 
+        //页面初始化
       $(document).ready(function(){
             session = getQueryVariable("session")
             artID = getQueryVariable("article")
@@ -158,7 +180,23 @@
             $("#post").attr("href","post.html?session="+session);
             $("#contact").attr("href","contact.html?session="+session);
             $("#add").attr("href","add.html?session="+session);
-          
+            //获取点赞数
+            $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/article/"+artID+"/like" ,
+                success: function (result) {
+                  $("#hot").html(result);
+                },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-Access-Session", session);
+                },
+                error : function() {
+                  alert("error")
+                }
+            });
+
+            //获取用户登录信息
             $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -171,7 +209,7 @@
                   $("#tip").attr("href","../login.html");
                 }
             });
-
+            //获取文章并填充到网页
             $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -182,7 +220,6 @@
                   $("#user").html(result.auth);
                   $("#post_time").html(result.create_time);
                   $("#imcontent").html(result.content);
-                  $("#hot").html(result.hot);
                   $("#read").html(result.read);
                   $("#version").html(result.version);
 
@@ -191,8 +228,6 @@
                   }else{
                     $("#bacc_url").attr("style","background-image: url('http://192.168.35.193:8081/static/"+result.photo+"')")
                   }
-                  
-
                 },
                 error : function() {
                   alert("article not exist!")
