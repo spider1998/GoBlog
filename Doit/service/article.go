@@ -315,6 +315,7 @@ func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art ent
 		err = errors.WithStack(err)
 		return
 	}
+	art.Version += 1
 	art.BaseArticle = req.BaseArticle
 	art.Attachment = req.Attachment
 	art.Photo = req.Photo

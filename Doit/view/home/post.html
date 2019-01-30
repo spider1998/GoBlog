@@ -127,6 +127,16 @@
                   </span>
                 </a>
               </li>
+
+                <li class="list-inline-item">
+                    <a id="delete" onclick="javascript:return modify();">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fa  fa-magic fa-stack-1x fa-inverse"></i>>
+                  </span>
+                    </a>
+                </li>
+
                 <li class="list-inline-item">
                     <a id="delete" onclick="javascript:return del();">
                   <span class="fa-stack fa-lg">
@@ -146,6 +156,13 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
      <script>
+         //修改文章
+         function modify() {
+             artID = getQueryVariable("article")
+             session = getQueryVariable("session")
+             location.href = "modify.html?artID="+artID+"&session="+session
+         }
+
         //删除文章
         function del() {
             msg = "确定删除？"

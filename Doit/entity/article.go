@@ -60,7 +60,6 @@ type CreateArticleRequest struct {
 type VerifyArticleRequest struct { //
 	ID     string `json:"id"`      //文章ID
 	UserId string `json:"user_id"` //用户id
-	Version		int		`json:"version"`		//文章版本
 	BaseArticle
 	SecondTitle string      `json:"second_title"` //副标题
 	Photo       string `json:"photo"`        //图片
