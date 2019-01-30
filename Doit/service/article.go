@@ -13,6 +13,7 @@ import (
 	"crypto/sha1"
 	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"github.com/mediocregopher/radix.v2/redis"
+	"fmt"
 )
 
 
@@ -62,7 +63,7 @@ func (a *ArticleService) GetArticles() (arts []entity.Article, err error) {
 //获取文章所有版本，返回版本列表
 func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 	var con []entity.Content
-	err = app.DB.Select("version").Where(dbx.HashExp{"art_id": req}).Distinct(true).All(&con)
+	err = app.DB.Select("version").Where(dbx.HashExp{"id": req}).Distinct(true).All(&con)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -80,7 +81,7 @@ func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 //获取历史版本文章
 func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity.Article,err error) {
 	var con []entity.Content
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).
+	err = app.DB.Select().Where(dbx.HashExp{"id": artId}).
 		AndWhere(dbx.NewExp("version<={:ver}", dbx.Params{"ver": version})).
 			AndWhere(dbx.HashExp{"changed": false}).All(&con)
 	if err != nil {
@@ -91,7 +92,7 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 		err = errors.WithStack(err)
 		return
 	}
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).One(&art)
+	err = app.DB.Select().Where(dbx.HashExp{"id": artId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -129,7 +130,7 @@ func (a *ArticleService) QueryLikeArticles(content string) (arts []entity.Articl
 //删除文章
 func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 	var art entity.Article
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": articleID}).One(&art)
+	err = app.DB.Select().Where(dbx.HashExp{"id": articleID}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -139,24 +140,11 @@ func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 		return
 	}
 	if userID != art.UserId{
+		fmt.Println("==========")
 		err = code.New(http.StatusBadRequest, code.CodeDenied)
 		return
 	}
 	err = app.DB.Model(&art).Delete()
-	if err != nil{
-		return err
-	}
-	var contents []entity.Content
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": articleID}).All(&contents)
-	if err != nil {
-		if util.IsDBNotFound(err) {
-			err = code.New(http.StatusBadRequest, code.CodeContentNotExist)
-			return
-		}
-		err = errors.WithStack(err)
-		return
-	}
-	err = app.DB.Model(&contents).Delete()
 	if err != nil{
 		return err
 	}
@@ -173,7 +161,7 @@ func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 	if err != nil {
 		return
 	}
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": req.ArtId}).One(&art)
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ArtId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -256,7 +244,7 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	art.Sort = req.Sort
 	art.Version = 1
 	art.ID = uuid.New().String()
-	art.UserId = req.UserId
+	art.UserId = u.ID
 	art.SecondTitle = req.SecondTitle
 	art.Photo = req.Photo
 	art.Attachment = req.Attachment
@@ -383,7 +371,7 @@ func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error)
 		}
 	}else {
 		var article entity.Article
-		err1 := app.DB.Select("hot").Where(dbx.HashExp{"art_id": artID}).One(&article)
+		err1 := app.DB.Select("hot").Where(dbx.HashExp{"id": artID}).One(&article)
 		if err1 != nil {
 			if util.IsDBNotFound(err) {
 				err1 = code.New(http.StatusBadRequest, code.CodeArticleNotExist)

@@ -127,6 +127,14 @@
                   </span>
                 </a>
               </li>
+                <li class="list-inline-item">
+                    <a id="delete" onclick="del();">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                  </span>
+                    </a>
+                </li>
             </ul>
             <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
           </div>
@@ -138,7 +146,25 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
      <script>
-        
+        //删除文章
+        function del() {
+            artID = getQueryVariable("article")
+            session = getQueryVariable("session")
+            $.ajax({
+                type: "DELETE",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/article/"+artID,
+                success: function (result) {
+                    location.href = "index.html?session="+session;
+                },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-Access-Session", session);
+                },
+                error : function() {
+                    alert("Prohibition")
+                }
+            });
+        }
         //点赞/取消点赞
       function zan() {
         artID = getQueryVariable("article")
