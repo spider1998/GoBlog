@@ -26,7 +26,7 @@ type ArticleService struct{
 
 //获取最新版本文章
 func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) {
-	err = app.DB.Select().Where(dbx.HashExp{"art_id": req}).One(&art)
+	err = app.DB.Select().Where(dbx.HashExp{"id": req}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
@@ -37,6 +37,21 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 	}
 	return
 }
+
+//获取最新版本文章
+func (a *ArticleService) GetArticles() (arts []entity.Article, err error) {
+	err = app.DB.Select().OrderBy("create_time desc").All(&arts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
 
 //获取文章所有版本，返回版本列表
 func (a *ArticleService) GetVersion(req string) (version []int,err error) {

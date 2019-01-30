@@ -18,10 +18,18 @@ import (
 	"mime/multipart"
 )
 
-//获取最新版文章
+//获取文章
 func GetArticle(c *routing.Context) error {
 	req := c.Param("article_id")
 	article, err := service.Article.GetArticle(req)
+	if err != nil {
+		return err
+	}
+	return c.Write(article)
+}
+
+func GetArticles(c *routing.Context) error {
+	article, err := service.Article.GetArticles()
 	if err != nil {
 		return err
 	}
@@ -139,7 +147,6 @@ func SaveVerified(art entity.Article) (err error) {
 
 //添加文章
 func AddArticle(c *routing.Context) error {
-	fmt.Println("xxxxxxxxxxxx")
 	var req entity.CreateArticleRequest
 	req.UserId = c.Form("user")
 	req.Title = c.Form("title")
@@ -205,6 +212,7 @@ func saveFile(file multipart.File,head *multipart.FileHeader) (path string,err e
 	}
 	defer fW.Close()
 	io.Copy(fW, file)
+	path = path + head.Filename
 	return
 }
 

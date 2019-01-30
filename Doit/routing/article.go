@@ -8,6 +8,7 @@ import (
 
 func ArticleRegisterRoutes(router *routing.RouteGroup) {
 	router.Get("/articles/<article_id>", article.GetArticle)								// 获取指定文章
+	router.Get("/articles", article.GetArticles)								// 获取指定文章
 	router.Post("/add", article.AddArticle)       								// 创建文章
 
 	router.Use(user.CheckSession)													// 检查用户登录状态信息

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="./js/jquery.form.js"></script>
+</head>
+<body>
+    <div>
+        <form id="ajaxForm" method="post" action="http://192.168.35.193:8081/user/upload" enctype="multipart/form-data">
+            <input type="text" name="name" />
+            <input type="text" name="sex" />
+            <input type="file" name="file" />
+            <button type="submit" id="btnSubmit">提交1</button>
+        </form>
+        <button id="btnButton" type="button">提交2</button>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#ajaxForm").ajaxForm(function () {
+                alert("提交成功1");
+            });
+            $("#ajaxForm").submit(function () {
+                $(this).ajaxSubmit(function () {
+                    alert("提交成功1");
+                });
+                return false;
+            });
+            $("#btnButton").click(function () {
+                $("#ajaxForm").ajaxSubmit(function () {
+                    alert("提交成功2");
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

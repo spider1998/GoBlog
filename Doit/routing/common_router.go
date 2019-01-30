@@ -9,6 +9,10 @@ import (
 	"github.com/go-ozzo/ozzo-routing/slash"
 	"net/http"
 	"sync"
+	"os"
+	"regexp"
+	"io"
+	"github.com/go-ozzo/ozzo-routing/file"
 )
 
 var (
@@ -41,6 +45,9 @@ func Run() error {
 		//错误处理
 		errorHandler,
 	)
+	router.Get("/static/*", file.Server(file.PathMap{
+		"/static/": "../",
+	}))
 	//版本信息路由校验
 	router.Get("/version", func(c *routing.Context) error {
 		var v struct {
@@ -77,4 +84,21 @@ func Run() error {
 		}
 	}
 	return err
+}
+
+func fileStatic(w http.ResponseWriter, r *http.Request) {
+	if ok, _ := regexp.MatchString("/static/", r.URL.String()); ok {
+		StaticServer(w, r)
+		return
+	}
+	io.WriteString(w, "hello world")
+}
+
+func StaticServer(w http.ResponseWriter, r *http.Request) {
+	wd, err := os.Getwd()
+	if err != nil {
+		app.Logger.Fatal().Err(err)
+	}
+	http.StripPrefix("/static/",
+		http.FileServer(http.Dir(wd))).ServeHTTP(w, r)
 }

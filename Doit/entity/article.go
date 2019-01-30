@@ -25,7 +25,7 @@ type BaseArticle struct {
 	Title   string `json:"title"`                          //标题
 	Auth    string `json:"auth"`                           //主作者
 	Sort    string `json:"sort"`                           //类别
-	Content string `json:"content" gorm:"not null;unique"` //最新内容
+	Content string `json:"content" gorm:"type:text;not null;"` //最新内容
 }
 
 type ArticleContent struct {
@@ -34,6 +34,7 @@ type ArticleContent struct {
 	Attachment  string      `json:"attachment"`   //附件
 	Hot         int      	`json:"hot"`          //热度
 	Forward     string      `json:"forward"`      //转发数
+	Read 		int 		`json:"read"`		  //阅读量
 }
 
 type Comment struct {
@@ -78,6 +79,23 @@ type RestoreArticleRequest struct {
 	Content string `json:"content" gorm:"not null;unique"` //内容
 
 }
+
+type ArticleResponse struct {
+	ID          string     `json:"id" gorm:"index;not null"` //唯一ids
+	UserId      string     `json:"user_id"`                  //用户id
+	PartPersons string     `json:"part_persons"`             //贡献者
+	Version     int        `json:"version"`                  //文章版本
+	ModifyType  ModifyType `json:"modify_type"`              //文章修改类型
+	SecondTitle string      `json:"second_title"` //副标题
+	Photo       []byte		`json:"photo"`        //图片
+	Attachment  string      `json:"attachment"`   //附件
+	Hot         int      	`json:"hot"`          //热度
+	Forward     string      `json:"forward"`      //转发数
+	BaseArticle                                              //文章基本字段
+	Comment
+	DatetimeAware
+}
+
 
 func (Article) TableName() string {
 	return TableArticle

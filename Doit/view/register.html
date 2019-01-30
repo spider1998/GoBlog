@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Letter - Simple Sign Up Form</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/templatemo-style.css">
+  
+  <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
+		
+	</head>
+
+	<body>
+
+			<div id="particles-js"></div>
+		
+			<ul class="cb-slideshow">
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	        </ul>
+
+			<div class="container-fluid">
+				<div class="row cb-slideshow-text-container ">
+					<div class= "tm-content col-xl-6 col-sm-8 col-xs-8 ml-auto section">
+					<header class="mb-5"><h1>Go-Blog</h1></header>
+					<P class="mb-5">A sign-up letter template with three background images shuffling by fade in out movements. Thank you for visiting our site!</P>
+					
+                    <form action="#" method="get" class="subscribe-form">
+               	    	<div class="row form-section">
+
+							<div class="col-md-7 col-sm-7 col-xs-7">
+			                      <input name="name" type="text" class="form-control" id="name" placeholder="Your Name..." required/>
+				  			</div>
+
+				  			<div class="col-md-7 col-sm-7 col-xs-7">
+			                      <input name="password" type="password" class="form-control" id="password" placeholder="Your Nassword..." required/>
+				  			</div>
+
+				  			<div class="col-md-7 col-sm-7 col-xs-7">
+			                      <input name="email" type="text" class="form-control" id="email" placeholder="Your Email..." required/>
+				  			</div>
+
+							<div class="col-md-5 col-sm-5 col-xs-5">
+								<input type="button" onclick="settime(this);sendCode()" id="btn" value="Send Code"/>
+							</div>
+						
+							<div class="col-md-7 col-sm-7 col-xs-7">
+			                      <input name="cach" type="text" class="form-control" id="cach" placeholder="Verification Code..." required/>
+				  			</div>
+
+				  			<div class="col-md-7 col-sm-7 col-xs-7">
+								<input type="button" class="form-control" id="Register_btn" onclick="register()" value="Register" />
+							</div>
+						</div>
+                    </form>
+                    
+					<div class="tm-social-icons-container text-xs-center">
+	                    <a href="./login.html" class="tm-social-link"><i class="fa font-awesome">login</i></a>
+	                </div>
+
+					</div>
+				</div>	
+				<div class="footer-link">
+					<p>Copyright © 2018 Your Company 
+                    
+                    - Design: <a rel="nofollow" href="#" target="_parent">Templatemo</a></p>
+                    <p>More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+				</div>
+			</div>	
+	</body>
+
+	<script type="text/javascript" src="js/particles.js"></script>
+	<script type="text/javascript" src="./js/jquery-1.8.0.min.js"></script>
+	<script>
+
+
+		function register() {
+			var name =$("#name").val();	
+			var password =$("#password").val();
+			var email = $("#email").val();
+			var code = $("#cach").val();	
+		            $.ajax({
+		                type: "POST",//方法类型
+		                contentType: "application/json",
+		                dataType: "json",//预期服务器返回的数据类型
+		                url: "http://192.168.35.193:8081/user/register" ,//url
+		                data: JSON.stringify({"name":name,"password":password,"email":email,"cach":code}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
+		                success: function (result) {
+		                    console.log(result);//打印服务端返回的数据(调试用)
+		                    if (result.status == 200) {
+		                        window.location.href = "./login.html"
+		                    }
+		                    ;
+		                },
+		                error : function() {
+		                    alert(result.text);
+		                }
+		            });
+		        }
+
+	function sendCode() {
+			var emails = $("#email").val();
+		            $.ajax({
+		                type: "GET",//方法类型
+		                contentType: "application/json",
+		                dataType: "json",//预期服务器返回的数据类型
+		                url: "http://192.168.35.193:8081/user/verify/email/"+emails ,
+		                success: function (result) {
+		                    console.log(result);//打印服务端返回的数据(调试用)
+		                    if (result.status == 200) {
+		                        alert("SUCCESS");
+		                    }
+		                    ;
+		                },
+		                error : function() {
+		                    alert(result);
+		                }
+		            });
+		        }
+
+
+
+	var countdown=60; 
+	function settime(val) { 
+		if (countdown == 0) { 
+			val.removeAttribute("disabled"); 
+			val.value="免费获取验证码";  
+		} else { 
+			val.setAttribute("disabled", true); 
+			val.value="重新发送(" + countdown + ")"; 
+			countdown--; 
+		} 
+		setTimeout(function() { 
+		settime(val) 
+		},1000) 
+	} 
+
+
+
+</script>
+
+	<script type="text/javascript" src="js/app.js"></script>
+</html>

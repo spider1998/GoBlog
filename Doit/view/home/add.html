@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="#" id="tip"></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html" id="index">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html" id="about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="post.html" id="post">Sample Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html" id="contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="add.html" id="add">Add</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('img/home-bg.jpg')" id="bacc_url">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Publish an Article</h1>
+              <span class="subheading">Let the world listen to Yourself</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
+          <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
+          <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
+          <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
+          <form name="sentMessage" id="blogForm" novalidate enctype="multipart/form-data" action="http://192.168.35.193:8081/article/add" method="post" target="hidden_frame">
+            <iframe name='frameFile' style='display: none;'></iframe>  
+            <!-- 标题 -->
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>Title</label>
+                <input type="hidden" class="form-control" placeholder="Title" id="user" required data-validation-required-message="Please enter your Title." name="user">
+
+                <input type="text" class="form-control" placeholder="Title" id="name" required data-validation-required-message="Please enter your Title." name="title">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <!-- 副标题 -->
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>Second Title</label>
+                <input type="text" class="form-control" placeholder="Second Title" id="second_title" required data-validation-required-message="Please enter your Second Title." name="second_title">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <!-- 修改类型 -->
+            <div class="control-group">
+              <p class="help-block text-danger"></p>
+              <p style="color: blue;">Choice modify_type sort(The default is not modifiable):</p>
+              <div class="form-group floating-label-form-group controls">
+                <select id="sort" class="form-control" name="sort"> 
+                  <option value="1">Able</option> 
+                  <option value="0" selected="selected">Enable</option> 
+              </select> 
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <!-- 类别 -->
+            <div class="control-group">
+              <p class="help-block text-danger"></p>
+              <p style="color: blue;">Choice article sort:</p>
+              <div class="form-group floating-label-form-group controls">
+                <select id="sort" class="form-control" name="modify_type"> 
+                  <option value="0">technology</option> 
+                  <option value="1">literary</option> 
+                  <option value="2" selected="selected">All</option>
+              </select> 
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <!-- 内容 -->
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>Message</label>
+                <p style="color: blue;">Please enter your blog content:</p>
+                <div id="editor">
+                </div>
+                <input type="hidden" class="form-control" placeholder="Title" id="content" required data-validation-required-message="Please enter your Title." name="content">
+                <p class="help-block text-danger"></p>
+                <button type="button" class="btn btn-primary" id="savecontent"; onclick="saveContent();">Save</button>
+              </div>
+            </div>
+            <!-- 背景图 -->
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <p style="color: blue;">Upload background image:</p>
+                <label>Title</label>
+                <input type="file" class="form-control" placeholder="upload background image" id="baci" required data-validation-required-message="upload your background image." name="bacc">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <!-- 附件 -->
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <p style="color: blue;">Upload blog attachment:</p>
+                <label>Title</label>
+                <input type="file" class="form-control" placeholder="upload blog attachment" id="atta" required data-validation-required-message="upload your blog attachment." name="attach">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+
+            <br>
+
+            <div id="success"></div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" id="sendMessageButton" onclick="redirect();">Publish</button>
+            </div>
+
+          </form>
+          <iframe name='hidden_frame' id="hidden_frame" style="display:none"></iframe>
+
+
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/wangEditor.min.js"></script>
+    <script src="./js/jquery.form.js"></script>
+    <script>
+
+      function getQueryVariable(variable)
+        {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+        }
+
+      $(document).ready(function(){
+            session = getQueryVariable("session")
+            $("#index").attr("href","index.html?session="+session);
+            $("#about").attr("href","about.html?session="+session);
+            $("#post").attr("href","post.html?session="+session);
+            $("#contact").attr("href","contact.html?session="+session);
+            $("#add").attr("href","add.html?session="+session);
+            //$("#hidden_frame").attr("src","index.html?session="+session);
+            $("#user").attr("value",session);
+
+          
+            $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/user/sessions/"+session ,
+                success: function (result) {
+                  $("#tip").html(result.name);
+                },
+                error : function() {
+                  $("#tip").html("LOGIN");
+                  $("#tip").attr("href","../login.html");
+                }
+            });
+
+        });
+
+        function redirect() {
+          location.href = "index.html?session="+session
+        };
+
+
+
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        editor.create()
+        document.getElementById('btn1').addEventListener('click', function () {
+        // 读取 html
+        var editor_txt=editor.txt.html();
+        document.getElementById('editor_txt').value=editor_txt;
+    }, false) 
+
+        function saveContent(argument) {
+          $("#content").attr("value",editor.txt.html());
+          /*con = document.getElementById("contents").value
+          alert(con)*/
+          alert("The content has been saved, please continue to the next step...")
+        }
+      /*$("#blogForm").submit(function () {
+                $("#user").attr("value",content);
+                $(this).ajaxSubmit(function () {
+                    alert("提交成功1");
+                });
+                return false;
+            });*/
+
+    </script>
+    <!-- Custom scripts for this template -->
+    <script src="js/clean-blog.min.js"></script>
+
+
+  </body>
+
+</html>
