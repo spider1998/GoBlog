@@ -153,7 +153,7 @@
                 artID = getQueryVariable("article")
                 session = getQueryVariable("session")
                 $.ajax({
-                    type: "DELETE",//方法类型
+                    type: "DELETE",
                     contentType: "application/json",
                     url: "http://192.168.35.193:8081/article/"+artID,
                     success: function (result) {

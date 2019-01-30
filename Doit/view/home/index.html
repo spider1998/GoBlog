@@ -161,7 +161,7 @@
                   $("#tip").attr("href","../login.html");
                 }
             });
-
+            staticF = "http://192.168.35.193:8081/static/"
             $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -180,6 +180,7 @@
             <p class="post-meta">Posted by
               <a href="#">`+obj.auth+`</a>
               on `+obj.create_time+`</p>
+              <img src="`+staticF+obj.photo+`" alt="" style="max-width:300px;width:expression(this.width > 300 ? "300px" : this.width);">
           </div>
             <hr>
           <hr>`;  //循环遍历，拼接
