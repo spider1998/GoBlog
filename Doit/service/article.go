@@ -35,6 +35,12 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 		err = errors.WithStack(err)
 		return
 	}
+	art.Read += 1
+	err = app.DB.Model(&art).Update("Read")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
 	return
 }
 
