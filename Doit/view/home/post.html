@@ -128,7 +128,7 @@
                 </a>
               </li>
                 <li class="list-inline-item">
-                    <a id="delete" onclick="del();">
+                    <a id="delete" onclick="javascript:return del();">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
@@ -148,22 +148,29 @@
      <script>
         //删除文章
         function del() {
-            artID = getQueryVariable("article")
-            session = getQueryVariable("session")
-            $.ajax({
-                type: "DELETE",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/article/"+artID,
-                success: function (result) {
-                    location.href = "index.html?session="+session;
-                },
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("X-Access-Session", session);
-                },
-                error : function() {
-                    alert("Prohibition")
-                }
-            });
+            msg = "确定删除？"
+            if (confirm(msg)==true){
+                artID = getQueryVariable("article")
+                session = getQueryVariable("session")
+                $.ajax({
+                    type: "DELETE",//方法类型
+                    contentType: "application/json",
+                    url: "http://192.168.35.193:8081/article/"+artID,
+                    success: function (result) {
+                        location.href = "index.html?session="+session;
+                    },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-Access-Session", session);
+                    },
+                    error : function() {
+                        alert("Prohibition")
+                    }
+                });
+            }else{
+                return false;
+            }
+
+
         }
         //点赞/取消点赞
       function zan() {
