@@ -3,6 +3,7 @@ package entity
 
 const TableArticle = "article"
 const TableArticleVersion = "article_version"
+const TableArticleForward = "article_forward"
 
 type ModifyType int
 
@@ -110,10 +111,41 @@ type ArticleResponse struct {
 	DatetimeAware
 }
 
+type ArticleForwardRequest struct {
+	ArtID string `json:"art_id"`
+	UserID 	string `json:"user_id"`
+	Reason	string `json:"reason"`
+}
+
+type StateForward int8
+
+const(
+	StateForwardWaite	StateForward	=	1 + iota
+	StateForwardRefused
+	StateForwardFinished
+)
+
+type ArticleForward struct {
+	ID			string 				`json:"id"`
+	ArtID 		string 				`json:"art_id" gorm:"index;not null"`
+	AuthID 		string 				`json:"auth_id"`
+	ForwardID	string 				`json:"forward_id"`
+	Reason		string 				`json:"reason" gorm:"type:text;not null"`
+	Status 		StateForward 		`json:"status"`
+	DatetimeAware
+}
+
+
+
+
+
 
 func (Article) TableName() string {
 	return TableArticle
 }
 func (ArticleVersion) TableName() string {
 	return TableArticleVersion
+}
+func (ArticleForward) TableName() string {
+	return TableArticleForward
 }

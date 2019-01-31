@@ -24,4 +24,6 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 
 	router.Patch("/<article_id>/like",article.LikeOneArticle)					// 给文章点赞/取消点赞
 	router.Get("/<article_id>/like",article.GetArticleLikeCount)				// 获取文章点赞数
+
+	router.Patch("/<article_id>",article.ForwardArticle)						//转发文章
 }

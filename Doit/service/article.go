@@ -382,6 +382,52 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 	return
 }
 
+//文章转发
+func (a *ArticleService) ForwardArticle(req entity.ArticleForwardRequest)(err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Reason, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	var art entity.Article
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ArtID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	var res entity.ArticleForward
+	res.ID = xid.New().String()
+	res.Reason = req.Reason
+	res.ArtID = req.ArtID
+	res.ForwardID = req.UserID
+	res.AuthID = art.UserId
+	res.Status = entity.StateForwardWaite
+	res.CreateTime = util.DateTimeStd()
+	res.UpdateTime = util.DateTimeStd()
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&res).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeArticleExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create forward article")
+		return
+	}
+	return
+
+}
+
 //获取文章点赞次数
 func (a *ArticleService) GetArticleLikeCount(artID string) (count int,err error) {
 	val,err := app.Redis.Cmd("EXISTS", app.Conf.LikeRedis+":"+artID).Int()

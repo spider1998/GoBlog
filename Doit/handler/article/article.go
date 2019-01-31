@@ -329,3 +329,17 @@ func GetArticleLikeCount(c *routing.Context) error {
 	}
 	return c.Write(count)
 }
+
+//文章转发
+func ForwardArticle(c *routing.Context) error {
+	var req entity.ArticleForwardRequest
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	err = service.Article.ForwardArticle(req)
+	if err != nil{
+		return err
+	}
+	return c.Write(http.StatusOK)
+}
