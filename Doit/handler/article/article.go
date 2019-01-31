@@ -343,3 +343,18 @@ func ForwardArticle(c *routing.Context) error {
 	}
 	return c.Write(http.StatusOK)
 }
+
+//文章转发授权
+func ForwardAuthorazation(c *routing.Context) error {
+	var req entity.ArticleAuthorazation
+	err := c.Read(&req)
+	if err != nil{
+		return  err
+	}
+	req.ArtID = c.Param("article_id")
+	err := service.Article.ForwardAuthorazation(req)
+	if err != nil{
+		return err
+	}
+	return c.Write(http.StatusOK)
+}

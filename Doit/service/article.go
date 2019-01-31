@@ -382,6 +382,32 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 	return
 }
 
+//文章转发授权
+func (a *ArticleService)ForwardAuthorazation(req entity.ArticleAuthorazation)(err error) {
+	var art entity.ArticleForward
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.RecordID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	if req.State == 3{
+		art.Status = entity.StateForwardFinished
+	}
+	if req.State == 2{
+		art.Status = entity.StateForwardRefused
+	}
+	err = app.DB.Model(&art).Update("Satus")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
 //文章转发
 func (a *ArticleService) ForwardArticle(req entity.ArticleForwardRequest)(err error) {
 	err = v.ValidateStruct(&req,
