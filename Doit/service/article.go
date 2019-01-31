@@ -318,8 +318,16 @@ func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (err err
 		return
 	}
 	var artV entity.ArticleVersion
-	artV.Article = art
-	artV.UID = xid.New().String()
+	artV.ArtID = art.ID
+	artV.UserId = art.UserId
+	artV.Version = art.Version
+	artV.ModifyType= art.ModifyType
+	artV.BaseArticle= art.BaseArticle
+	artV.ArticleContent= art.ArticleContent
+	artV.Comment= art.Comment
+	artV.UpdateTime= util.DateTimeStd()
+	artV.ArtID = art.ID
+	artV.ID = xid.New().String()
 	err = app.DB.Transactional(func(tx *dbx.Tx) error {
 		err = tx.Model(&artV).Insert()
 		if err != nil {

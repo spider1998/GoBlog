@@ -261,6 +261,8 @@
                 $("#baci").attr("value",result.photo);
                 $("#atta").attr("value",result.attachment);
                 editor.txt.html(result.content)
+                $("#content").attr("value",editor.txt.html());
+
             },
             error : function() {
                 alert("err");
@@ -270,7 +272,8 @@
     });
 
     function redirect() {
-        location.href = "index.html?session="+session
+        alert("ss")
+        //location.href = "index.html?session="+session
     };
 
 
