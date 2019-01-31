@@ -16,6 +16,8 @@ import (
 	"os"
 	"io"
 	"mime/multipart"
+	"github.com/go-ozzo/ozzo-dbx"
+	"github.com/pkg/errors"
 )
 
 //获取文章
@@ -159,6 +161,7 @@ func AddArticle(c *routing.Context) error {
 	}
 	req.Sort = c.Form("sort")
 	req.Content = c.Form("content")
+
 	imgF,imgH,err := c.Request.FormFile("bacc")
 	if err != nil{
 		app.Logger.Info().Msg("no img")
@@ -218,23 +221,71 @@ func saveFile(file multipart.File,head *multipart.FileHeader) (path string,err e
 
 //用户修改文章
 func VerifyArticle(c *routing.Context) error {
-	var verify entity.VerifyArticleRequest
-	id := session.GetUserSession(c).ID
-	err := c.Read(&verify)
-	if err != nil {
-		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
-	}
-	if verify.UserId != id {
-		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
-	}
-	response, err := service.Article.VerifyArticle(verify)
-	if err != nil {
+
+	var req entity.VerifyArticleRequest
+	req.ID = c.Form("artID")
+	req.UserId = c.Form("user")
+
+	u,err := service.User.CheckSession(req.UserId)
+	if err != nil{
 		return err
 	}
-	if err = c.Write(response);err !=nil{
+	var art entity.Article
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return err
+		}
+		err = errors.WithStack(err)
 		return err
 	}
-	err = SaveVerified(response)
+	if u.ID != art.UserId {
+		err = code.New(http.StatusBadRequest, code.CodeIDNotAllowed)
+		return err
+	}
+
+	req.Title = c.Form("title")
+	req.SecondTitle = c.Form("second_title")
+	modify := c.Form("modify_type")
+	if modify == "1"{
+		req.ModifyType = entity.ModifyTypeAble
+	}else{
+		req.ModifyType = entity.ModifyTypeEnable
+	}
+	req.Sort = c.Form("sort")
+	req.Content = c.Form("content")
+	imgF,imgH,err := c.Request.FormFile("bacc")
+	if err != nil{
+		app.Logger.Info().Msg("no img")
+	}
+	//保存背景图
+	if imgF == nil{
+		fmt.Println("no img")
+	}else {
+		imgPath,err := saveFile(imgF,imgH)
+		if err != nil{
+			return err
+		}
+		defer imgF.Close()
+		req.Photo = imgPath
+	}
+	//保存附件
+	testF,testH,err := c.Request.FormFile("attach")
+	if err != nil{
+		app.Logger.Info().Msg("no attachment")
+	}
+	if testF == nil{
+		fmt.Println("no img")
+	}else {
+		testPath,err := saveFile(testF,testH)
+		if err != nil{
+			return err
+		}
+		defer testF.Close()
+		req.Attachment = testPath
+	}
+	err = service.Article.VerifyArticle(req)
 	if err != nil {
 		return err
 	}

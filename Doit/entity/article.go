@@ -2,6 +2,7 @@ package entity
 
 
 const TableArticle = "article"
+const TableArticleVersion = "article_version"
 
 type ModifyType int
 
@@ -19,6 +20,12 @@ type Article struct {
 	ArticleContent
 	Comment
 	DatetimeAware
+}
+
+type ArticleVersion struct {
+	UID          string     `json:"id" gorm:"index;not null"` //唯一ids
+	Article
+
 }
 
 type BaseArticle struct {
@@ -59,10 +66,11 @@ type CreateArticleRequest struct {
 
 type VerifyArticleRequest struct { //
 	ID     string `json:"id"`      //文章ID
-	UserId string `json:"user_id"` //用户id
+	UserId string `json:"user_id"` 				//用户ID
+	ModifyType		ModifyType `json:"modify_type"`			//文章令牌
 	BaseArticle
+	Photo       string 		`json:"photo"`        //图片
 	SecondTitle string      `json:"second_title"` //副标题
-	Photo       string `json:"photo"`        //图片
 	Attachment  string      `json:"attachment"`   //附件
 }
 
@@ -98,4 +106,7 @@ type ArticleResponse struct {
 
 func (Article) TableName() string {
 	return TableArticle
+}
+func (ArticleVersion) TableName() string {
+	return TableArticleVersion
 }

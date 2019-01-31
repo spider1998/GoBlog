@@ -75,7 +75,7 @@
             <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
             <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
             <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-            <form name="sentMessage" id="blogForm" novalidate enctype="multipart/form-data" action="http://192.168.35.193:8081/article/add" method="post" target="hidden_frame">
+            <form name="sentMessage" id="blogForm" novalidate enctype="multipart/form-data" action="http://192.168.35.193:8081/article/verify" method="post" target="hidden_frame">
                 <iframe name='frameFile' style='display: none;'></iframe>
                 <!-- 标题 -->
                 <div class="control-group">
@@ -83,6 +83,7 @@
                         <label>Title</label>
                         <input type="hidden" class="form-control" placeholder="Title" id="user" required data-validation-required-message="Please enter your Title." name="user">
 
+                        <input type="hidden" class="form-control" placeholder="Title" id="artID" required data-validation-required-message="Please enter your Title." name="artID">
                         <input type="text" class="form-control" placeholder="Title" id="title" required data-validation-required-message="Please enter your Title." name="title">
                         <p class="help-block text-danger"></p>
                     </div>
@@ -233,6 +234,7 @@
         $("#add").attr("href","add.html?session="+session);
         //$("#hidden_frame").attr("src","index.html?session="+session);
         $("#user").attr("value",session);
+        $("#artID").attr("value",artID);
 
         $.ajax({
             type: "GET",//方法类型

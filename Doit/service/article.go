@@ -14,6 +14,7 @@ import (
 	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"github.com/mediocregopher/radix.v2/redis"
 	"fmt"
+	"github.com/rs/xid"
 )
 
 
@@ -298,8 +299,9 @@ func (a *ArticleService)SaveArtBlock(req entity.Content) (err error) {
 }
 
 
-func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art entity.Article, err error) {
-	err = v.ValidateStruct(&req,
+func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (err error) {
+		var art entity.Article
+		err = v.ValidateStruct(&req,
 		v.Field(&req.BaseArticle, v.Required),
 	)
 	if err != nil {
@@ -315,14 +317,32 @@ func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (art ent
 		err = errors.WithStack(err)
 		return
 	}
+	var artV entity.ArticleVersion
+	artV.Article = art
+	artV.UID = xid.New().String()
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&artV).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeArticleExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create article")
+		return
+	}
+	//更新文章
 	art.Version += 1
 	art.BaseArticle = req.BaseArticle
 	art.Attachment = req.Attachment
 	art.Photo = req.Photo
 	art.SecondTitle = req.SecondTitle
 	art.UpdateTime = util.DateTimeStd()
-
-	err = app.DB.Model(&art).Update("Title", "Auth", "Sort", "Content", "Attachment", "Photo", "SecondTitle", "UpdateTime")
+	err = app.DB.Model(&art).Update("Title", "Auth", "Sort", "Content", "Attachment", "Photo", "SecondTitle", "UpdateTime","Version")
 	if err != nil {
 		err = errors.WithStack(err)
 		return
