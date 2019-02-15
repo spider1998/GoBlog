@@ -81,6 +81,15 @@ type BaseUser struct {
 	Tag 	string 		`json:"tag" gorm:"not null;index"`	  			//标签
 }
 
+type Contact struct {
+	UserID 	string 	`json:"user_id"`
+	Name 	string 	`json:"name"`
+	Email 	string 	`json:"email"`
+	Mobile 	string 	`json:"mobile"`
+	Message string 	`json:"message"`
+}
+
+
 func (User) TableName() string {
 	return TableUser
 }

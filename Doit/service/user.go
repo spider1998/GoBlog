@@ -360,6 +360,60 @@ func (u *UserService) GetMobileVerify(uid, mobile string) (code string, err erro
 	return
 }
 
+
+//联系管理员
+func (u *UserService) ContactManager(req entity.Contact) (err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Name, v.Required),
+		v.Field(&req.Mobile, v.Required),
+		v.Field(&req.Email, v.Required),
+		v.Field(&req.Message, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	// 创建一个字符串变量，存放相应配置信息
+	config :=
+		`{"username":"2387805574@qq.com","password":"henuqnarpnucdjci","host":"smtp.qq.com","port":587}`
+	// 通过存放配置信息的字符串，创建Email对象
+	temail := utils.NewEMail(config)
+
+	temail.To = []string{app.Conf.Email}
+	temail.From = app.Conf.Email
+	temail.Subject = "GoBlog-用户问题"
+	temail.HTML = `<html>
+		<head>
+		</head>
+	    	 <body>
+			   <div>用户ID：` + req.UserID + `</div>
+			   <div>用户姓名：` + req.Name + `</div>
+			   <div>用户姓名：` + req.Name + `</div>
+			   <div>用户邮箱：` + req.Email + `</div>
+			   <div>反馈问题：` + req.Message + `</div>
+	     	</body>
+	 	</html>`
+
+	err = temail.Send()
+	if err != nil {
+		app.Logger.Error().Err(err)
+		return
+	}
+	return
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 func (s *UserService) getSessionKey(sessionID string) string {
 	return s.sessionKey + sessionID
 }

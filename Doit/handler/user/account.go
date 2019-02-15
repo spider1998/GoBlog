@@ -140,6 +140,23 @@ func SetUserPass(c *routing.Context) (err error) {
 }
 
 func AttachUpload(c *routing.Context) (err error) {
-
 	return
 }
+
+//联系管理员
+func Contact(c *routing.Context) error {
+	var contact entity.Contact
+	err := c.Read(&contact)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	userID := session.GetUserSession(c).ID
+	contact.UserID = userID
+	err = service.User.ContactManager(contact)
+	if err != nil {
+		return err
+	}
+	return err
+}
+
+

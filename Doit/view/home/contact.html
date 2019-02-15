@@ -78,7 +78,7 @@
           <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
           <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
           <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-          <form name="sentMessage" id="contactForm" novalidate>
+          <form>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Name</label>
@@ -110,7 +110,7 @@
             <br>
             <div id="success"></div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
+              <button class="btn btn-primary" onclick="contact();">Send</button>
             </div>
           </form>
         </div>
@@ -199,6 +199,31 @@
             });
 
         });
+
+      function contact() {
+          session = getQueryVariable("session");
+          var name =$("#name").val();
+          var email =$("#email").val();
+          var phone =$("#phone").val();
+          var message =$("#message").val();
+          $.ajax({
+              type: "POST",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/user/contact",
+              data: JSON.stringify({"name":name,"email":email,"mobile":phone,"message":message}),
+              success: function (data) {
+                alert("The message has been sent, please be patient...")
+                location.href = "index.html?session="+session
+              },
+              beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Session", session);
+              },
+              error : function() {
+                  alert("The message has been sent, please be patient...")
+                  location.href = "index.html?session="+session
+              }
+          });
+      }
 
 
     </script>  

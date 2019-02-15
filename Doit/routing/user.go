@@ -21,6 +21,7 @@ func UserRegisterRoutes(router *routing.RouteGroup) {
 	router.Patch("/information/<user_id>", user.UpdateInfo)          // 修改用户资料
 	router.Patch("/info/mobile", user.BindMobile)                    // 绑定手机
 	router.Patch("/password/<user_id>", user.SetUserPass)            // 修改密码
+	router.Post("/contact",user.Contact)							  // 联系管理员
 
 
 }
