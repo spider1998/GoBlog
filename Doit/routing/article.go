@@ -7,13 +7,14 @@ import (
 )
 
 func ArticleRegisterRoutes(router *routing.RouteGroup) {
-	router.Get("/articles/<article_id>", article.GetArticle)								// 获取指定文章
-	router.Get("/articles", article.GetArticles)								// 获取指定文章
+	router.Get("/articles/<article_id>", article.GetArticle)					// 获取指定文章
+	router.Get("/articles", article.GetArticles)								// 获取全部文章
 	router.Post("/add", article.AddArticle)       								// 创建文章
 	router.Post("/verify", article.VerifyArticle) 								// 用户修改文章
 
 
 	router.Use(user.CheckSession)													// 检查用户登录状态信息
+	router.Get("/arts/my", article.GetMyArticles)								// 获取个人全部文章
 	router.Get("/version/<article_id>",article.GetVersion)						// 获取文章所有版本
 	router.Get("/view/<article_id>/<version>",article.GetVersionArticle)		// 获取指定版本文章
 	router.Post("/restore",article.RestoreVersionArticle)						// 恢复指定版本文章

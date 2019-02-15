@@ -30,8 +30,19 @@ func GetArticle(c *routing.Context) error {
 	return c.Write(article)
 }
 
+//获取整站全部文章
 func GetArticles(c *routing.Context) error {
 	article, err := service.Article.GetArticles()
+	if err != nil {
+		return err
+	}
+	return c.Write(article)
+}
+
+//获取个人文章
+func GetMyArticles(c *routing.Context) error {
+	userID := session.GetUserSession(c).ID
+	article, err := service.Article.GetMyArticles(userID)
 	if err != nil {
 		return err
 	}

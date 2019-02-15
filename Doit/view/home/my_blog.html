@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Go Blog</title>
+    <title>Home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +20,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -27,15 +28,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <li class="list-inline-item">
-            <a href="">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-user fa-stack-1x fa-inverse"></i>
-                  </span>
-            </a>
-        </li>
-        <a class="navbar-brand" href="index.html" id="tip"></a>
+        <a class="navbar-brand" href="#" id="tip"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -63,41 +56,33 @@
 </nav>
 
 <!-- Page Header -->
-<header class="masthead" id="bacc_url">
+<header class="masthead" style="background-image: url('img/home-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="post-heading">
-                    <h1 id="title">Man must explore, and this is exploration at its greatest</h1>
-                    <h2 class="subheading" id="second_title">Problems look mighty small from 150 miles up</h2>
-                    <span class="meta">Posted by:
-                <a href="#" id="user">Start Bootstrap </a>
-                <h3 id="post_time">on August 24, 2018</h3></span>
-                    <span class="meta">Version:&nbsp;<a href="#" id="version">4542</a>
-                &nbsp;&nbsp;HOT:
-                <a href="#" id="hot">432 </a>
-                &nbsp;&nbsp;Read:&nbsp;
-                <a href="#" id="read">3454</a>
-                </span>
-                    <br>
+                <div class="site-heading">
+                    <h1>My Blog</h1>
+                    <span class="subheading">A Blog Platform Developed By Go</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto" id="imcontent">
-                <!-- 文章内容 -->
-            </div>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto" id="blogCon">
+
+            <!-- Pager -->
 
         </div>
+        <div class="clearfix">
+            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
     </div>
-</article>
+</div>
 
 <hr>
 
@@ -106,8 +91,33 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <button type="button" class="btn btn-default" onclick="restore();" style="color: #0c5460">Restore</button>
-                <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
             </div>
         </div>
     </div>
@@ -118,7 +128,6 @@
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
 
-    //提取url参数函数
     function getQueryVariable(variable)
     {
         var query = window.location.search.substring(1);
@@ -130,34 +139,15 @@
         return(false);
     }
 
-    //页面初始化
     $(document).ready(function(){
-        session = getQueryVariable("session");
-        artID = getQueryVariable("artID");
-        version = getQueryVariable("version");
+        session = getQueryVariable("session")
         $("#index").attr("href","index.html?session="+session);
         $("#about").attr("href","about.html?session="+session);
         $("#post").attr("href","post.html?session="+session);
         $("#contact").attr("href","contact.html?session="+session);
         $("#add").attr("href","add.html?session="+session);
         $("#myblog").attr("href","my_blog.html?session="+session);
-        //获取点赞数
-        $.ajax({
-            type: "GET",//方法类型
-            contentType: "application/json",
-            url: "http://192.168.35.193:8081/article/"+artID+"/like" ,
-            success: function (result) {
-                $("#hot").html(result);
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-Access-Session", session);
-            },
-            error : function() {
-                alert("error")
-            }
-        });
 
-        //获取用户登录信息
         $.ajax({
             type: "GET",//方法类型
             contentType: "application/json",
@@ -170,65 +160,50 @@
                 $("#tip").attr("href","../login.html");
             }
         });
-
-
-        //获取文章并填充到网页
+        staticF = "http://192.168.35.193:8081/static/"
         $.ajax({
             type: "GET",//方法类型
             contentType: "application/json",
-            url: "http://192.168.35.193:8081/article/view/"+artID+"/"+version ,
-            success: function (result) {
-                $("#title").html(result.title);
-                $("#second_title").html(result.second_title);
-                $("#user").html(result.auth);
-                $("#post_time").html(result.create_time);
-                $("#imcontent").html(result.content);
-                $("#read").html(result.read);
-                $("#version").html(result.version);
-                $("#versions").html(result.version);
-
-                if (result.photo == ""){
-                    $("#bacc_url").attr("style","background-image: url('img/post-bg.jpg')")
-                }else{
-                    $("#bacc_url").attr("style","background-image: url('http://192.168.35.193:8081/static/"+result.photo+"')")
-                }
+            url: "http://192.168.35.193:8081/article/arts/my",
+            success: function (data) {
+                var html = `<p>All blogs:</p>`;
+                $.each(data, function(i, obj) {
+                    html += `<div class="post-preview">
+            <a href="post.html?article=`+obj.id+"&session="+session+`" id="">
+              <h2 class="post-title">`+obj.title+`
+              </h2>
+              <h3 class="post-subtitle">
+               `+obj.second_title+`
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">`+obj.auth+`</a>
+              on `+obj.create_time+`</p>
+              <img src="`+staticF+obj.photo+`" alt="" style="max-width:300px;width:expression(this.width > 300 ? "300px" : this.width);">
+          </div>
+            <hr>
+          <hr>`;  //循环遍历，拼接
+                });
+                $("#blogCon").html(html);//动态插入html
             },
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("X-Access-Session", session);
             },
             error : function() {
-                alert("article not exist!")
+                alert("search blog failed");
             }
         });
+
+
+
 
     });
-
-    function restore() {
-        artID = getQueryVariable("artID");
-        session = getQueryVariable("session");
-        ver = getQueryVariable("version");
-        versionInt = parseInt(ver)
-        $.ajax({
-            type: "POST",//方法类型
-            contentType: "application/json",
-            url: "http://192.168.35.193:8081/article/restore",
-            data: JSON.stringify({"art_id":artID,"version":versionInt}),
-            success: function (result) {
-                location.href = "post.html?session="+session+"&article="+artID;
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-Access-Session", session);
-            },
-            error : function() {
-                alert("error")
-            }
-        });
-    }
 
 
 </script>
 <!-- Custom scripts for this template -->
 <script src="js/clean-blog.min.js"></script>
+
 
 </body>
 

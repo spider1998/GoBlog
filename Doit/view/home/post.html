@@ -61,6 +61,9 @@
             <li class="nav-item">
               <a class="nav-link" href="index.html" id="index">Home</a>
             </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="my_blog.html" id="myblog">MyBlog</a>
+              </li>
             <li class="nav-item">
               <a class="nav-link" href="about.html" id="about">About</a>
             </li>
@@ -295,6 +298,7 @@
             $("#post").attr("href","post.html?session="+session);
             $("#contact").attr("href","contact.html?session="+session);
             $("#add").attr("href","add.html?session="+session);
+            $("#myblog").attr("href","my_blog.html?session="+session);
             //获取点赞数
             $.ajax({
                 type: "GET",//方法类型

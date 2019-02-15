@@ -46,9 +46,23 @@ func (a *ArticleService) GetArticle(req string) (art entity.Article, err error) 
 	return
 }
 
-//获取最新版本文章
+//获取全部文章
 func (a *ArticleService) GetArticles() (arts []entity.Article, err error) {
 	err = app.DB.Select().OrderBy("create_time desc").All(&arts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
+//获取个人全部文章
+func (a *ArticleService) GetMyArticles(userID string) (arts []entity.Article, err error) {
+	err = app.DB.Select().Where(dbx.HashExp{"user_id": userID}).OrderBy("create_time desc").All(&arts)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
