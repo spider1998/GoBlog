@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Go Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <li class="list-inline-item">
+            <a href="">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+        <a class="navbar-brand" href="index.html" id="tip"></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" id="index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html" id="about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html" id="contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add.html" id="add">Add</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<header class="masthead" id="bacc_url">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1 id="title">Man must explore, and this is exploration at its greatest</h1>
+                    <h2 class="subheading" id="second_title">Problems look mighty small from 150 miles up</h2>
+                    <span class="meta">Posted by:
+                <a href="#" id="user">Start Bootstrap </a>
+                <h3 id="post_time">on August 24, 2018</h3></span>
+                    <span class="meta">Version:&nbsp;<a href="#" id="version">4542</a>
+                &nbsp;&nbsp;HOT:
+                <a href="#" id="hot">432 </a>
+                &nbsp;&nbsp;Read:&nbsp;
+                <a href="#" id="read">3454</a>
+                </span>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto" id="imcontent">
+                <!-- 文章内容 -->
+            </div>
+
+        </div>
+    </div>
+</article>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><a href="#">Restore</a></button>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    //提取url参数函数
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    //页面初始化
+    $(document).ready(function(){
+        session = getQueryVariable("session")
+        artID = getQueryVariable("artID")
+        version = getQueryVariable("version")
+        $("#index").attr("href","index.html?session="+session);
+        $("#about").attr("href","about.html?session="+session);
+        $("#post").attr("href","post.html?session="+session);
+        $("#contact").attr("href","contact.html?session="+session);
+        $("#add").attr("href","add.html?session="+session);
+        //获取点赞数
+        $.ajax({
+            type: "GET",//方法类型
+            contentType: "application/json",
+            url: "http://192.168.35.193:8081/article/"+artID+"/like" ,
+            success: function (result) {
+                $("#hot").html(result);
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-Access-Session", session);
+            },
+            error : function() {
+                alert("error")
+            }
+        });
+
+        //获取用户登录信息
+        $.ajax({
+            type: "GET",//方法类型
+            contentType: "application/json",
+            url: "http://192.168.35.193:8081/user/sessions/"+session ,
+            success: function (result) {
+                $("#tip").html(result.name);
+            },
+            error : function() {
+                $("#tip").html("LOGIN");
+                $("#tip").attr("href","../login.html");
+            }
+        });
+
+
+        //获取文章并填充到网页
+        $.ajax({
+            type: "GET",//方法类型
+            contentType: "application/json",
+            url: "http://192.168.35.193:8081/article/view/"+artID+"/"+version ,
+            success: function (result) {
+                $("#title").html(result.title);
+                $("#second_title").html(result.second_title);
+                $("#user").html(result.auth);
+                $("#post_time").html(result.create_time);
+                $("#imcontent").html(result.content);
+                $("#read").html(result.read);
+                $("#version").html(result.version);
+                $("#versions").html(result.version);
+
+                if (result.photo == ""){
+                    $("#bacc_url").attr("style","background-image: url('img/post-bg.jpg')")
+                }else{
+                    $("#bacc_url").attr("style","background-image: url('http://192.168.35.193:8081/static/"+result.photo+"')")
+                }
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-Access-Session", session);
+            },
+            error : function() {
+                alert("article not exist!")
+            }
+        });
+
+    });
+
+
+</script>
+<!-- Custom scripts for this template -->
+<script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

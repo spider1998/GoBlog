@@ -83,8 +83,16 @@ func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity.Article,err error) {
 	var con entity.ArticleVersion
 	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).
-		AndWhere(dbx.NewExp("version={:ver}", dbx.Params{"ver": version})).
-			AndWhere(dbx.HashExp{"changed": false}).All(&con)
+		AndWhere(dbx.NewExp("version={:ver}", dbx.Params{"ver": version})).One(&con)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	err = app.DB.Select().Where(dbx.HashExp{"id": artId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
