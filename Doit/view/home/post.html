@@ -20,7 +20,22 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
-
+      <style>
+          .modal-content {
+              position: relative;
+              display: -ms-flexbox;
+              display: flex;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              width: 100%;
+              pointer-events: auto;
+              background-color: #8695bf;
+              background-clip: padding-box;
+              border: 1px solid rgba(0,0,0,.2);
+              border-radius: .3rem;
+              outline: 0;
+          }
+      </style>
   </head>
 
   <body>
@@ -75,8 +90,33 @@
               <span class="meta">Version:&nbsp;<a href="#" id="version">4542</a>
                 &nbsp;&nbsp;HOT:
                 <a href="#" id="hot">432 </a>
-                &nbsp;&nbsp;Read:&nbsp;<a href="#" id="read">3454</a>
+                &nbsp;&nbsp;Read:&nbsp;
+                <a href="#" id="read">3454</a>
                 </span>
+                <br>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="versionGet();">
+                    All versions
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title" id="myModalLabel">All versions</h4>
+                            </div>
+                            <div class="modal-body" id="perVersion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
           </div>
         </div>
@@ -209,6 +249,31 @@
             });
       }
 
+      function versionGet() {
+          //模态框获取文章版本
+          artID = getQueryVariable("article")
+          session = getQueryVariable("session")
+          $.ajax({
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/article/version/"+artID,
+              success: function (data) {
+                  var html = `<div>All versions:</div>`;
+                  $.each(data, function(i, obj) {
+                      html += `<a href="version_post.html?session=`+session+`&artID=`+artID+`&version=`+data[i]+`">Version  `+data[i]+`</a><br>`;  //循环遍历，拼接
+                  });
+                  $("#perVersion").html(html);
+              },
+              beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Session", session);
+              },
+              error : function() {
+                  alert("Article version gets error...")
+              }
+          });
+
+      }
+
       //提取url参数函数
       function getQueryVariable(variable)
         {
@@ -248,17 +313,19 @@
 
             //获取用户登录信息
             $.ajax({
-                type: "GET",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/user/sessions/"+session ,
-                success: function (result) {
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/user/sessions/"+session ,
+              success: function (result) {
                   $("#tip").html(result.name);
-                },
-                error : function() {
+              },
+              error : function() {
                   $("#tip").html("LOGIN");
                   $("#tip").attr("href","../login.html");
-                }
-            });
+              }
+          });
+
+
             //获取文章并填充到网页
             $.ajax({
                 type: "GET",//方法类型
@@ -272,6 +339,7 @@
                   $("#imcontent").html(result.content);
                   $("#read").html(result.read);
                   $("#version").html(result.version);
+                  $("#versions").html(result.version);
 
                   if (result.photo == ""){
                     $("#bacc_url").attr("style","background-image: url('img/post-bg.jpg')")

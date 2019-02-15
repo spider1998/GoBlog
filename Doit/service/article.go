@@ -63,8 +63,8 @@ func (a *ArticleService) GetArticles() (arts []entity.Article, err error) {
 
 //获取文章所有版本，返回版本列表
 func (a *ArticleService) GetVersion(req string) (version []int,err error) {
-	var con []entity.Content
-	err = app.DB.Select("version").Where(dbx.HashExp{"id": req}).Distinct(true).All(&con)
+	var con []entity.ArticleVersion
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": req}).OrderBy("version desc").All(&con)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
@@ -81,9 +81,9 @@ func (a *ArticleService) GetVersion(req string) (version []int,err error) {
 
 //获取历史版本文章
 func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity.Article,err error) {
-	var con []entity.Content
-	err = app.DB.Select().Where(dbx.HashExp{"id": artId}).
-		AndWhere(dbx.NewExp("version<={:ver}", dbx.Params{"ver": version})).
+	var con entity.ArticleVersion
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": artId}).
+		AndWhere(dbx.NewExp("version={:ver}", dbx.Params{"ver": version})).
 			AndWhere(dbx.HashExp{"changed": false}).All(&con)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -93,16 +93,11 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 		err = errors.WithStack(err)
 		return
 	}
-	err = app.DB.Select().Where(dbx.HashExp{"id": artId}).One(&art)
-	if err != nil {
-		if util.IsDBNotFound(err) {
-			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
-			return
-		}
-		err = errors.WithStack(err)
-		return
-	}
+	art.Title = con.Title
+	art.SecondTitle = con.SecondTitle
+	art.Content = con.Content
 	art.Version = version
+	art.Photo = con.Photo
 	return
 }
 

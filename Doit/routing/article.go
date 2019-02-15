@@ -19,7 +19,7 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 //	router.Post("/restore",article.RestoreVersionArticle)							// 恢复指定版本文章
 	router.Delete("/<article_id>",article.DeleteArticle)						// 删除文章
 	router.Get("/likes/<likes_content>",article.QueryLikeArticles)				// 搜索相关文章
-	router.Post("/update", article.UpdateArticle) 								// 非用户用户修改文章
+	router.Post("/update/<session_id>", article.UpdateArticle) 					// 非用户用户修改文章
 
 
 	router.Patch("/<article_id>/like",article.LikeOneArticle)					// 给文章点赞/取消点赞

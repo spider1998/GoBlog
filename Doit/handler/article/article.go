@@ -352,7 +352,7 @@ func ForwardAuthorazation(c *routing.Context) error {
 		return  err
 	}
 	req.ArtID = c.Param("article_id")
-	err := service.Article.ForwardAuthorazation(req)
+	err = service.Article.ForwardAuthorazation(req)
 	if err != nil{
 		return err
 	}
