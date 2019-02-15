@@ -103,7 +103,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><a href="#">Restore</a></button>
+                <button type="button" class="btn btn-default" onclick="restore();" style="color: #0c5460">Restore</button>
                 <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
             </div>
         </div>
@@ -129,9 +129,9 @@
 
     //页面初始化
     $(document).ready(function(){
-        session = getQueryVariable("session")
-        artID = getQueryVariable("artID")
-        version = getQueryVariable("version")
+        session = getQueryVariable("session");
+        artID = getQueryVariable("artID");
+        version = getQueryVariable("version");
         $("#index").attr("href","index.html?session="+session);
         $("#about").attr("href","about.html?session="+session);
         $("#post").attr("href","post.html?session="+session);
@@ -198,6 +198,28 @@
         });
 
     });
+
+    function restore() {
+        artID = getQueryVariable("artID");
+        session = getQueryVariable("session");
+        ver = getQueryVariable("version");
+        versionInt = parseInt(ver)
+        $.ajax({
+            type: "POST",//方法类型
+            contentType: "application/json",
+            url: "http://192.168.35.193:8081/article/restore",
+            data: JSON.stringify({"art_id":artID,"version":versionInt}),
+            success: function (result) {
+                location.href = "post.html?session="+session+"&article="+artID;
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-Access-Session", session);
+            },
+            error : function() {
+                alert("error")
+            }
+        });
+    }
 
 
 </script>

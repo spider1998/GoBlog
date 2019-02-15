@@ -94,7 +94,7 @@ func QueryLikeArticles(c *routing.Context) error {
 }
 
 //恢复历史版本(同时删除大于该版本的所有版本)
-/*func RestoreVersionArticle(c *routing.Context) error {
+func RestoreVersionArticle(c *routing.Context) error {
 	var req entity.RestoreArticleRequest
 	err := c.Read(&req)
 	if err != nil {
@@ -112,7 +112,7 @@ func QueryLikeArticles(c *routing.Context) error {
 	}
 	return c.Write(article)
 
-}*/
+}
 
 //保存文章变动区块
 func SaveVerified(art entity.Article) (err error) {

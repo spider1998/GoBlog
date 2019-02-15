@@ -16,7 +16,7 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 	router.Use(user.CheckSession)													// 检查用户登录状态信息
 	router.Get("/version/<article_id>",article.GetVersion)						// 获取文章所有版本
 	router.Get("/view/<article_id>/<version>",article.GetVersionArticle)		// 获取指定版本文章
-//	router.Post("/restore",article.RestoreVersionArticle)							// 恢复指定版本文章
+	router.Post("/restore",article.RestoreVersionArticle)						// 恢复指定版本文章
 	router.Delete("/<article_id>",article.DeleteArticle)						// 删除文章
 	router.Get("/likes/<likes_content>",article.QueryLikeArticles)				// 搜索相关文章
 	router.Post("/update/<session_id>", article.UpdateArticle) 					// 非用户用户修改文章

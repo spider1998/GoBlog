@@ -109,13 +109,10 @@ func (a *ArticleService) GetVersionArticle(version int,artId string) (art entity
 	return
 }
 
+//删除高版本文章缓存
 func (a *ArticleService)DeleteMaxArticle(version int) (err error) {
-	var cons []entity.Content
-	err = app.DB.Select().Where(dbx.NewExp("version>{:ver}", dbx.Params{"ver": version})).All(&cons)
-	if err = DbErrorHandler(err, false); err != nil {
-		return
-	}
-	err = app.DB.Model(&cons).Delete()
+	var cons []entity.ArticleVersion
+	err = app.DB.Delete("article_version",dbx.NewExp("version>{:ver}", dbx.Params{"ver": version})).All(&cons)
 	if err != nil{
 		return err
 	}
@@ -156,15 +153,15 @@ func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 }
 
 //恢复历史版本
-/*func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article,err error)  {
+func (a *ArticleService)RestoreVersionArticle(req entity.RestoreArticleRequest) (art entity.Article,err error)  {
 	err = v.ValidateStruct(&req,
-		v.Field(&req.Content, v.Required),
 		v.Field(&req.Version, v.Required),
 		v.Field(&req.ArtId, v.Required),
 	)
 	if err != nil {
 		return
 	}
+	//查询指定文章
 	err = app.DB.Select().Where(dbx.HashExp{"id": req.ArtId}).One(&art)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -178,19 +175,35 @@ func (a *ArticleService)DeleteArticle(articleID,userID string) (err error) {
 		err = code.New(http.StatusBadRequest, code.CodeDenied)
 		return
 	}
-	hs := sha1.Sum([]byte(art.Token))
-	node := hex.EncodeToString(hs[:])
-	art.Content = strings.Replace(art.Content,node,"",-1)
+	//查询指定版本文章
+	var verArt entity.ArticleVersion
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": req.ArtId}).One(&verArt)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	art.Title = verArt.Title
+	art.SecondTitle = verArt.SecondTitle
+	art.ModifyType = verArt.ModifyType
+	art.Sort = verArt.Sort
+	art.Content = verArt.Content
+	art.Photo = verArt.Photo
+	art.Attachment = verArt.Attachment
 	art.Version = req.Version
 	art.UpdateTime = util.DateTimeStd()
 
-	err = app.DB.Model(&art).Update("Content", "Version", "UpdateTime")
+	err = app.DB.Model(&art).Update("Content", "Version", "UpdateTime",
+		"Title","SecondTitle","ModifyType","Sort","Photo","Attachment")
 	if err != nil {
 		err = errors.WithStack(err)
 		return
 	}
 	return
-}*/
+}
 
 //链接文章块
 func LinkBlock(con []entity.Content,token string) (string)  {
