@@ -4,6 +4,7 @@ import (
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/rs/zerolog"
 	"os"
+	"Project/Doit/resource"
 )
 
 var (
@@ -21,6 +22,12 @@ func Init() error {
 	Conf, err = LoadConfig()
 	if err != nil {
 		return err
+	}
+
+	//-----------------------------加载BOX(resource下的相关数据源文件)----------------------------------------------------------------------
+
+	{
+		resource.Load()
 	}
 
 	//-----------------------------配置日志及日志文件存储----------------------------------------------------------------------
