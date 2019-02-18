@@ -212,7 +212,7 @@
               url: "http://192.168.35.193:8081/user/contact",
               data: JSON.stringify({"name":name,"email":email,"mobile":phone,"message":message}),
               success: function (data) {
-                alert("The message has been sent, please be patient...")
+                alert("The message has been sent, please be patient,We will respond to you within three business days...")
                 location.href = "index.html?session="+session
               },
               beforeSend: function(xhr) {

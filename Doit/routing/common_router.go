@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"io"
 	"github.com/go-ozzo/ozzo-routing/file"
+	"Project/Doit/routing/admin"
 )
 
 var (
@@ -61,9 +62,11 @@ func Run() error {
 
 	/*-----注册业务主路由-----*/
 	app.Logger.Info().Msg("registering routes.")
-	UserRegisterRoutes(router.Group("/user"))
-	ArticleRegisterRoutes(router.Group("/article"))
-	FriendRegisterRoutes(router.Group("/friend"))
+	admin.AdminRegisterRoutes(router.Group("/admin"))			//管理员相关路由
+	UserRegisterRoutes(router.Group("/user"))				//用户相关路由
+	ArticleRegisterRoutes(router.Group("/article"))		//文章相关路由
+	FriendRegisterRoutes(router.Group("/friend"))			//好友相关路由
+
 
 
 	//遍历路由

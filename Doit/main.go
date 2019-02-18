@@ -3,11 +3,11 @@ package main
 import (
 	"Project/Doit/app"
 	"Project/Doit/routing"
-	"Project/Doit/service"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
+	"Project/Doit/service"
 )
 
 func main() {
@@ -15,6 +15,10 @@ func main() {
 	var err error
 
 	/*-----全局初始化-----*/
+	err = service.Log.Boot()
+	if err != nil{
+		return
+	}
 	err = app.Init()
 	if err != nil {
 		panic(err)

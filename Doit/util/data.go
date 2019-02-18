@@ -256,3 +256,5 @@ func ParseAgeFromIdentity(identity string) (age int, err error) {
 	age = int(time.Now().Sub(t) / (time.Hour * 24 * 365))
 	return
 }
+
+type M map[string]interface{}

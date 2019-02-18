@@ -21,6 +21,8 @@ const (
 	CodeDenied						  =	10008
 	CodeContentNotExist				  = 10009
 	CodeIDNotAllowed				  =	100010
+	CodeInvalidCaptcha				  = 100011
+	CodeInvalidData					  = 100012
 
 	CodeRecordNotExist Code = 10803
 )
@@ -44,6 +46,8 @@ var codeMap = map[Code]string{
 	CodeDenied:			"Permission denied",
 	CodeContentNotExist: "Content not exist",
 	CodeIDNotAllowed	: "ID Not Allowed",
+	CodeInvalidCaptcha	:	"Invalid Captcha",
+	CodeInvalidData		:	"Invalid Data",
 }
 
 //解析码的具体信息

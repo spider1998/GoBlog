@@ -20,6 +20,7 @@ type Config struct {
 	ConfPath       string `json:"conf_path" default:"."`        //日志文件路径
 	PaginationPage int64  `json:"pagination_page" default:"1"`  //分页页数
 	PaginationSize int64  `json:"pagination_size" default:"50"` //分页大小
+	NSQD     string `json:"nsqd" default:"192.168.35.193:4150"`
 
 	//邮件配置
 	Email string `json:"email" default:"2387805574@qq.com"`		//服务器邮箱地址

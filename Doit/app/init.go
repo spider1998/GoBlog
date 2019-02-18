@@ -24,7 +24,6 @@ func Init() error {
 	}
 
 	//-----------------------------配置日志及日志文件存储----------------------------------------------------------------------
-
 	leveledLogger := NewLeveledLogger(Conf.ConfPath + "/logs")
 	if Conf.Debug {
 		Logger = zerolog.New(zerolog.MultiLevelWriter(leveledLogger, zerolog.ConsoleWriter{Out: os.Stderr})).Level(zerolog.DebugLevel).With().Timestamp().Logger()
@@ -62,6 +61,7 @@ func Init() error {
 		return err
 	}
 	Logger.Info().Msg("loaded redis.")
+
 
 	return nil
 }
