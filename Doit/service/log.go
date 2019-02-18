@@ -19,6 +19,7 @@ import (
 
 var Log = &LogService{}
 
+
 type LogService struct{}
 
 func (s *LogService) Boot() error {

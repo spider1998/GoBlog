@@ -13,12 +13,16 @@ import (
 func main() {
 
 	var err error
-
-	/*-----全局初始化-----*/
+	//初始化NSQ日志收发配置
 	err = service.Log.Boot()
 	if err != nil{
 		return
 	}
+	err = service.SLog.Boot()
+	if err != nil{
+		return
+	}
+	/*-----全局初始化-----*/
 	err = app.Init()
 	if err != nil {
 		panic(err)

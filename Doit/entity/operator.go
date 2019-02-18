@@ -2,6 +2,8 @@ package entity
 
 import "time"
 
+const TableOperator = "operator"
+
 type OperatorState int8
 
 const (
@@ -10,16 +12,16 @@ const (
 )
 
 type Operator struct {
-	ID           string                 `json:"id" xorm:"pk"`
+	ID           string                 `json:"id" gorm:"pk"`
 	Name         string                 `json:"name"`
 	PasswordHash []byte                 `json:"-"`
 	RealName     string                 `json:"real_name"`
-	Permissions  map[string]string      `json:"permissions"`
-	Shortcuts    []interface{}          `json:"shortcuts,omitempty"`
-	Ext          map[string]interface{} `json:"ext"`
+	Permissions  map[string]string      `json:"permissions" gorm:"type:json"`
+	Shortcuts    []interface{}          `json:"shortcuts,omitempty" gorm:"type:json"`
+	Ext          map[string]interface{} `json:"ext" gorm:"type:json"`
 	State        OperatorState          `json:"state"`
-	CreateTime   time.Time              `json:"create_time" xorm:"created"`
-	UpdateTime   time.Time             `json:"update_time" xorm:"updated"`
+	CreateTime   time.Time              `json:"create_time" gorm:"created"`
+	UpdateTime   time.Time             `json:"update_time" gorm:"updated"`
 }
 
 func (o *Operator) BeforeInsert() {
@@ -44,4 +46,8 @@ type OperatorSession struct {
 	Operator
 	SignInTime     string `json:"sign_in_time"`
 	LastSignInTime string `json:"last_sign_in_time"`
+}
+
+func (Operator) TableName() string {
+	return TableOperator
 }

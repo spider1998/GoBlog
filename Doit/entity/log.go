@@ -25,6 +25,16 @@ type Log struct {
 	UpdateTime time.Time              `json:"update_time" gorm:"updated"`
 }
 
+type CreateLogRequest struct {
+	Token    string                 `json:"token"`
+	UserType LogUserType            `json:"user_type"`
+	System   string                 `json:"system"`
+	Action   string                 `json:"action"`
+	IP       string                 `json:"ip"`
+	Remark   string                 `json:"remark"`
+	Ext      map[string]interface{} `json:"ext"`
+}
+
 func (l *Log) BeforeInsert() {
 	if l.Ext == nil {
 		l.Ext = make(map[string]interface{})

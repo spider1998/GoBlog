@@ -4,6 +4,12 @@ import (
 	"Project/Doit/entity"
 )
 
+
+const (
+	LogUserTypeUser     entity.LogUserType = 1
+	LogUserTypeOperator entity.LogUserType = 2
+)
+
 type CreateLogRequest struct {
 	Token    string                 `json:"token"`
 	UserType entity.LogUserType     `json:"user_type"`

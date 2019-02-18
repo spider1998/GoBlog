@@ -23,6 +23,11 @@ const (
 	CodeIDNotAllowed				  =	100010
 	CodeInvalidCaptcha				  = 100011
 	CodeInvalidData					  = 100012
+	CodeOperatorNotExist			  = 100013
+	CodeUserDisabled				  =	100014
+	CodeTokenNotExist				  = 100015
+	CodeStateInvalid				  = 100016
+	CodeOperatorTokenRequired		  = 100017
 
 	CodeRecordNotExist Code = 10803
 )
@@ -48,6 +53,11 @@ var codeMap = map[Code]string{
 	CodeIDNotAllowed	: "ID Not Allowed",
 	CodeInvalidCaptcha	:	"Invalid Captcha",
 	CodeInvalidData		:	"Invalid Data",
+	CodeOperatorNotExist:	"Operator Not Exist",
+	CodeUserDisabled	:	"User Disabled",
+	CodeTokenNotExist	:	"Token Not Exist",
+	CodeStateInvalid	:	"State Invalid",
+	CodeOperatorTokenRequired	:	"Operator Token Required",
 }
 
 //解析码的具体信息

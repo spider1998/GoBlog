@@ -10,6 +10,7 @@ import (
 	"Project/Doit/app"
 	"github.com/go-ozzo/ozzo-routing/access"
 	"Project/Doit/util"
+	"Project/Doit/entity"
 )
 
 type OperatorHandler struct{}
@@ -36,3 +37,22 @@ func (OperatorHandler) SignIn(c *routing.Context) error {
 
 	return c.Write(map[string]string{"token": token})
 }
+
+func (OperatorHandler) GetSession(c *routing.Context) error {
+	operator := getSessionOperator(c)
+	session := entity.OperatorSession{
+		Operator: operator,
+	}
+	times, err := service.Operator.GetSignInTimes(operator.ID)
+	if err != nil {
+		return err
+	}
+	if len(times) > 0 {
+		session.SignInTime = times[0]
+	}
+	if len(times) > 1 {
+		session.LastSignInTime = times[1]
+	}
+	return c.Write(session)
+}
+
