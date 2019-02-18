@@ -2,6 +2,8 @@ package entity
 
 import "time"
 
+const TableLog = "log"
+
 type LogUserType int
 
 const (
@@ -10,7 +12,7 @@ const (
 )
 
 type Log struct {
-	ID         string                 `json:"id" xorm:"pk"`
+	ID         string                 `json:"id" gorm:"index"`
 	UserType   LogUserType            `json:"user_type"`
 	UserID     string                 `json:"user_id"`
 	UserName   string                 `json:"user_name"`
@@ -18,9 +20,9 @@ type Log struct {
 	Action     string                 `json:"action"`
 	Remark     string                 `json:"remark"`
 	IP         string                 `json:"ip"`
-	Ext        map[string]interface{} `json:"ext"`
-	CreateTime time.Time              `json:"create_time" xorm:"created"`
-	UpdateTime time.Time              `json:"update_time" xorm:"updated"`
+	Ext        map[string]interface{} `json:"ext" gorm:"type:json"`
+	CreateTime time.Time              `json:"create_time" gorm:"created"`
+	UpdateTime time.Time              `json:"update_time" gorm:"updated"`
 }
 
 func (l *Log) BeforeInsert() {
@@ -33,4 +35,8 @@ func (l *Log) BeforeUpdate() {
 	if l.Ext == nil {
 		l.Ext = make(map[string]interface{})
 	}
+}
+
+func (Log) TableName() string {
+	return TableLog
 }

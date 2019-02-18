@@ -79,44 +79,45 @@ func (s *LogService) Log(userType entity.LogUserType, userID, userName, system, 
 
 
 func (s *LogService) CountLogs(cond form.QueryLogsCond) (n int, err error) {
-	sess := app.DB.NewSession()
-	defer sess.Close()
+	sess := app.DB.Select("count(*)").From(entity.TableLog)
 	if cond.UserType > 0 {
-		sess.Where("user_type = ?", cond.UserType)
+		sess.AndWhere(dbx.HashExp{"user_type": cond.UserType})
 	}
 	if cond.Remark != "" {
-		sess.Where("remark like ?", "%"+cond.Remark+"%")
+		sess.AndWhere(dbx.Like("remark",cond.Remark))
 	}
 	if cond.FromTime != "" {
-		sess.Where("create_time >= ?", cond.FromTime)
+		sess.AndWhere(dbx.NewExp("create_time>={:ct}",dbx.Params{"ct":cond.FromTime}))
 	}
 	if cond.ToTime != "" {
-		sess.Where("create_time <= ?", cond.ToTime)
+		sess.AndWhere(dbx.NewExp("create_time<={:ct}",dbx.Params{"ct":cond.ToTime}))
 	}
-	cnt, err := sess.Count(new(entity.Log))
+
+	//记录总数
+	var cnt int
+	err = sess.Row(&cnt)
 	if err != nil {
-		err = errors.WithStack(err)
+		err = errors.Wrap(err, "fail to query devices.")
 		return
 	}
 	return int(cnt), nil
 }
 
 func (s *LogService) QueryLogs(offset, limit int, cond form.QueryLogsCond) (logs []entity.Log, err error) {
-	sess := app.DB.NewSession()
-	defer sess.Close()
+	sess := app.DB.Select("count(*)").From(entity.TableLog)
 	if cond.UserType > 0 {
-		sess.Where("user_type = ?", cond.UserType)
+		sess.AndWhere(dbx.HashExp{"user_type": cond.UserType})
 	}
 	if cond.Remark != "" {
-		sess.Where("remark like ?", "%"+cond.Remark+"%")
+		sess.AndWhere(dbx.Like("remark",cond.Remark))
 	}
 	if cond.FromTime != "" {
-		sess.Where("create_time >= ?", cond.FromTime)
+		sess.AndWhere(dbx.NewExp("create_time>={:ct}",dbx.Params{"ct":cond.FromTime}))
 	}
 	if cond.ToTime != "" {
-		sess.Where("create_time <= ?", cond.ToTime)
+		sess.AndWhere(dbx.NewExp("create_time<={:ct}",dbx.Params{"ct":cond.ToTime}))
 	}
-	err = sess.Desc("create_time").Limit(limit, offset).Find(&logs)
+	err = sess.OrderBy("create_time desc").Limit(int64(limit)).Offset(int64(offset)).All(&logs)
 	if err != nil {
 		err = errors.WithStack(err)
 		return

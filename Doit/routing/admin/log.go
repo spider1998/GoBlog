@@ -13,6 +13,7 @@ import (
 
 type LogHandler struct{}
 
+//查询日志
 func (LogHandler) QueryLogs(c *routing.Context) error {
 	var cond form.QueryLogsCond
 	if userTypeStr := c.Query("user_type"); userTypeStr != "" {
