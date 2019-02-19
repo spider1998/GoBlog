@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>百度搜索框提示功能</title>
+        <!--  Bootstrap CSS样式配置-->
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            /*这里修改提示框的字体样式*/
+            .bdSug_wpr {
+                color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- 百度搜索框 参考地址:
+    http://blog.csdn.net/chandoudeyuyi/article/details/51895804 
+http://www.uedbox.com/baidu-search-code/#_motz_ 
+
+-->
+        <form action="http://www.baidu.com/baidu" target="_blank">
+                <!--
+                    将两个元素整合为一体需要下面两步~
+                    1.将div的Class属性改变成form-inline 可以让下面的两个input并排显示-->
+                <div class="form-inline input-group">
+                    <!--UTF-8编码-->
+                    <input name=ie type=HIDDEN value=utf-8/>
+                    <input name=tn type=HIDDEN value=baidu/>
+                <!--2.利用span标签的 input-group-btn 属性包裹一个input元素-->
+                    <span class="input-group-btn">
+                        <!-- baiduSug: 
+                            当设置baiduSug=1时，用户选中sug词条时默认执行表单提交动作；
+                            当设置baiduSug=2时，用户选中sug词条时不执行表单提交动作。
+
+                            style :     "width:260px;" 调整搜索框长度
+                        -->
+                        <input id="kw" type="text" class="form-control" placeholder="搜你想搜的" name="word" size="30" baiduSug="1" style="width:240px;">
+                       <!--提交按钮-->
+                        <input type="submit"  class="btn btn-default"  value="百度一下"/>
+                    </span>
+                </div>
+        </form>
+        </body>
+        <!-- 百度搜索框提示 
+            Javascript代码请添加到网页中</body>标签的后面，
+            如使用utf-8编码，请务必在script标签中设置charset=gbk属性，否则搜索提示词会出现乱码。
+        -->
+        <script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
+        <!--JQuery JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <!--Bootstrap JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>
