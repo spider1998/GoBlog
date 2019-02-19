@@ -89,6 +89,64 @@ func (s *OperatorService) UpdateSignInTimes(operatorID string) error {
 	return nil
 }
 
+/*//查询用户总数
+func (s *OperatorService) CountUsers(cond form.QueryUserRequest) (n int,err error) {
+	sess := app.DB.Select("count(*)").From(entity.TableUser)
+	if cond.ID != "" {
+		sess.AndWhere(dbx.HashExp{"id": cond.ID})
+	}
+	if string(cond.Gender) != "" {
+		sess.AndWhere(dbx.HashExp{"gender": cond.Gender})
+	}
+	if string(cond.State) != "" {
+		sess.AndWhere(dbx.HashExp{"state": cond.State})
+	}
+	if cond.Oder != "" {
+		if cond.Oder == "1"{
+			sess.OrderBy("create_time desc")	//降序
+		}else{
+			sess.OrderBy("create_time asc")		//升序
+		}
+	}
+	//记录总数
+	err = sess.Row(&n)
+	if err != nil {
+		err = errors.Wrap(err, "fail to query devices.")
+		return
+	}
+	return
+}*/
+
+//查询用户列表
+func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entity.User,err error) {
+	sess := app.DB.Select("*").From(entity.TableUser)
+	if cond.ID != "" {
+		sess.AndWhere(dbx.HashExp{"id": cond.ID})
+	}
+	if string(cond.Gender) != "" {
+		sess.AndWhere(dbx.HashExp{"gender": cond.Gender})
+	}
+	if string(cond.State) != "" {
+		sess.AndWhere(dbx.HashExp{"state": cond.State})
+	}
+	if cond.Oder != "" {
+		if cond.Oder == "1"{
+			sess.OrderBy("create_time desc")	//降序
+		}else{
+			sess.OrderBy("create_time asc")		//升序
+		}
+	}
+	err = sess.All(&res)
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	if res == nil {
+		res = make([]entity.User, 0)
+	}
+	return
+}
+
 //获取登录时间
 func (s *OperatorService) GetSignInTimes(operatorID string) (times []string, err error) {
 	key := app.System + ":op:" + operatorID + ":sign-in-times"

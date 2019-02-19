@@ -26,3 +26,11 @@ type QueryLogsCond struct {
 	FromTime string
 	ToTime   string
 }
+
+type QueryUserRequest struct {
+	ID		string `json:"id"`
+	State 	entity.UserState `json:"state"`
+	Gender	entity.UserGender `json:"gender"`
+	Oder 	string `json:"oder"`
+}
+

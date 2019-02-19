@@ -105,7 +105,7 @@ func (s *LogService) CountLogs(cond form.QueryLogsCond) (n int, err error) {
 }
 
 func (s *LogService) QueryLogs(offset, limit int, cond form.QueryLogsCond) (logs []entity.Log, err error) {
-	sess := app.DB.Select("count(*)").From(entity.TableLog)
+	sess := app.DB.Select("*").From(entity.TableLog)
 	if cond.UserType > 0 {
 		sess.AndWhere(dbx.HashExp{"user_type": cond.UserType})
 	}

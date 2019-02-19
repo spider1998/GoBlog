@@ -89,6 +89,11 @@ type Contact struct {
 	Message string 	`json:"message"`
 }
 
+type QueryBlogUserResponse struct {
+	User 	[]User
+	Count 	int `json:"count"`
+}
+
 
 func (User) TableName() string {
 	return TableUser

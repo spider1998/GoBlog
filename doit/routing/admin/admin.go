@@ -26,6 +26,7 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 	{
 		router.Get("/sessions/current", operatorHandler.GetSession)		//获取管理员信息
 		router.Get("/logs", logHandler.QueryLogs)						//查询日志
+		router.Get("/users",operatorHandler.QyeryBlogUser)				//查询用户
 	}
 }
 

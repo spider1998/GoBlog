@@ -56,3 +56,38 @@ func (OperatorHandler) GetSession(c *routing.Context) error {
 	return c.Write(session)
 }
 
+func (OperatorHandler) QyeryBlogUser(c *routing.Context) error {
+	var req form.QueryUserRequest
+	req.ID = c.Query("user_id")
+	req.Oder = c.Query("oder")
+	if c.Query("gender") == "1"{
+		req.Gender = 1
+	}else if c.Query("gender") == "2"{
+		req.Gender = 2
+	}
+	if c.Query("state") == "1"{
+		req.State = 1
+	}else if c.Query("state") == "2"{
+		req.State = 2
+	}
+	response,err := service.Operator.QueryBlogUser(req)
+	if err != nil{
+		return err
+	}
+	if len(response) == 0{
+		response = []entity.User{}
+	}
+	var users []entity.User
+	pager := util.GetPaginatedListFromRequest(c, len(response))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		users = response[pager.Offset() : pager.Offset()+pager.Limit()]
+	} else {
+		users = response[pager.Offset():pager.TotalCount]
+	}
+	var res entity.QueryBlogUserResponse
+	res.User = users
+	res.Count = len(users)
+	return c.Write(res)
+
+}
+
