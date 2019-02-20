@@ -30,6 +30,8 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 		router.Get("/sessions/current", operatorHandler.GetSession)				// 获取管理员信息
 		router.Get("/users",operatorHandler.QueryBlogUser)						// 查询用户
 		router.Patch("/users/status",operatorHandler.ModifyUserStatus)			// 启用/禁用用户
+		/*-----------------------------------------Article------------------------------------------------*/
+		router.Get("/articles",operatorHandler.GetArticlesList)					//获取文章列表
 	}
 }
 

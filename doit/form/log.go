@@ -34,3 +34,23 @@ type QueryUserRequest struct {
 	Oder 	string `json:"oder"`
 }
 
+type QueryArticleRequest struct {
+	ID 		string `json:"id"`
+	Sort 	string `json:"sort"`
+}
+
+type QueryArticleResponse struct {
+	ID 		string `json:"id"`
+	Sort 	string `json:"sort"`
+	Auth 	string `json:"auth"`
+	Title  	string `json:"title"`
+	entity.DatetimeAware
+}
+
+type GetArticlesResponse struct {
+	Count 	int `json:"count"`
+	Arts 	[]QueryArticleResponse `json:"arts"`
+}
+
+
+

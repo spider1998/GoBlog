@@ -174,6 +174,37 @@ func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (u
 	return
 }
 
+//获取文章列表（条件查询）
+func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []form.QueryArticleResponse,err error) {
+	var res []entity.Article
+	sess := app.DB.Select("*").From(entity.TableArticle)
+	if req.ID != "" {
+		sess.AndWhere(dbx.HashExp{"id": req.ID})
+	}
+	if string(req.Sort) != "" {
+		sess.AndWhere(dbx.HashExp{"sort": req.Sort})
+	}
+	err = sess.OrderBy("create_time desc").All(&res)
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	if res == nil {
+		res = make([]entity.Article, 0)
+	}
+	var art form.QueryArticleResponse
+	for _,re := range res{
+		art.ID = re.ID
+		art.Sort = re.Sort
+		art.Title = re.Title
+		art.Auth = re.Auth
+		art.DatetimeAware = re.DatetimeAware
+		arts = append(arts,art)
+	}
+	return
+}
+
+
 //获取登录时间
 func (s *OperatorService) GetSignInTimes(operatorID string) (times []string, err error) {
 	key := app.System + ":op:" + operatorID + ":sign-in-times"

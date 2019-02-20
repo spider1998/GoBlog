@@ -87,7 +87,7 @@ func (OperatorHandler) QueryBlogUser(c *routing.Context) error {
 	}
 	var res entity.QueryBlogUserResponse
 	res.User = users
-	res.Count = len(users)
+	res.Count = len(response)
 	return c.Write(res)
 
 }
@@ -115,5 +115,28 @@ func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 		util.M{"operator": user},
 	)
 	return c.Write(http.StatusOK)
+}
+
+//获取文章列表（条件查询）
+func (OperatorHandler) GetArticlesList(c *routing.Context) error {
+	var req form.QueryArticleRequest
+	req.ID = c.Query("art_id")
+	req.Sort = c.Query("sort")
+	articles,err := service.Operator.GetArticlesList(req)
+	if err != nil{
+		return err
+	}
+	var arts []form.QueryArticleResponse
+	pager := util.GetPaginatedListFromRequest(c, len(articles))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		arts = articles[pager.Offset() : pager.Offset()+pager.Limit()]
+	} else {
+		arts = articles[pager.Offset():pager.TotalCount]
+	}
+
+	var res form.GetArticlesResponse
+	res.Arts = arts
+	res.Count = len(articles)
+	return c.Write(res)
 }
 
