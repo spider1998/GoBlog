@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"Project/doit/service"
 	"Project/doit/entity"
+	"Project/doit/handler/article"
 )
 
 func AdminRegisterRoutes(router *routing.RouteGroup) {
@@ -31,6 +32,7 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 		router.Get("/users",operatorHandler.QueryBlogUser)						// 查询用户
 		router.Patch("/users/status",operatorHandler.ModifyUserStatus)			// 启用/禁用用户
 		/*-----------------------------------------Article------------------------------------------------*/
+		router.Get("/articles/<art_id>",article.GetArticle)						//获取指定文章
 		router.Get("/articles",operatorHandler.GetArticlesList)					//获取文章列表
 	}
 }
