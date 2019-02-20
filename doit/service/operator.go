@@ -262,7 +262,8 @@ func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,er
 		err = errors.WithStack(err)
 		return
 	}
-	err = app.DB.Model(&sort).Delete()
+	sort.State = entity.SortStateEnable
+	err = app.DB.Model(&sort).Update("State")
 	if err != nil{
 		return
 	}
@@ -271,7 +272,7 @@ func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,er
 
 //获取文章分类
 func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
-	err = app.DB.Select().All(&sorts)
+	err = app.DB.Select().Where(dbx.HashExp{"state": entity.SortStateAble}).All(&sorts)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
@@ -318,6 +319,7 @@ func (s *OperatorService) CreateArticleSort(req form.CreateArticleSortRequest)(s
 	sort.Operator = req.Name
 	sort.Name = req.Sort
 	sort.CreateTime = time.Now().Format("2016-01-02 15:04:05")
+	sort.State = entity.SortStateAble
 	err = app.DB.Transactional(func(tx *dbx.Tx) error {
 		err = tx.Model(&sort).Insert()
 		if err != nil {

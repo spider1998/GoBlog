@@ -37,9 +37,10 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 		router.Get("/articles/<art_id>",article.GetArticle)						//	获取指定文章
 		router.Get("/articles",operatorHandler.GetArticlesList)					//	获取文章列表
 		router.Delete("/articles/<art_id>",operatorHandler.DeleteArticle)		//	删除指定文章
-		router.Get("/sorts",operatorHandler.GetArticlesSorts)					//	获取文章分类
-		router.Delete("/sorts/<sort_id>",operatorHandler.DeleteArticleSort)		//	删除文章分类
 		router.Post("/sorts",operatorHandler.CreateArticleSort)					//	创建文章分类
+		router.Delete("/sorts/<sort_id>",operatorHandler.DeleteArticleSort)		//	删除文章分类
+		router.Get("/sorts",operatorHandler.GetArticlesSorts)					//	获取文章分类
+
 	}
 }
 
