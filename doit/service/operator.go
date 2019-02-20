@@ -251,6 +251,24 @@ func (s *OperatorService)DeleteArticle(articleID string) (err error) {
 	return
 }
 
+//删除文章分类
+func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,err error)  {
+	err = app.DB.Select().Where(dbx.HashExp{"id": sortID}).One(&sort)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	err = app.DB.Model(&sort).Delete()
+	if err != nil{
+		return
+	}
+	return
+}
+
 //获取文章分类
 func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
 	err = app.DB.Select().All(&sorts)

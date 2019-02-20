@@ -178,6 +178,25 @@ func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 	return c.Write(res)
 }
 
+//删除文章分类
+func (OperatorHandler)DeleteArticleSort(c *routing.Context) error {
+	sortID := c.Param("sort_id")
+	sort,err := service.Operator.DeleteArticlesSorts(sortID)
+	if err != nil {
+		return err
+	}
+	service.Log.LogOperator(
+		getSessionOperator(c),
+		app.System,
+		"operator.create-sort",
+		fmt.Sprintf("管理员删除文章分类。"),
+		access.GetClientIP(c.Request),
+		util.M{"sort": sort.Name},
+	)
+	return c.Write(sort)
+}
+
+
 //创建文章分类
 func (OperatorHandler)CreateArticleSort(c *routing.Context) error {
 	var req form.CreateArticleSortRequest
