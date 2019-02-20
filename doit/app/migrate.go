@@ -14,6 +14,7 @@ var (
 	ArticleForward		entity.ArticleForward
 	Log					entity.Log
 	Operator			entity.Operator
+	Sort				entity.Sort
 )
 
 func Migrate(dsn string) error {
@@ -23,6 +24,7 @@ func Migrate(dsn string) error {
 		Logger.Error().Err(err).Msg("DB connection error.")
 		panic(err)
 	}
-	err = db.AutoMigrate(&User,&Article,&Content,&ArticleVersion,&ArticleForward,&Log,&Operator).Error
+	err = db.AutoMigrate(&User,&Article,&Content,&ArticleVersion,&ArticleForward,
+		&Log,&Operator,&Sort).Error
 	return err
 }

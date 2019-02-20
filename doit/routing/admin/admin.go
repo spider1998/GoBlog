@@ -26,7 +26,7 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 
 	{
 		/*-----------------------------------------Statistics------------------------------------------------*/
-		router.Get("/statistics",operatorHandler.GetStatistics)					//获取站点统计数据
+		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/
 		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
 		/*-----------------------------------------User------------------------------------------------*/
@@ -34,9 +34,10 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 		router.Get("/users",operatorHandler.QueryBlogUser)						// 查询用户
 		router.Patch("/users/status",operatorHandler.ModifyUserStatus)			// 启用/禁用用户
 		/*-----------------------------------------Article------------------------------------------------*/
-		router.Get("/articles/<art_id>",article.GetArticle)						//获取指定文章
-		router.Get("/articles",operatorHandler.GetArticlesList)					//获取文章列表
-		router.Delete("/articles/<art_id>",article.DeleteArticle)				//删除指定文章
+		router.Get("/articles/<art_id>",article.GetArticle)						//	获取指定文章
+		router.Get("/articles",operatorHandler.GetArticlesList)					//	获取文章列表
+		router.Delete("/articles/<art_id>",article.DeleteArticle)				//	删除指定文章
+		router.Post("/sorts",operatorHandler.CreateArticleSort)					//	创建文章分类
 	}
 }
 

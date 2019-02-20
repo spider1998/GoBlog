@@ -14,6 +14,7 @@ import (
 	"time"
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/mediocregopher/radix.v2/redis"
+	"Project/doit/handler/session"
 )
 
 var Operator = &OperatorService{}
@@ -260,6 +261,28 @@ func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []
 	return
 }
 
+//创建文章分类
+func (s *OperatorService) CreateArticleSort(req form.CreateArticleSortRequest)(sort entity.Sort,err error) {
+	sort.Operator = req.Name
+	sort.Name = req.Sort
+	sort.CreateTime = time.Now().Format("2016-01-02 15:04:05")
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&sort).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeArticleExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create article")
+		return
+	}
+	return
+}
 
 //获取登录时间
 func (s *OperatorService) GetSignInTimes(operatorID string) (times []string, err error) {

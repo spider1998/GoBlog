@@ -150,3 +150,26 @@ func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 	return c.Write(res)
 }
 
+//创建文章分类
+func (OperatorHandler)CreateArticleSort(c *routing.Context) error {
+	var req form.CreateArticleSortRequest
+	req.Name = getSessionOperator(c).Name
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	sort,err := service.Operator.CreateArticleSort(req)
+	if err != nil{
+		return err
+	}
+	service.Log.LogOperator(
+		getSessionOperator(c),
+		app.System,
+		"operator.create-sort",
+		fmt.Sprintf("创建新的文章分类。"),
+		access.GetClientIP(c.Request),
+		util.M{"sort": sort},
+	)
+	return c.Write(http.StatusOK)
+}
+
