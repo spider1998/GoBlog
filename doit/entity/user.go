@@ -94,6 +94,11 @@ type QueryBlogUserResponse struct {
 	Count 	int `json:"count"`
 }
 
+type ModifyUserStateRequest struct {
+	ID 		string 		`json:"id"`
+	State 	UserState 	`json:"state"`
+}
+
 
 func (User) TableName() string {
 	return TableUser

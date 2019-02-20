@@ -56,7 +56,8 @@ func (OperatorHandler) GetSession(c *routing.Context) error {
 	return c.Write(session)
 }
 
-func (OperatorHandler) QyeryBlogUser(c *routing.Context) error {
+//查询用户
+func (OperatorHandler) QueryBlogUser(c *routing.Context) error {
 	var req form.QueryUserRequest
 	req.ID = c.Query("user_id")
 	req.Oder = c.Query("oder")
@@ -89,5 +90,30 @@ func (OperatorHandler) QyeryBlogUser(c *routing.Context) error {
 	res.Count = len(users)
 	return c.Write(res)
 
+}
+
+//修改用户账号状态
+func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
+	state := c.Query("state")
+	var req entity.ModifyUserStateRequest
+	if state == "1"{
+		req.State = entity.UserStateOK
+	}else if state == "2"{
+		req.State = entity.UserStateBaned
+	}
+	req.ID = c.Query("user_id")
+	user,err := service.Operator.ModifyUserStatus(req)
+	if err != nil{
+		return err
+	}
+	service.Log.LogOperator(
+		getSessionOperator(c),
+		app.System,
+		"operator.modify-user-status",
+		fmt.Sprintf("修改用户账号状态。"),
+		access.GetClientIP(c.Request),
+		util.M{"operator": user},
+	)
+	return c.Write(http.StatusOK)
 }
 

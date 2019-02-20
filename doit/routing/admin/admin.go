@@ -17,16 +17,19 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 	)
 
 	{
-		router.Get("/captcha", captchaHandler.Generate)					//拉取图片验证码
-		router.Post("/sessions", operatorHandler.SignIn)				//管理员登录
+		router.Get("/captcha", captchaHandler.Generate)							// 拉取图片验证码
+		router.Post("/sessions", operatorHandler.SignIn)						// 管理员登录
 	}
 
 	router.Use(sessionChecker)
 
 	{
-		router.Get("/sessions/current", operatorHandler.GetSession)		//获取管理员信息
-		router.Get("/logs", logHandler.QueryLogs)						//查询日志
-		router.Get("/users",operatorHandler.QyeryBlogUser)				//查询用户
+		/*-----------------------------------------Log------------------------------------------------*/
+		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
+		/*-----------------------------------------User------------------------------------------------*/
+		router.Get("/sessions/current", operatorHandler.GetSession)				// 获取管理员信息
+		router.Get("/users",operatorHandler.QueryBlogUser)						// 查询用户
+		router.Patch("/users/status",operatorHandler.ModifyUserStatus)			// 启用/禁用用户
 	}
 }
 

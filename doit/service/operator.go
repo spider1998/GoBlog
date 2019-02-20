@@ -147,6 +147,33 @@ func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entit
 	return
 }
 
+//更改用户状态
+func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (user entity.User,err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.ID, v.Required),
+		v.Field(&req.State, v.Required,v.In(entity.UserStateBaned,entity.UserStateOK)),
+	)
+	if err != nil {
+		return
+	}
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ID}).One(&user)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	user.State = req.State
+	err = app.DB.Model(&user).Update("State")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
 //获取登录时间
 func (s *OperatorService) GetSignInTimes(operatorID string) (times []string, err error) {
 	key := app.System + ":op:" + operatorID + ":sign-in-times"
