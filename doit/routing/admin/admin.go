@@ -25,6 +25,8 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 	router.Use(sessionChecker)
 
 	{
+		/*-----------------------------------------Statistics------------------------------------------------*/
+		router.Get("/statistics",operatorHandler.GetStatistics)					//获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/
 		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
 		/*-----------------------------------------User------------------------------------------------*/
@@ -34,6 +36,7 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 		/*-----------------------------------------Article------------------------------------------------*/
 		router.Get("/articles/<art_id>",article.GetArticle)						//获取指定文章
 		router.Get("/articles",operatorHandler.GetArticlesList)					//获取文章列表
+		router.Delete("/articles/<art_id>",article.DeleteArticle)				//删除指定文章
 	}
 }
 

@@ -24,12 +24,12 @@ type Article struct {
 }
 
 type ArticleVersion struct {
-	ID          string     `json:"id" gorm:"index;not null"` //唯一ids
-	ArtID			string `json:"art_id"`
-	UserId      	string     	`json:"user_id"`      						//用户id
-	Version			int			`json:"version"`							//文章版本
-	ModifyType		ModifyType 		`json:"modify_type"`					//文章修改类型
-	BaseArticle            													//文章基本字段
+	ID          	string     		`json:"id" gorm:"index;not null"` 			//唯一ids
+	ArtID			string 			`json:"art_id"`
+	UserId      	string     		`json:"user_id"`      						//用户id
+	Version			int				`json:"version"`							//文章版本
+	ModifyType		ModifyType 		`json:"modify_type"`						//文章修改类型
+	BaseArticle            														//文章基本字段
 	ArticleContent
 	Comment
 	DatetimeAware

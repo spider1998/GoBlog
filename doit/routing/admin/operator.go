@@ -15,6 +15,16 @@ import (
 
 type OperatorHandler struct{}
 
+//获取站点统计数据
+func (OperatorHandler) GetStatistics(c *routing.Context) error {
+	res,err := service.Operator.GetStatistics()
+	if err != nil{
+		return err
+	}
+	return c.Write(res)
+}
+
+//管理员登录
 func (OperatorHandler) SignIn(c *routing.Context) error {
 	var request form.OperatorSignInRequest
 	err := c.Read(&request)

@@ -20,6 +20,62 @@ var Operator = &OperatorService{}
 
 type OperatorService struct{}
 
+//获取站点统计信息
+func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err error) {
+	var users []entity.User
+	var arts []entity.Article
+	err = app.DB.Select().All(&users)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	err = app.DB.Select().All(&arts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	sess := app.DB.Select("count(*)").From(entity.TableArticle)
+	st := time.Now().Format("2016-01-02")
+	et := time.Now().Format("2016-01-02")
+	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
+		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
+	//记录总数
+	var n int
+	err = sess.Row(&n)
+	if err != nil {
+		err = errors.Wrap(err, "fail to query arts.")
+		return
+	}
+	sess1 := app.DB.Select("count(*)").From(entity.TableUser)
+	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
+		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
+	//记录总数
+	var m int
+	err = sess1.Row(&m)
+	if err != nil {
+		err = errors.Wrap(err, "fail to query arts.")
+		return
+	}
+	var sum int = 0
+	for _,ar := range arts{
+		sum += ar.Read
+	}
+	res.UserCount = len(users)
+	res.ArtCount = len(arts)
+	res.TodayArt = n
+	res.TodayRegister = m
+	res.ReadCount = sum
+	return
+}
+
 //管理员登陆
 func (s *OperatorService) SignIn(request form.OperatorSignInRequest) (token string, operator entity.Operator, err error) {
 	err = v.ValidateStruct(&request,
