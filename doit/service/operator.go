@@ -15,6 +15,7 @@ import (
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/mediocregopher/radix.v2/redis"
 	"Project/doit/handler/session"
+	"fmt"
 )
 
 var Operator = &OperatorService{}
@@ -225,6 +226,39 @@ func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (u
 	user.State = req.State
 	err = app.DB.Model(&user).Update("State")
 	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
+//删除文章
+func (s *OperatorService)DeleteArticle(articleID string) (err error) {
+	var art entity.Article
+	err = app.DB.Select().Where(dbx.HashExp{"id": articleID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	err = app.DB.Model(&art).Delete()
+	if err != nil{
+		return err
+	}
+	return
+}
+
+//获取文章分类
+func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
+	err = app.DB.Select().All(&sorts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
 		err = errors.WithStack(err)
 		return
 	}

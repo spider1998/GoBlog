@@ -127,6 +127,34 @@ func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 	return c.Write(http.StatusOK)
 }
 
+//删除文章
+func (OperatorHandler)DeleteArticle(c *routing.Context) error {
+	articleID := c.Param("article_id")
+	err := service.Operator.DeleteArticle(articleID)
+	if err != nil {
+		return err
+	}
+	service.Log.LogOperator(
+		getSessionOperator(c),
+		app.System,
+		"operator.create-sort",
+		fmt.Sprintf("管理员删除文章。"),
+		access.GetClientIP(c.Request),
+		util.M{"article": articleID},
+	)
+
+	return c.Write(http.StatusOK)
+}
+
+//获取文章分类
+func (OperatorHandler)GetArticlesSorts(c *routing.Context) error {
+	sorts,err := service.Operator.GetArticlesSorts()
+	if err != nil {
+		return err
+	}
+	return c.Write(sorts)
+}
+
 //获取文章列表（条件查询）
 func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 	var req form.QueryArticleRequest
