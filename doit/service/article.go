@@ -355,7 +355,6 @@ func (a *ArticleService) VerifyArticle(req entity.VerifyArticleRequest) (err err
 	artV.ModifyType= art.ModifyType
 	artV.BaseArticle= art.BaseArticle
 	artV.ArticleContent= art.ArticleContent
-	artV.Comment= art.Comment
 	artV.UpdateTime= util.DateTimeStd()
 	artV.ArtID = art.ID
 	artV.ID = xid.New().String()
@@ -414,7 +413,7 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 }
 
 //文章转发授权
-func (a *ArticleService)ForwardAuthorazation(req entity.ArticleAuthorazation)(err error) {
+func (a *ArticleService)ForwardAuthorization(req entity.ArticleAuthorization)(err error) {
 	var art entity.ArticleForward
 	err = app.DB.Select().Where(dbx.HashExp{"id": req.RecordID}).One(&art)
 	if err != nil {
@@ -431,7 +430,60 @@ func (a *ArticleService)ForwardAuthorazation(req entity.ArticleAuthorazation)(er
 	if req.State == 2{
 		art.Status = entity.StateForwardRefused
 	}
-	err = app.DB.Model(&art).Update("Satus")
+	err = app.DB.Model(&art).Update("Status")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
+//评论回复
+func (a *ArticleService) CommentReply(req form.CommentReplyRequest)(err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Name, v.Required),
+		v.Field(&req.UserID, v.Required),
+		v.Field(&req.Content, v.Required),
+		v.Field(&req.ComID, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	var comment entity.Comment
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ComID}).One(&comment)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeCommentNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	var rep entity.Reply
+	rep.ID = xid.New().String()
+	rep.UserID = req.UserID
+	rep.Content = req.Content
+	rep.FatherID = req.ComID
+	rep.CreateTime = util.DateTimeStd()
+	rep.UpdateTime = util.DateTimeStd()
+
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&rep).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeCommentExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create article comment reply")
+		return
+	}
+	comment.ReplyCount += 1
+	err = app.DB.Model(&comment).Update("ReplyCount")
 	if err != nil {
 		err = errors.WithStack(err)
 		return

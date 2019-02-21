@@ -7,3 +7,10 @@ type CommentArticleRequest struct {
 	Content string `json:"content"`
 }
 
+type CommentReplyRequest struct {
+	ComID		string 		`json:"com_id"`
+	UserID		string 		`json:"user_id"`
+	Name		string 		`json:"name"`
+	Content 	string 		`json:"content"`
+}
+

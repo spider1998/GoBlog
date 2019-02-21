@@ -29,6 +29,7 @@ const (
 	CodeStateInvalid				  = 100016
 	CodeOperatorTokenRequired		  = 100017
 	CodeCommentExist				  = 100018
+	CodeCommentNotExist				  = 100019
 
 	CodeRecordNotExist Code = 10803
 )
@@ -60,6 +61,7 @@ var codeMap = map[Code]string{
 	CodeStateInvalid	:	"State Invalid",
 	CodeOperatorTokenRequired	:	"Operator Token Required",
 	CodeCommentExist			:	"Comment Exist",
+	CodeCommentNotExist			:	"Comment Not Exist",
 }
 
 //解析码的具体信息

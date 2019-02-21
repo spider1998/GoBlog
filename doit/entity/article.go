@@ -125,7 +125,7 @@ type ArticleForward struct {
 	DatetimeAware
 }
 
-type ArticleAuthorazation struct {
+type ArticleAuthorization struct {
 	ArtID	string `json:"art_id"`
 	RecordID string `json:"record_id"`
 	State 	StateForward `json:"state"`

@@ -357,14 +357,14 @@ func ForwardArticle(c *routing.Context) error {
 }
 
 //文章转发授权
-func ForwardAuthorazation(c *routing.Context) error {
-	var req entity.ArticleAuthorazation
+func ForwardAuthorization(c *routing.Context) error {
+	var req entity.ArticleAuthorization
 	err := c.Read(&req)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
 	req.ArtID = c.Param("article_id")
-	err = service.Article.ForwardAuthorazation(req)
+	err = service.Article.ForwardAuthorization(req)
 	if err != nil{
 		return err
 	}
@@ -381,6 +381,22 @@ func CommentArticle(c *routing.Context) error {
 	req.UserID = session.GetUserSession(c).ID
 	req.Name = session.GetUserSession(c).Name
 	err = service.Article.CommentArticle(req)
+	if err != nil{
+		return err
+	}
+	return c.Write(http.StatusOK)
+}
+
+//评论回复
+func CommentReply(c *routing.Context) error {
+	var req form.CommentReplyRequest
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	req.UserID = session.GetUserSession(c).ID
+	req.Name = session.GetUserSession(c).Name
+	err = service.Article.CommentReply(req)
 	if err != nil{
 		return err
 	}
