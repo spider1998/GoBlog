@@ -15,7 +15,6 @@ func ManagerRegisterRoutes(router *routing.RouteGroup) {
 		operatorHandler = new(OperatorHandler)
 		captchaHandler  = new(CaptchaHandler)
 		logHandler      = new(LogHandler)
-		//backupHandler 	= NewBackupHandler()
 	)
 
 	{
@@ -23,16 +22,16 @@ func ManagerRegisterRoutes(router *routing.RouteGroup) {
 		router.Post("/sessions", operatorHandler.SignIn)						// 管理员登录
 	}
 
-	router.Use(sessionChecker)
+	//router.Use(sessionChecker)
 
 	{
 		/*-----------------------------------------System------------------------------------------------*/
 		//router.Post("/announcements",operatorHandler.CreateSiteAnnounce)			// 发布公告
-		//router.Post("/backups", backupHandler.CreateBackup)						// 创建备份
-		//router.Put("/backups/<filename>", backupHandler.RestoreBackup)			// 恢复备份
-		//router.Get("/backups", backupHandler.ListBackupFiles)						// 获取备份列表
-		//router.Put("/backup-cron-spec", backupHandler.SetBackupCronSpec)			// 设定备份计划
-		//router.Get("/backup-cron-spec", backupHandler.GetBackupCronSpec)			// 获取备份计划
+		router.Get("/backups", listBackups)              						// 获取备份列表
+		router.Post("/backups", makeBackup)              						// 备份数据库
+		router.Post("/restores", restoreBackup)          						// 还原数据库
+		router.Patch("/schedules/<key>", updateSchedule) 						// 更新计划任务
+		router.Get("/schedules/<key>", getSchedule)      						// 获取计划任务
 		/*-----------------------------------------Statistics------------------------------------------------*/
 		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/

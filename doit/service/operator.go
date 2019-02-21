@@ -14,8 +14,6 @@ import (
 	"time"
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/mediocregopher/radix.v2/redis"
-	"Project/doit/handler/session"
-	"fmt"
 )
 
 var Operator = &OperatorService{}

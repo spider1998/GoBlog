@@ -11,7 +11,7 @@ func MakeDirectory(path string) error {
 	fi, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return os.MkdirAll(path, 0x755)
+			return os.MkdirAll(path, os.ModePerm)
 		}
 		return err
 	}

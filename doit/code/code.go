@@ -31,6 +31,8 @@ const (
 	CodeCommentExist				  = 100018
 	CodeCommentNotExist				  = 100019
 
+	CodeTaskIsInProgress			  = 100020
+
 	CodeRecordNotExist Code = 10803
 )
 
@@ -62,6 +64,8 @@ var codeMap = map[Code]string{
 	CodeOperatorTokenRequired	:	"Operator Token Required",
 	CodeCommentExist			:	"Comment Exist",
 	CodeCommentNotExist			:	"Comment Not Exist",
+
+	CodeTaskIsInProgress		:	"Task Is In Progress",
 }
 
 //解析码的具体信息

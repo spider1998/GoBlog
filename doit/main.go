@@ -28,7 +28,9 @@ func main() {
 		panic(err)
 	}
 
-	go service.App.CronRedis()
+	go service.App.CronRedis()	//持久化存储redis数据
+
+	go service.BackupApp.RunCronLoop()	//同步定时备份
 
 	var wg sync.WaitGroup
 	wg.Add(3)

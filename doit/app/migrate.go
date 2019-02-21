@@ -15,6 +15,9 @@ var (
 	Log					entity.Log
 	Operator			entity.Operator
 	Sort				entity.Sort
+	Comment				entity.Comment
+	Reply				entity.Reply
+	SysCron				entity.SysCron
 )
 
 func Migrate(dsn string) error {
@@ -25,6 +28,7 @@ func Migrate(dsn string) error {
 		panic(err)
 	}
 	err = db.AutoMigrate(&User,&Article,&Content,&ArticleVersion,&ArticleForward,
-		&Log,&Operator,&Sort).Error
+		&Log,&Operator,&Sort,&SysCron).Error
 	return err
 }
+

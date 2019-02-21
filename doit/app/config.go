@@ -40,6 +40,10 @@ type Config struct {
 
 	AttachmentPath	string `json:"attachment_path" default:"attachment/"`			//附件存储路径
 
+	//备份
+	RuntimePath string `json:"runtime_path" default:"."` // 运行时路径，存储日志、备份数据等
+
+
 }
 
 //加载配置
