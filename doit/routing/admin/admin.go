@@ -10,11 +10,12 @@ import (
 	"Project/doit/handler/article"
 )
 
-func AdminRegisterRoutes(router *routing.RouteGroup) {
+func ManagerRegisterRoutes(router *routing.RouteGroup) {
 	var (
 		operatorHandler = new(OperatorHandler)
 		captchaHandler  = new(CaptchaHandler)
 		logHandler      = new(LogHandler)
+		//backupHandler 	= NewBackupHandler()
 	)
 
 	{
@@ -25,6 +26,13 @@ func AdminRegisterRoutes(router *routing.RouteGroup) {
 	router.Use(sessionChecker)
 
 	{
+		/*-----------------------------------------System------------------------------------------------*/
+		//router.Post("/announcements",operatorHandler.CreateSiteAnnounce)			// 发布公告
+		//router.Post("/backups", backupHandler.CreateBackup)						// 创建备份
+		//router.Put("/backups/<filename>", backupHandler.RestoreBackup)			// 恢复备份
+		//router.Get("/backups", backupHandler.ListBackupFiles)						// 获取备份列表
+		//router.Put("/backup-cron-spec", backupHandler.SetBackupCronSpec)			// 设定备份计划
+		//router.Get("/backup-cron-spec", backupHandler.GetBackupCronSpec)			// 获取备份计划
 		/*-----------------------------------------Statistics------------------------------------------------*/
 		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/
