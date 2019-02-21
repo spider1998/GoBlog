@@ -16,10 +16,10 @@ type Article struct {
 	UserId      	string     	`json:"user_id"`      						//用户id
 	PartPersons 	string 		`json:"part_persons"` 						//贡献者
 	Version			int			`json:"version"`							//文章版本
-	ModifyType		ModifyType 		`json:"modify_type"`					//文章修改类型
+	ModifyType		ModifyType 	`json:"modify_type"`						//文章修改类型
+	CommentCount	int 		`json:"comment_count"`						//评论数
 	BaseArticle            													//文章基本字段
 	ArticleContent
-	Comment
 	DatetimeAware
 }
 
@@ -31,7 +31,6 @@ type ArticleVersion struct {
 	ModifyType		ModifyType 		`json:"modify_type"`						//文章修改类型
 	BaseArticle            														//文章基本字段
 	ArticleContent
-	Comment
 	DatetimeAware
 
 }
@@ -50,12 +49,6 @@ type ArticleContent struct {
 	Hot         int      	`json:"hot"`          //热度
 	Forward     string      `json:"forward"`      //转发数
 	Read 		int 		`json:"read"`		  //阅读量
-}
-
-type Comment struct {
-	Commentator   string `json:"commentator"` //评论员
-	Comments      string `json:"comments"`    //评论内容
-	ComUpdateTime string `json:"update_time"` //评论时间
 }
 
 type BasePhoto struct {
@@ -105,7 +98,6 @@ type ArticleResponse struct {
 	Hot         int      	`json:"hot"`          //热度
 	Forward     string      `json:"forward"`      //转发数
 	BaseArticle                                              //文章基本字段
-	Comment
 	DatetimeAware
 }
 

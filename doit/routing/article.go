@@ -28,4 +28,6 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 
 	router.Patch("/<article_id>",article.ForwardArticle)						//转发文章
 	router.Patch("/<article_id>/Authorization",article.ForwardAuthorazation)	//文章转发授权
+
+	router.Post("/<art_id>/comment",article.CommentArticle)						//评论文章
 }

@@ -36,9 +36,9 @@ type Config struct {
 	Mexpire string `json:"mexpire" default:"60"`                                   //验证码过期时间
 	Maddr   string `json:"maddr" default:"https://open.ucpaas.com/ol/sms/sendsms"` //短信接口地址
 
-	ContentSize	int `json:"content_size" default:"500"`						//版本控制分层数
+	ContentSize	int `json:"content_size" default:"500"`								//版本控制分层数
 
-	AttachmentPath	string `json:"attachment_path" default:"attachment/"`
+	AttachmentPath	string `json:"attachment_path" default:"attachment/"`			//附件存储路径
 
 }
 

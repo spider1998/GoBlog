@@ -15,6 +15,7 @@ import (
 	"github.com/mediocregopher/radix.v2/redis"
 	"fmt"
 	"github.com/rs/xid"
+	"Project/doit/form"
 )
 
 
@@ -431,6 +432,62 @@ func (a *ArticleService)ForwardAuthorazation(req entity.ArticleAuthorazation)(er
 		art.Status = entity.StateForwardRefused
 	}
 	err = app.DB.Model(&art).Update("Satus")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
+//文章评论
+func (a *ArticleService) CommentArticle(req form.CommentArticleRequest)(err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Name, v.Required),
+		v.Field(&req.UserID, v.Required),
+		v.Field(&req.Content, v.Required),
+		v.Field(&req.ArtID, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	var art entity.Article
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ArtID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+
+	var com entity.Comment
+	com.ID = xid.New().String()
+	com.ArtID = req.ArtID
+	com.Content = req.Content
+	com.UserID = req.UserID
+	com.Name = req.Name
+	com.ReplyCount += 1
+	com.CreateTime = util.DateTimeStd()
+	com.UpdateTime = util.DateTimeStd()
+
+	err = app.DB.Transactional(func(tx *dbx.Tx) error {
+		err = tx.Model(&com).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		if util.IsDBDuplicatedErr(err) {
+			err = code.New(http.StatusConflict, code.CodeCommentExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to create article comment")
+		return
+	}
+	art.CommentCount += 1
+	err = app.DB.Model(&art).Update("CommentCount")
 	if err != nil {
 		err = errors.WithStack(err)
 		return

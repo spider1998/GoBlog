@@ -18,6 +18,7 @@ import (
 	"mime/multipart"
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/pkg/errors"
+	"Project/doit/form"
 )
 
 //获取文章
@@ -359,11 +360,27 @@ func ForwardArticle(c *routing.Context) error {
 func ForwardAuthorazation(c *routing.Context) error {
 	var req entity.ArticleAuthorazation
 	err := c.Read(&req)
-	if err != nil{
-		return  err
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
 	req.ArtID = c.Param("article_id")
 	err = service.Article.ForwardAuthorazation(req)
+	if err != nil{
+		return err
+	}
+	return c.Write(http.StatusOK)
+}
+
+//文章评论
+func CommentArticle(c *routing.Context) error {
+	var req form.CommentArticleRequest
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	req.UserID = session.GetUserSession(c).ID
+	req.Name = session.GetUserSession(c).Name
+	err = service.Article.CommentArticle(req)
 	if err != nil{
 		return err
 	}
