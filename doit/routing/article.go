@@ -31,4 +31,5 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 
 	router.Post("/<art_id>/comment",article.CommentArticle)						//评论文章
 	router.Post("/comments/<com_id>/reply",article.CommentReply)				//评论回复
+	router.Get("/<art_id>/comments",article.GetArticleComment)					//获取文章所有评论及回复
 }

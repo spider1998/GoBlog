@@ -16,11 +16,17 @@ type Comment struct {
 
 type Reply struct {
 	ID 			string 		`json:"id"`				//记录ID
+	ComID 		string 		`json:"com_id"`			//评论ID
+	ReplyBase
+}
+
+type ReplyBase struct {
 	FatherID	string 		`json:"father_id"`		//父评论用户ID
+	FatherName	string 		`json:"father_name"`	//父评论用户姓名
 	UserID 		string 		`json:"user_id"`		//用户ID
+	Name 		string 		`json:"name"`			//用户名
 	Content 	string 		`json:"content"`		//回复内容
 	DatetimeAware
-
 }
 
 

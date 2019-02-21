@@ -402,3 +402,26 @@ func CommentReply(c *routing.Context) error {
 	}
 	return c.Write(http.StatusOK)
 }
+
+//获取所有评论及回复
+func GetArticleComment(c *routing.Context) error {
+	artID := c.Param("art_id")
+	if artID == ""{
+		return code.New(http.StatusBadRequest, code.CodeBadRequest)
+	}
+	response,err := service.Article.GetArticleComment(artID)
+	if err != nil{
+		return err
+	}
+	if len(response) == 0{
+		response = []form.ArticleCommentResponse{}
+	}
+	pager := util.GetPaginatedListFromRequest(c, len(response))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		return c.Write(response[pager.Offset() : pager.Offset()+pager.Limit()])
+	} else {
+		return c.Write(response[pager.Offset():pager.TotalCount])
+	}
+
+
+}

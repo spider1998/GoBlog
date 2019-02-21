@@ -438,6 +438,48 @@ func (a *ArticleService)ForwardAuthorization(req entity.ArticleAuthorization)(er
 	return
 }
 
+//获取所有回复及评论
+func (a *ArticleService) GetArticleComment(artID string)(res []form.ArticleCommentResponse,err error) {
+	var comments []entity.Comment
+	err = app.DB.Select().Where(dbx.HashExp{"art_id": artID}).All(&comments)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeCommentNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	var re form.ArticleCommentResponse
+	var rep form.SonReply
+	for _,comment := range comments{
+		var reps []form.SonReply
+		re.Comment.ComID = comment.ID
+		re.Comment.ReplyCount = comment.ReplyCount
+		re.Comment.UserID = comment.UserID
+		re.Comment.Content = comment.Content
+		re.Comment.Name = comment.Name
+		re.Comment.DatetimeAware = comment.DatetimeAware
+		var replies	[]entity.Reply
+		err = app.DB.Select().Where(dbx.HashExp{"com_id": comment.ID}).All(&replies)
+		if err != nil {
+			if util.IsDBNotFound(err) {
+				err = code.New(http.StatusBadRequest, code.CodeCommentNotExist)
+				return
+			}
+			err = errors.WithStack(err)
+			return
+		}
+		for _,reply := range replies{
+			rep.ReplyBase = reply.ReplyBase
+			reps = append(reps,rep)
+		}
+		re.Replies = reps
+		res = append(res,re)
+	}
+	return
+}
+
 //评论回复
 func (a *ArticleService) CommentReply(req form.CommentReplyRequest)(err error) {
 	err = v.ValidateStruct(&req,
@@ -445,6 +487,8 @@ func (a *ArticleService) CommentReply(req form.CommentReplyRequest)(err error) {
 		v.Field(&req.UserID, v.Required),
 		v.Field(&req.Content, v.Required),
 		v.Field(&req.ComID, v.Required),
+		v.Field(&req.FatherName, v.Required),
+		v.Field(&req.FatherID, v.Required),
 	)
 	if err != nil {
 		return
@@ -461,9 +505,12 @@ func (a *ArticleService) CommentReply(req form.CommentReplyRequest)(err error) {
 	}
 	var rep entity.Reply
 	rep.ID = xid.New().String()
+	rep.ComID = req.ComID
 	rep.UserID = req.UserID
 	rep.Content = req.Content
-	rep.FatherID = req.ComID
+	rep.FatherID = req.FatherID
+	rep.Name = req.Name
+	rep.FatherName = req.FatherName
 	rep.CreateTime = util.DateTimeStd()
 	rep.UpdateTime = util.DateTimeStd()
 
