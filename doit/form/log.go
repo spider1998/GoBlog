@@ -4,7 +4,6 @@ import (
 	"Project/doit/entity"
 )
 
-
 const (
 	LogUserTypeUser     entity.LogUserType = 1
 	LogUserTypeOperator entity.LogUserType = 2
@@ -26,6 +25,3 @@ type QueryLogsCond struct {
 	FromTime string
 	ToTime   string
 }
-
-
-

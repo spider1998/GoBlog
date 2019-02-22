@@ -1,11 +1,10 @@
 package routing
 
 import (
-"github.com/go-ozzo/ozzo-routing"
 	"Project/doit/handler/friend"
+	"github.com/go-ozzo/ozzo-routing"
 )
 
 func FriendRegisterRoutes(router *routing.RouteGroup) {
-	router.Get("/users",friend.QueryUsers)					//查询用户
+	router.Get("/users", friend.QueryUsers) //查询用户
 }
-

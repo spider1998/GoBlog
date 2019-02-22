@@ -1,10 +1,10 @@
 package app
 
 import (
+	"Project/doit/resource"
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/rs/zerolog"
 	"os"
-	"Project/doit/resource"
 )
 
 var (
@@ -68,7 +68,6 @@ func Init() error {
 		return err
 	}
 	Logger.Info().Msg("loaded redis.")
-
 
 	return nil
 }

@@ -21,7 +21,7 @@ type Operator struct {
 	Ext          map[string]interface{} `json:"ext" gorm:"type:json"`
 	State        OperatorState          `json:"state"`
 	CreateTime   time.Time              `json:"create_time" gorm:"created"`
-	UpdateTime   time.Time             `json:"update_time" gorm:"updated"`
+	UpdateTime   time.Time              `json:"update_time" gorm:"updated"`
 }
 
 func (o *Operator) BeforeInsert() {

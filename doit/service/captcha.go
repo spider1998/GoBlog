@@ -1,18 +1,18 @@
 package service
 
 import (
+	"Project/doit/app"
+	"Project/doit/code"
+	"Project/doit/resource"
 	"bytes"
-	"image/color"
-	"image/jpeg"
-	"strings"
 	"github.com/afocus/captcha"
 	"github.com/mediocregopher/radix.v2/redis"
 	"github.com/pkg/errors"
-	"Project/doit/resource"
-	"Project/doit/app"
-	"Project/doit/code"
-	"net/http"
+	"image/color"
+	"image/jpeg"
 	"math/rand"
+	"net/http"
+	"strings"
 )
 
 var Captcha = &CaptchaService{}
@@ -49,14 +49,14 @@ func (s *CaptchaService) Validate(token, value string) error {
 	v, err := app.Redis.Cmd("GET", key).Str()
 	if err != nil {
 		if err == redis.ErrRespNil {
-			err = code.New(http.StatusBadRequest,code.CodeInvalidCaptcha)
+			err = code.New(http.StatusBadRequest, code.CodeInvalidCaptcha)
 			return err
 		}
 		err = errors.WithStack(err)
 		return err
 	}
 	if v != strings.ToLower(value) {
-		err = code.New(http.StatusBadRequest,code.CodeInvalidCaptcha)
+		err = code.New(http.StatusBadRequest, code.CodeInvalidCaptcha)
 		return err
 	}
 	err = app.Redis.Cmd("DEL", key).Err
@@ -79,4 +79,3 @@ func RandString(n int) string {
 }
 
 const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-

@@ -3,11 +3,11 @@ package main
 import (
 	"Project/doit/app"
 	"Project/doit/routing"
+	"Project/doit/service"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
-	"Project/doit/service"
 )
 
 func main() {
@@ -15,11 +15,11 @@ func main() {
 	var err error
 	//初始化NSQ日志收发配置
 	err = service.Log.Boot()
-	if err != nil{
+	if err != nil {
 		return
 	}
 	err = service.SLog.Boot()
-	if err != nil{
+	if err != nil {
 		return
 	}
 	/*-----全局初始化-----*/
@@ -28,9 +28,9 @@ func main() {
 		panic(err)
 	}
 
-	go service.App.CronRedis()	//持久化存储redis数据
+	go service.App.CronRedis() //持久化存储redis数据
 
-	go service.BackupApp.RunCronLoop()	//同步定时备份
+	go service.BackupApp.RunCronLoop() //同步定时备份
 
 	var wg sync.WaitGroup
 	wg.Add(3)

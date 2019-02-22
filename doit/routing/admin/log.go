@@ -1,14 +1,14 @@
 package admin
 
 import (
-	"strconv"
-	"github.com/go-ozzo/ozzo-routing"
-	"Project/doit/form"
 	"Project/doit/code"
-	"net/http"
 	"Project/doit/entity"
-	"Project/doit/util"
+	"Project/doit/form"
 	"Project/doit/service"
+	"Project/doit/util"
+	"github.com/go-ozzo/ozzo-routing"
+	"net/http"
+	"strconv"
 )
 
 type LogHandler struct{}
@@ -19,7 +19,7 @@ func (LogHandler) QueryLogs(c *routing.Context) error {
 	if userTypeStr := c.Query("user_type"); userTypeStr != "" {
 		userType, err := strconv.Atoi(userTypeStr)
 		if err != nil {
-			return code.New(http.StatusBadRequest,code.CodeInvalidData)
+			return code.New(http.StatusBadRequest, code.CodeInvalidData)
 		}
 		cond.UserType = entity.LogUserType(userType)
 	}

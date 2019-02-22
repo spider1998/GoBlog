@@ -13,4 +13,3 @@ type SysCron struct {
 func (SysCron) TableName() string {
 	return TableSysCron
 }
-

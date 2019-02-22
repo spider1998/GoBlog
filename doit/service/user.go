@@ -6,22 +6,22 @@ import (
 	"Project/doit/entity"
 	"Project/doit/util"
 	"bytes"
+	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego/utils"
 	"github.com/go-ozzo/ozzo-dbx"
 	v "github.com/go-ozzo/ozzo-validation"
+	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"github.com/google/uuid"
 	"github.com/mediocregopher/radix.v2/redis"
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
 	"io/ioutil"
-	"net/http"
-	"unsafe"
 	"mime/multipart"
+	"net/http"
 	"time"
-	"crypto/sha1"
-	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
+	"unsafe"
 )
 
 var User = UserService{
@@ -360,7 +360,6 @@ func (u *UserService) GetMobileVerify(uid, mobile string) (code string, err erro
 	return
 }
 
-
 //联系管理员
 func (u *UserService) ContactManager(req entity.Contact) (err error) {
 	err = v.ValidateStruct(&req,
@@ -400,19 +399,6 @@ func (u *UserService) ContactManager(req entity.Contact) (err error) {
 	}
 	return
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 func (s *UserService) getSessionKey(sessionID string) string {
 	return s.sessionKey + sessionID

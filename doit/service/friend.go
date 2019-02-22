@@ -1,21 +1,21 @@
 package service
 
 import (
+	"Project/doit/app"
 	"Project/doit/entity"
 	"github.com/go-ozzo/ozzo-dbx"
-	"Project/doit/app"
 	"github.com/pkg/errors"
 )
 
 var Friend = FriendService{}
 
-type FriendService struct {}
+type FriendService struct{}
 
 //查询人员
-func (f *FriendService) QueryUsers(req entity.QueryUserRequest) (persons []entity.BaseUser,err error) {
+func (f *FriendService) QueryUsers(req entity.QueryUserRequest) (persons []entity.BaseUser, err error) {
 	query := app.DB.Select("*").From(entity.TableUser)
 
-	if req.Name!= "" {
+	if req.Name != "" {
 		query.AndWhere(dbx.Like("name", req.Name))
 	}
 	if req.Gender == entity.UserGenderMale {
@@ -25,7 +25,7 @@ func (f *FriendService) QueryUsers(req entity.QueryUserRequest) (persons []entit
 		query.AndWhere(dbx.HashExp{"gender": entity.UserGenderFemale})
 	}
 	if req.Tag != "" {
-		query.AndWhere(dbx.HashExp{"tag":req.Tag})
+		query.AndWhere(dbx.HashExp{"tag": req.Tag})
 	}
 	var users []entity.User
 	var person entity.BaseUser
@@ -34,11 +34,11 @@ func (f *FriendService) QueryUsers(req entity.QueryUserRequest) (persons []entit
 		err = errors.Wrap(err, "fail to query users.")
 		return
 	}
-	for _,user := range users{
+	for _, user := range users {
 		person.ID = user.ID
 		person.Tag = user.Tag
 		person.Name = user.Name
-		persons = append(persons,person)
+		persons = append(persons, person)
 	}
 	return
 }

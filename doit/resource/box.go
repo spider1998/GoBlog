@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	FontBox      packr.Box
+	FontBox packr.Box
 )
 
 func Load() {

@@ -1,19 +1,19 @@
 package service
 
 import (
-	"Project/doit/form"
-	"Project/doit/entity"
 	"Project/doit/app"
 	"Project/doit/code"
+	"Project/doit/entity"
+	"Project/doit/form"
 	"Project/doit/util"
 
+	"github.com/go-ozzo/ozzo-dbx"
 	v "github.com/go-ozzo/ozzo-validation"
+	"github.com/mediocregopher/radix.v2/redis"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
-	"github.com/go-ozzo/ozzo-dbx"
-	"github.com/mediocregopher/radix.v2/redis"
 )
 
 var Operator = &OperatorService{}
@@ -21,7 +21,7 @@ var Operator = &OperatorService{}
 type OperatorService struct{}
 
 //获取站点统计信息
-func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err error) {
+func (s *OperatorService) GetStatistics() (res form.SiteStatisticResponse, err error) {
 	var users []entity.User
 	var arts []entity.Article
 	err = app.DB.Select().All(&users)
@@ -45,8 +45,8 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 	sess := app.DB.Select("count(*)").From(entity.TableArticle)
 	st := time.Now().Format("2016-01-02")
 	et := time.Now().Format("2016-01-02")
-	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
-		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
+	sess.AndWhere(dbx.NewExp("create_time>={:t1}", dbx.Params{"t1": st + " 00:00:00"})).
+		AndWhere(dbx.NewExp("create_time<{:t2}", dbx.Params{"t2": et + " 23:59:59"}))
 	//记录总数
 	var n int
 	err = sess.Row(&n)
@@ -55,8 +55,8 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 		return
 	}
 	sess1 := app.DB.Select("count(*)").From(entity.TableUser)
-	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
-		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
+	sess.AndWhere(dbx.NewExp("create_time>={:t1}", dbx.Params{"t1": st + " 00:00:00"})).
+		AndWhere(dbx.NewExp("create_time<{:t2}", dbx.Params{"t2": et + " 23:59:59"}))
 	//记录总数
 	var m int
 	err = sess1.Row(&m)
@@ -65,7 +65,7 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 		return
 	}
 	var sum int = 0
-	for _,ar := range arts{
+	for _, ar := range arts {
 		sum += ar.Read
 	}
 	res.UserCount = len(users)
@@ -93,7 +93,7 @@ func (s *OperatorService) SignIn(request form.OperatorSignInRequest) (token stri
 		return
 	}
 
-	err = app.DB.Select().Where(dbx.HashExp{"name":request.Name}).One(&operator)
+	err = app.DB.Select().Where(dbx.HashExp{"name": request.Name}).One(&operator)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusNotFound, code.CodeUserNotExist)
@@ -103,13 +103,13 @@ func (s *OperatorService) SignIn(request form.OperatorSignInRequest) (token stri
 		return
 	}
 	if operator.State != entity.OperatorStateEnabled {
-		err = code.New(http.StatusBadRequest,code.CodeUserDisabled)
+		err = code.New(http.StatusBadRequest, code.CodeUserDisabled)
 		return
 	}
 	err = util.ValidatePassword([]byte(request.Password), operator.PasswordHash)
 	if err != nil {
 		if err == bcrypt.ErrMismatchedHashAndPassword {
-			err = code.New(http.StatusBadRequest,code.CodeUserInvalidPassword)
+			err = code.New(http.StatusBadRequest, code.CodeUserInvalidPassword)
 			return
 		}
 		err = errors.WithStack(err)
@@ -174,7 +174,7 @@ func (s *OperatorService) CountUsers(cond form.QueryUserRequest) (n int,err erro
 }*/
 
 //查询用户列表
-func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entity.User,err error) {
+func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entity.User, err error) {
 	sess := app.DB.Select("*").From(entity.TableUser)
 	if cond.ID != "" {
 		sess.AndWhere(dbx.HashExp{"id": cond.ID})
@@ -186,10 +186,10 @@ func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entit
 		sess.AndWhere(dbx.HashExp{"state": cond.State})
 	}
 	if cond.Oder != "" {
-		if cond.Oder == "1"{
-			sess.OrderBy("create_time desc")	//降序
-		}else{
-			sess.OrderBy("create_time asc")		//升序
+		if cond.Oder == "1" {
+			sess.OrderBy("create_time desc") //降序
+		} else {
+			sess.OrderBy("create_time asc") //升序
 		}
 	}
 	err = sess.All(&res)
@@ -204,10 +204,10 @@ func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entit
 }
 
 //更改用户状态
-func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (user entity.User,err error) {
+func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (user entity.User, err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.ID, v.Required),
-		v.Field(&req.State, v.Required,v.In(entity.UserStateBaned,entity.UserStateOK)),
+		v.Field(&req.State, v.Required, v.In(entity.UserStateBaned, entity.UserStateOK)),
 	)
 	if err != nil {
 		return
@@ -231,7 +231,7 @@ func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (u
 }
 
 //删除文章
-func (s *OperatorService)DeleteArticle(articleID string) (err error) {
+func (s *OperatorService) DeleteArticle(articleID string) (err error) {
 	var art entity.Article
 	err = app.DB.Select().Where(dbx.HashExp{"id": articleID}).One(&art)
 	if err != nil {
@@ -243,14 +243,14 @@ func (s *OperatorService)DeleteArticle(articleID string) (err error) {
 		return
 	}
 	err = app.DB.Model(&art).Delete()
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return
 }
 
 //删除文章分类
-func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,err error)  {
+func (s *OperatorService) DeleteArticlesSorts(sortID string) (sort entity.Sort, err error) {
 	err = app.DB.Select().Where(dbx.HashExp{"id": sortID}).One(&sort)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -262,14 +262,14 @@ func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,er
 	}
 	sort.State = entity.SortStateEnable
 	err = app.DB.Model(&sort).Update("State")
-	if err != nil{
+	if err != nil {
 		return
 	}
 	return
 }
 
 //获取文章分类
-func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
+func (s *OperatorService) GetArticlesSorts() (sorts []entity.Sort, err error) {
 	err = app.DB.Select().Where(dbx.HashExp{"state": entity.SortStateAble}).All(&sorts)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -283,7 +283,7 @@ func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
 }
 
 //获取文章列表（条件查询）
-func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []form.QueryArticleResponse,err error) {
+func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []form.QueryArticleResponse, err error) {
 	var res []entity.Article
 	sess := app.DB.Select("*").From(entity.TableArticle)
 	if req.ID != "" {
@@ -301,19 +301,19 @@ func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []
 		res = make([]entity.Article, 0)
 	}
 	var art form.QueryArticleResponse
-	for _,re := range res{
+	for _, re := range res {
 		art.ID = re.ID
 		art.Sort = re.Sort
 		art.Title = re.Title
 		art.Auth = re.Auth
 		art.DatetimeAware = re.DatetimeAware
-		arts = append(arts,art)
+		arts = append(arts, art)
 	}
 	return
 }
 
 //创建文章分类
-func (s *OperatorService) CreateArticleSort(req form.CreateArticleSortRequest)(sort entity.Sort,err error) {
+func (s *OperatorService) CreateArticleSort(req form.CreateArticleSortRequest) (sort entity.Sort, err error) {
 	sort.Operator = req.Name
 	sort.Name = req.Sort
 	sort.CreateTime = time.Now().Format("2016-01-02 15:04:05")
@@ -354,14 +354,14 @@ func (s *OperatorService) CheckToken(token string) (operator entity.Operator, er
 	if err != nil {
 		if err == redis.ErrRespNil {
 			app.Logger.Info().Msg("token expired.")
-			err = code.New(http.StatusBadRequest,code.CodeTokenNotExist)
+			err = code.New(http.StatusBadRequest, code.CodeTokenNotExist)
 			return
 		}
 		err = errors.WithStack(err)
 		return
 	}
 
-	err = app.DB.Select().Where(dbx.HashExp{"id":ID}).One(&operator)
+	err = app.DB.Select().Where(dbx.HashExp{"id": ID}).One(&operator)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusNotFound, code.CodeUserNotExist)
@@ -373,7 +373,7 @@ func (s *OperatorService) CheckToken(token string) (operator entity.Operator, er
 
 	if operator.State != entity.OperatorStateEnabled {
 		app.Logger.Info().Msg("operator status is no enabled.")
-		err = code.New(http.StatusBadRequest,code.CodeStateInvalid)
+		err = code.New(http.StatusBadRequest, code.CodeStateInvalid)
 		return
 	}
 

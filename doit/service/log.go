@@ -4,21 +4,20 @@ import (
 	"encoding/json"
 	"time"
 
+	"Project/doit/app"
+	"Project/doit/code"
+	"Project/doit/entity"
+	"Project/doit/form"
+	"Project/doit/util"
+	"github.com/go-ozzo/ozzo-dbx"
 	v "github.com/go-ozzo/ozzo-validation"
 	"github.com/nsqio/go-nsq"
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
-	"Project/doit/entity"
-	"Project/doit/app"
-	"github.com/go-ozzo/ozzo-dbx"
-	"Project/doit/util"
-	"Project/doit/code"
 	"net/http"
-	"Project/doit/form"
 )
 
 var Log = &LogService{}
-
 
 type LogService struct{}
 
@@ -78,20 +77,19 @@ func (s *LogService) Log(userType entity.LogUserType, userID, userName, system, 
 	return
 }
 
-
 func (s *LogService) CountLogs(cond form.QueryLogsCond) (n int, err error) {
 	sess := app.DB.Select("count(*)").From(entity.TableLog)
 	if cond.UserType > 0 {
 		sess.AndWhere(dbx.HashExp{"user_type": cond.UserType})
 	}
 	if cond.Remark != "" {
-		sess.AndWhere(dbx.Like("remark",cond.Remark))
+		sess.AndWhere(dbx.Like("remark", cond.Remark))
 	}
 	if cond.FromTime != "" {
-		sess.AndWhere(dbx.NewExp("create_time>={:ct}",dbx.Params{"ct":cond.FromTime}))
+		sess.AndWhere(dbx.NewExp("create_time>={:ct}", dbx.Params{"ct": cond.FromTime}))
 	}
 	if cond.ToTime != "" {
-		sess.AndWhere(dbx.NewExp("create_time<={:ct}",dbx.Params{"ct":cond.ToTime}))
+		sess.AndWhere(dbx.NewExp("create_time<={:ct}", dbx.Params{"ct": cond.ToTime}))
 	}
 
 	//记录总数
@@ -110,13 +108,13 @@ func (s *LogService) QueryLogs(offset, limit int, cond form.QueryLogsCond) (logs
 		sess.AndWhere(dbx.HashExp{"user_type": cond.UserType})
 	}
 	if cond.Remark != "" {
-		sess.AndWhere(dbx.Like("remark",cond.Remark))
+		sess.AndWhere(dbx.Like("remark", cond.Remark))
 	}
 	if cond.FromTime != "" {
-		sess.AndWhere(dbx.NewExp("create_time>={:ct}",dbx.Params{"ct":cond.FromTime}))
+		sess.AndWhere(dbx.NewExp("create_time>={:ct}", dbx.Params{"ct": cond.FromTime}))
 	}
 	if cond.ToTime != "" {
-		sess.AndWhere(dbx.NewExp("create_time<={:ct}",dbx.Params{"ct":cond.ToTime}))
+		sess.AndWhere(dbx.NewExp("create_time<={:ct}", dbx.Params{"ct": cond.ToTime}))
 	}
 	err = sess.OrderBy("create_time desc").Limit(int64(limit)).Offset(int64(offset)).All(&logs)
 	if err != nil {
@@ -128,7 +126,6 @@ func (s *LogService) QueryLogs(offset, limit int, cond form.QueryLogsCond) (logs
 	}
 	return
 }
-
 
 type LogCollector struct{}
 

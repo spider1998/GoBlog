@@ -28,11 +28,10 @@ type Friend struct {
 }
 
 type QueryUserRequest struct {
-	Name  	string 			`json:"name"`
-	Gender	UserGender 		`json:"gender"`
-	Tag 	string 		`json:"tags"`
+	Name   string     `json:"name"`
+	Gender UserGender `json:"gender"`
+	Tag    string     `json:"tags"`
 }
-
 
 func (Friend) TableName() string {
 	return TableFriend

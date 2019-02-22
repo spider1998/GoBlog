@@ -520,3 +520,5 @@
 {"level":"debug","time":"2019-02-21T17:55:08+08:00","message":"register route: \"POST   -> /article/comments/<com_id>/reply\"."}
 {"level":"debug","time":"2019-02-21T17:55:08+08:00","message":"register route: \"GET    -> /article/<art_id>/comments\"."}
 {"level":"debug","time":"2019-02-21T17:55:08+08:00","message":"register route: \"GET    -> /friend/users\"."}
+{"level":"debug","cmd":"KEYS","elapsed":1.642144,"args":["goblog*"],"resp":"Resp(Resp(Str \"goblog:193f0aa1-c97e-4f7a-af45-0bee17f66ae5\") Resp(Str \"goblog:caba0e30-a6d8-4ab8-9a35-ec5459e462f6\"))","time":"2019-02-22T14:59:06+08:00","message":"redis command"}
+{"level":"debug","cmd":"SCARD","elapsed":19.722583,"args":["goblog:goblog:193f0aa1-c97e-4f7a-af45-0bee17f66ae5"],"resp":"Resp(Int 0)","time":"2019-02-22T14:59:07+08:00","message":"redis command"}

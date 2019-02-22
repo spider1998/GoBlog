@@ -1,11 +1,10 @@
 package friend
 
 import (
-	"github.com/go-ozzo/ozzo-routing"
 	"Project/doit/entity"
 	"Project/doit/service"
 	"Project/doit/util"
-
+	"github.com/go-ozzo/ozzo-routing"
 )
 
 func QueryUsers(c *routing.Context) (err error) {
@@ -13,16 +12,16 @@ func QueryUsers(c *routing.Context) (err error) {
 	req.Name = c.Param("name")
 	gender := c.Param("gender")
 	req.Tag = c.Param("tags")
-	if gender == "1"{
+	if gender == "1" {
 		req.Gender = entity.UserGenderMale
-	}else{
+	} else {
 		req.Gender = entity.UserGenderFemale
 	}
-	persons,err := service.Friend.QueryUsers(req)
-	if err != nil{
+	persons, err := service.Friend.QueryUsers(req)
+	if err != nil {
 		return
 	}
-	if len(persons) == 0{
+	if len(persons) == 0 {
 		persons = []entity.BaseUser{}
 	}
 	pager := util.GetPaginatedListFromRequest(c, len(persons))

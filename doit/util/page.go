@@ -76,7 +76,6 @@ func ParseInt(value string, defaultValue int) int {
 	return defaultValue
 }
 
-
 func ParsePagination(c *routing.Context) (page, pageSize int64, err error) {
 	page = 1
 	pageSize = 50

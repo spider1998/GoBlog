@@ -1,12 +1,12 @@
 package admin
 
 import (
-	"github.com/go-ozzo/ozzo-routing"
+	"Project/doit/app"
+	"Project/doit/form"
 	"Project/doit/service"
 	"fmt"
-	"Project/doit/form"
-	"Project/doit/app"
 	"github.com/caeret/ozzo-routing/access"
+	"github.com/go-ozzo/ozzo-routing"
 )
 
 type CaptchaHandler struct{}

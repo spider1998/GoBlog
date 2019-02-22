@@ -158,5 +158,3 @@ func Contact(c *routing.Context) error {
 	}
 	return err
 }
-
-
