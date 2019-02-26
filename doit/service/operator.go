@@ -86,6 +86,28 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 	return
 }
 
+type Count struct {
+	Count	int `json:"count"`
+	Date	int `json:"date"`
+}
+//获取每个月份文章发布数
+func (s *OperatorService) GetMonthArticle(year int)(res []int,err error) {
+	sess := app.DB.Select("count(*) AS count,MONTH(create_time) as date").From(entity.TableArticle).
+		Where(dbx.NewExp("YEAR(create_time)={:ct}",dbx.Params{"ct":2019})).
+			GroupBy("MONTH(create_time)")
+	var count []Count
+	err = sess.All(&count)
+	if err != nil {
+		err = errors.Wrap(err, "fail to query article data.")
+		return
+	}
+	res = []int{0,0,0,0,0,0,0,0,0,0,0,0}
+	for _,cou := range count{
+		res[cou.Date-1] = cou.Count
+	}
+	return
+}
+
 //管理员登陆
 func (s *OperatorService) SignIn(request form.OperatorSignInRequest) (token string, operator entity.Operator, err error) {
 	err = v.ValidateStruct(&request,

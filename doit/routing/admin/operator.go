@@ -1,24 +1,39 @@
 package admin
 
 import (
-	"Project/doit/app"
-	"Project/doit/code"
-	"Project/doit/entity"
-	"Project/doit/form"
-	"Project/doit/service"
-	"Project/doit/util"
 	"fmt"
 	"github.com/go-ozzo/ozzo-routing"
-	"github.com/go-ozzo/ozzo-routing/access"
+	"Project/doit/form"
+	"Project/doit/code"
 	"net/http"
+	"Project/doit/service"
+	"Project/doit/app"
+	"github.com/go-ozzo/ozzo-routing/access"
+	"Project/doit/util"
+	"Project/doit/entity"
+	"strconv"
 )
 
 type OperatorHandler struct{}
 
 //获取站点统计数据
 func (OperatorHandler) GetStatistics(c *routing.Context) error {
-	res, err := service.Operator.GetStatistics()
-	if err != nil {
+	res,err := service.Operator.GetStatistics()
+	if err != nil{
+		return err
+	}
+	return c.Write(res)
+}
+
+//获取每个月份文章发布数
+func (OperatorHandler) GetMonthArticle(c *routing.Context) error {
+	yearStr := c.Param("year")
+	year,err := strconv.Atoi(yearStr)
+	if err != nil{
+		return err
+	}
+	res,err := service.Operator.GetMonthArticle(year)
+	if err != nil{
 		return err
 	}
 	return c.Write(res)
@@ -29,7 +44,7 @@ func (OperatorHandler) SignIn(c *routing.Context) error {
 	var request form.OperatorSignInRequest
 	err := c.Read(&request)
 	if err != nil {
-		return code.New(http.StatusBadRequest, code.CodeInvalidData)
+		return code.New(http.StatusBadRequest,code.CodeInvalidData)
 	}
 	token, operator, err := service.Operator.SignIn(request)
 	if err != nil {
@@ -71,21 +86,21 @@ func (OperatorHandler) QueryBlogUser(c *routing.Context) error {
 	var req form.QueryUserRequest
 	req.ID = c.Query("user_id")
 	req.Oder = c.Query("oder")
-	if c.Query("gender") == "1" {
+	if c.Query("gender") == "1"{
 		req.Gender = 1
-	} else if c.Query("gender") == "2" {
+	}else if c.Query("gender") == "2"{
 		req.Gender = 2
 	}
-	if c.Query("state") == "1" {
+	if c.Query("state") == "1"{
 		req.State = 1
-	} else if c.Query("state") == "2" {
+	}else if c.Query("state") == "2"{
 		req.State = 2
 	}
-	response, err := service.Operator.QueryBlogUser(req)
-	if err != nil {
+	response,err := service.Operator.QueryBlogUser(req)
+	if err != nil{
 		return err
 	}
-	if len(response) == 0 {
+	if len(response) == 0{
 		response = []entity.User{}
 	}
 	var users []entity.User
@@ -106,14 +121,14 @@ func (OperatorHandler) QueryBlogUser(c *routing.Context) error {
 func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 	state := c.Query("state")
 	var req entity.ModifyUserStateRequest
-	if state == "1" {
+	if state == "1"{
 		req.State = entity.UserStateOK
-	} else if state == "2" {
+	}else if state == "2"{
 		req.State = entity.UserStateBaned
 	}
 	req.ID = c.Query("user_id")
-	user, err := service.Operator.ModifyUserStatus(req)
-	if err != nil {
+	user,err := service.Operator.ModifyUserStatus(req)
+	if err != nil{
 		return err
 	}
 	service.Log.LogOperator(
@@ -128,7 +143,7 @@ func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 }
 
 //删除文章
-func (OperatorHandler) DeleteArticle(c *routing.Context) error {
+func (OperatorHandler)DeleteArticle(c *routing.Context) error {
 	articleID := c.Param("article_id")
 	err := service.Operator.DeleteArticle(articleID)
 	if err != nil {
@@ -147,8 +162,8 @@ func (OperatorHandler) DeleteArticle(c *routing.Context) error {
 }
 
 //获取文章分类
-func (OperatorHandler) GetArticlesSorts(c *routing.Context) error {
-	sorts, err := service.Operator.GetArticlesSorts()
+func (OperatorHandler)GetArticlesSorts(c *routing.Context) error {
+	sorts,err := service.Operator.GetArticlesSorts()
 	if err != nil {
 		return err
 	}
@@ -160,8 +175,8 @@ func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 	var req form.QueryArticleRequest
 	req.ID = c.Query("art_id")
 	req.Sort = c.Query("sort")
-	articles, err := service.Operator.GetArticlesList(req)
-	if err != nil {
+	articles,err := service.Operator.GetArticlesList(req)
+	if err != nil{
 		return err
 	}
 	var arts []form.QueryArticleResponse
@@ -179,9 +194,9 @@ func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 }
 
 //删除文章分类
-func (OperatorHandler) DeleteArticleSort(c *routing.Context) error {
+func (OperatorHandler)DeleteArticleSort(c *routing.Context) error {
 	sortID := c.Param("sort_id")
-	sort, err := service.Operator.DeleteArticlesSorts(sortID)
+	sort,err := service.Operator.DeleteArticlesSorts(sortID)
 	if err != nil {
 		return err
 	}
@@ -196,16 +211,17 @@ func (OperatorHandler) DeleteArticleSort(c *routing.Context) error {
 	return c.Write(sort)
 }
 
+
 //创建文章分类
-func (OperatorHandler) CreateArticleSort(c *routing.Context) error {
+func (OperatorHandler)CreateArticleSort(c *routing.Context) error {
 	var req form.CreateArticleSortRequest
 	req.Name = getSessionOperator(c).Name
 	err := c.Read(&req)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
-	sort, err := service.Operator.CreateArticleSort(req)
-	if err != nil {
+	sort,err := service.Operator.CreateArticleSort(req)
+	if err != nil{
 		return err
 	}
 	service.Log.LogOperator(
@@ -218,3 +234,4 @@ func (OperatorHandler) CreateArticleSort(c *routing.Context) error {
 	)
 	return c.Write(http.StatusOK)
 }
+

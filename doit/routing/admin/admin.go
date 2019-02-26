@@ -34,6 +34,7 @@ func ManagerRegisterRoutes(router *routing.RouteGroup) {
 		router.Patch("/schedules/<key>", updateSchedule) 						// 更新计划任务
 		router.Get("/schedules/<key>", getSchedule)      						// 获取计划任务
 		/*-----------------------------------------Statistics------------------------------------------------*/
+		router.Get("/statistics/month/<year>",operatorHandler.GetMonthArticle)		// 获取每个月份文章发布数
 		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/
 		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
