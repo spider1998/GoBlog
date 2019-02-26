@@ -47,13 +47,27 @@ func RegisterUser(c *routing.Context) error {
 	if err != nil {
 		return code.New(400, code.CodeBadRequest).Err(err)
 	}
-
 	user, err := service.User.RegisterUser(req, account)
 	if err != nil {
 		return err
 	}
 	return c.Write(user)
 
+}
+
+//忘记密码
+func ForgetPassword(c *routing.Context) error {
+	var req entity.RegisterUserRequest
+	account := access.GetClientIP(c.Request)
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(400, code.CodeBadRequest).Err(err)
+	}
+	err  = service.User.ForgetPassword(req,account)
+	if err != nil{
+		return err
+	}
+	return err
 }
 
 //用户登录
@@ -158,3 +172,5 @@ func Contact(c *routing.Context) error {
 	}
 	return err
 }
+
+

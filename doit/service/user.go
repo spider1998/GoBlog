@@ -6,22 +6,22 @@ import (
 	"Project/doit/entity"
 	"Project/doit/util"
 	"bytes"
-	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego/utils"
 	"github.com/go-ozzo/ozzo-dbx"
 	v "github.com/go-ozzo/ozzo-validation"
-	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 	"github.com/google/uuid"
 	"github.com/mediocregopher/radix.v2/redis"
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
 	"io/ioutil"
-	"mime/multipart"
 	"net/http"
-	"time"
 	"unsafe"
+	"mime/multipart"
+	"time"
+	"crypto/sha1"
+	"github.com/gobuffalo/packr/v2/file/resolver/encoding/hex"
 )
 
 var User = UserService{
@@ -48,6 +48,9 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 		v.Field(&request.Name, v.Required, v.RuneLength(5, 15)),
 		v.Field(&request.Password, v.Required, v.RuneLength(6, 16)),
 	)
+	if err != nil{
+		return
+	}
 
 	vcode, err := app.Redis.Cmd("GET", u.getCachKey(account)).Str()
 	if err != nil {
@@ -63,9 +66,6 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 		return
 	}
 
-	if err != nil {
-		return
-	}
 	user.ID = uuid.New().String()
 	user.Name = request.Name
 	user.PasswordHash, err = util.GeneratePasswordHash([]byte(request.Password))
@@ -90,6 +90,53 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 			return
 		}
 		err = errors.Wrap(err, "fail to register user")
+		return
+	}
+	return
+}
+
+//忘记密码
+func (u *UserService) ForgetPassword(request entity.RegisterUserRequest,account string) (err error) {
+	err = v.ValidateStruct(&request,
+		v.Field(&request.Name, v.Required, v.RuneLength(5, 15)),
+		v.Field(&request.Password, v.Required, v.RuneLength(6, 16)),
+	)
+	if err != nil{
+		return
+	}
+
+	vcode, err := app.Redis.Cmd("GET", u.getCachKey(account)).Str()
+	if err != nil {
+		if err == redis.ErrRespNil {
+			err = code.New(http.StatusForbidden, code.CodeUserAccessSessionInvalid).Err("email session not found.")
+			return
+		}
+		err = errors.Wrap(err, "fail to get email code from redis")
+		return
+	}
+	if request.Cach != vcode {
+		err = code.New(http.StatusBadRequest, code.CodeVerifyError)
+		return
+	}
+	var user entity.User
+	err = app.DB.Select().Where(dbx.HashExp{"name": request.Name}).
+		Where(dbx.HashExp{"password": request.Password}).One(&user)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusNotFound, code.CodeUserNotExist)
+			return
+		}
+		err = errors.Wrap(err, "fail to find user")
+		return
+	}
+	user.PasswordHash, err = util.GeneratePasswordHash([]byte(request.Password))
+	if err != nil {
+		err = errors.Wrap(err, "fail to generate password hash")
+		return
+	}
+	err = app.DB.Model(&user).Update("PasswordHash")
+	if err != nil {
+		err = errors.WithStack(err)
 		return
 	}
 	return
@@ -360,6 +407,7 @@ func (u *UserService) GetMobileVerify(uid, mobile string) (code string, err erro
 	return
 }
 
+
 //联系管理员
 func (u *UserService) ContactManager(req entity.Contact) (err error) {
 	err = v.ValidateStruct(&req,
@@ -399,6 +447,19 @@ func (u *UserService) ContactManager(req entity.Contact) (err error) {
 	}
 	return
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 func (s *UserService) getSessionKey(sessionID string) string {
 	return s.sessionKey + sessionID
