@@ -14,6 +14,7 @@ import (
 	"time"
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/mediocregopher/radix.v2/redis"
+	"io/ioutil"
 )
 
 var Operator = &OperatorService{}
@@ -68,11 +69,20 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 	for _,ar := range arts{
 		sum += ar.Read
 	}
+
+	var i int
+	path := "./attachment"
+	files, _ := ioutil.ReadDir(path)
+	for _, f := range files {
+		fi,_ := ioutil.ReadDir(path+"/"+f.Name())
+		i+=len(fi)
+	}
 	res.UserCount = len(users)
 	res.ArtCount = len(arts)
 	res.TodayArt = n
 	res.TodayRegister = m
 	res.ReadCount = sum
+	res.AttachCount = i
 	return
 }
 
