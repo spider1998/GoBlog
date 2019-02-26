@@ -34,18 +34,14 @@
 				<div class="row cb-slideshow-text-container ">
 					<div class= "tm-content col-xl-6 col-sm-8 col-xs-8 ml-auto section">
 					<header class="mb-5"><h1>Go-Blog</h1></header>
-					<P class="mb-5">A sign-up letter template with three background images shuffling by fade in out movements. Thank you for visiting our site!</P>
+					<P class="mb-5">Please enter the email address you used to register and verify it..</P>
 					
                     <form action="#" method="get" class="subscribe-form">
                	    	<div class="row form-section">
 
-							<div class="col-md-7 col-sm-7 col-xs-7">
-			                      <input name="name" type="text" class="form-control" id="name" placeholder="Your Name..." required/>
-				  			</div>
-
-				  			<div class="col-md-7 col-sm-7 col-xs-7">
-			                      <input name="password" type="password" class="form-control" id="password" placeholder="Your Nassword..." required/>
-				  			</div>
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                                <input name="name" type="text" class="form-control" id="name" placeholder="Your Name..." required/>
+                            </div>
 
 				  			<div class="col-md-7 col-sm-7 col-xs-7">
 			                      <input name="email" type="text" class="form-control" id="email" placeholder="Your Email..." required/>
@@ -58,9 +54,14 @@
 							<div class="col-md-7 col-sm-7 col-xs-7">
 			                      <input name="cach" type="text" class="form-control" id="cach" placeholder="Verification Code..." required/>
 				  			</div>
-
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                                <input name="cach" type="text" class="form-control" id="new_psw" placeholder="New password..." required/>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
 				  			<div class="col-md-7 col-sm-7 col-xs-7">
-								<input type="button" class="form-control" id="Register_btn" onclick="register()" value="Register" />
+								<input type="button" class="form-control" id="Register_btn" onclick="register()" value="Commit" />
 							</div>
 						</div>
                     </form>
@@ -87,7 +88,7 @@
 
 		function register() {
 			var name =$("#name").val();	
-			var password =$("#password").val();
+			var password =$("#new_psw").val();
 			var email = $("#email").val();
 			var code = $("#cach").val();	
 		            $.ajax({
@@ -97,7 +98,11 @@
 		                url: "http://192.168.35.193:8081/user/register" ,//url
 		                data: JSON.stringify({"name":name,"password":password,"email":email,"cach":code}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
 		                success: function (result) {
+		                    console.log(result);//打印服务端返回的数据(调试用)
+		                    if (result.status == 200) {
 		                        window.location.href = "./login.html"
+		                    }
+		                    ;
 		                },
 		                error : function() {
 		                    alert(result.text);
