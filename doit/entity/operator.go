@@ -16,30 +16,9 @@ type Operator struct {
 	Name         string                 `json:"name"`
 	PasswordHash []byte                 `json:"-"`
 	RealName     string                 `json:"real_name"`
-	Permissions  map[string]string      `json:"permissions" gorm:"type:json"`
-	Shortcuts    []interface{}          `json:"shortcuts,omitempty" gorm:"type:json"`
-	Ext          map[string]interface{} `json:"ext" gorm:"type:json"`
 	State        OperatorState          `json:"state"`
 	CreateTime   time.Time              `json:"create_time" gorm:"created"`
-	UpdateTime   time.Time              `json:"update_time" gorm:"updated"`
-}
-
-func (o *Operator) BeforeInsert() {
-	if o.Ext == nil {
-		o.Ext = make(map[string]interface{})
-	}
-	if o.Permissions == nil {
-		o.Permissions = make(map[string]string)
-	}
-}
-
-func (o *Operator) BeforeUpdate() {
-	if o.Ext == nil {
-		o.Ext = make(map[string]interface{})
-	}
-	if o.Permissions == nil {
-		o.Permissions = make(map[string]string)
-	}
+	UpdateTime   time.Time             `json:"update_time" gorm:"updated"`
 }
 
 type OperatorSession struct {
