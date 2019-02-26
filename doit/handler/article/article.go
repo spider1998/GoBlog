@@ -1,24 +1,24 @@
 package article
 
 import (
-	"Project/doit/app"
-	"Project/doit/code"
 	"Project/doit/entity"
-	"Project/doit/form"
 	"Project/doit/handler/session"
 	"Project/doit/service"
-	"Project/doit/util"
-	"crypto/sha1"
-	"encoding/hex"
-	"fmt"
-	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/go-ozzo/ozzo-routing"
-	"github.com/pkg/errors"
+	"net/http"
+	"crypto/sha1"
+	"Project/doit/code"
+	"Project/doit/app"
+	"encoding/hex"
+	"strconv"
+	"Project/doit/util"
+	"fmt"
+	"os"
 	"io"
 	"mime/multipart"
-	"net/http"
-	"os"
-	"strconv"
+	"github.com/go-ozzo/ozzo-dbx"
+	"github.com/pkg/errors"
+	"Project/doit/form"
 )
 
 //获取文章
@@ -53,7 +53,7 @@ func GetMyArticles(c *routing.Context) error {
 //获取历史版本
 func GetVersion(c *routing.Context) error {
 	req := c.Param("article_id")
-	version, err := service.Article.GetVersion(req)
+	version,err := service.Article.GetVersion(req)
 	if err != nil {
 		return err
 	}
@@ -64,11 +64,11 @@ func GetVersion(c *routing.Context) error {
 func GetVersionArticle(c *routing.Context) error {
 	ver := c.Param("version")
 	artId := c.Param("article_id")
-	version, err := strconv.Atoi(ver)
-	if err != nil {
+	version,err := strconv.Atoi(ver)
+	if err != nil{
 		return err
 	}
-	article, err := service.Article.GetVersionArticle(version, artId)
+	article,err := service.Article.GetVersionArticle(version,artId)
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func GetVersionArticle(c *routing.Context) error {
 func DeleteArticle(c *routing.Context) error {
 	articleID := c.Param("article_id")
 	userID := session.GetUserSession(c).ID
-	err := service.Article.DeleteArticle(articleID, userID)
+	err := service.Article.DeleteArticle(articleID,userID)
 	if err != nil {
 		return err
 	}
@@ -89,12 +89,12 @@ func DeleteArticle(c *routing.Context) error {
 //查询相关标题文章
 func QueryLikeArticles(c *routing.Context) error {
 	content := c.Param("likes_content")
-	response, err := service.Article.QueryLikeArticles(content)
-	if err != nil {
+	response,err := service.Article.QueryLikeArticles(content)
+	if err != nil{
 		return err
 	}
 
-	if len(response) == 0 {
+	if len(response) == 0{
 		response = []entity.Article{}
 	}
 	pager := util.GetPaginatedListFromRequest(c, len(response))
@@ -114,7 +114,7 @@ func RestoreVersionArticle(c *routing.Context) error {
 	}
 	req.UserId = session.GetUserSession(c).ID
 
-	article, err := service.Article.RestoreVersionArticle(req)
+	article,err := service.Article.RestoreVersionArticle(req)
 	if err != nil {
 		return err
 	}
@@ -132,27 +132,27 @@ func SaveVerified(art entity.Article) (err error) {
 	var hc string = ""
 	var de string = ""
 	//拆分文章重新结合为带标识的文章块
-	for i := 0; ; i += app.Conf.ContentSize {
-		if i >= len(art.Content) {
+	for i := 0;;i+=app.Conf.ContentSize{
+		if i >= len(art.Content){
 			break
 		}
-		if i+app.Conf.ContentSize > len(art.Content) {
+		if i + app.Conf.ContentSize > len(art.Content){
 			de = art.Content[i:]
 
-		} else {
-			de = art.Content[i : i+app.Conf.ContentSize]
+		}else {
+			de = art.Content[i:i+app.Conf.ContentSize]
 		}
-		hashContent.Version = art.Version //片段版本
-		hashContent.Detail = de           //详细内容
-		hashContent.HeadUuid = hc         //头标识
+		hashContent.Version = art.Version								//片段版本
+		hashContent.Detail = de											//详细内容
+		hashContent.HeadUuid = hc										//头标识
 		hs := sha1.Sum([]byte(hashContent.Detail))
 		hc = hex.EncodeToString(hs[:])
-		hashContent.TailUuid = hc       //尾标识
-		hashContent.Changed = false     //改动标识
-		hashContent.UserId = art.UserId //用户ID
-		hashContent.ArtId = art.ID      //文章ID
+		hashContent.TailUuid = hc										//尾标识
+		hashContent.Changed = false										//改动标识
+		hashContent.UserId = art.UserId									//用户ID
+		hashContent.ArtId = art.ID									//文章ID
 		err := service.Article.SaveArtBlock(hashContent)
-		if err != nil {
+		if err != nil{
 			return err
 		}
 	}
@@ -166,39 +166,39 @@ func AddArticle(c *routing.Context) error {
 	req.Title = c.Form("title")
 	req.SecondTitle = c.Form("second_title")
 	modify := c.Form("modify_type")
-	if modify == "1" {
+	if modify == "1"{
 		req.ModifyType = entity.ModifyTypeAble
-	} else {
+	}else{
 		req.ModifyType = entity.ModifyTypeEnable
 	}
 	req.Sort = c.Form("sort")
 	req.Content = c.Form("content")
 
-	imgF, imgH, err := c.Request.FormFile("bacc")
-	if err != nil {
+	imgF,imgH,err := c.Request.FormFile("bacc")
+	if err != nil{
 		app.Logger.Info().Msg("no img")
 	}
 	//保存背景图
-	if imgF == nil {
+	if imgF == nil{
 		fmt.Println("no img")
-	} else {
-		imgPath, err := saveFile(imgF, imgH)
-		if err != nil {
+	}else {
+		imgPath,err := saveFile(imgF,imgH)
+		if err != nil{
 			return err
 		}
 		defer imgF.Close()
 		req.Photo = imgPath
 	}
 	//保存附件
-	testF, testH, err := c.Request.FormFile("attach")
-	if err != nil {
+	testF,testH,err := c.Request.FormFile("attach")
+	if err != nil{
 		app.Logger.Info().Msg("no attachment")
 	}
-	if testF == nil {
+	if testF == nil{
 		fmt.Println("no img")
-	} else {
-		testPath, err := saveFile(testF, testH)
-		if err != nil {
+	}else {
+		testPath,err := saveFile(testF,testH)
+		if err != nil{
 			return err
 		}
 		defer testF.Close()
@@ -211,12 +211,12 @@ func AddArticle(c *routing.Context) error {
 	return c.Write(art.ID)
 }
 
-func saveFile(file multipart.File, head *multipart.FileHeader) (path string, err error) {
+func saveFile(file multipart.File,head *multipart.FileHeader) (path string,err error) {
 	path = service.User.SaveAttachment(head)
 	if _, err1 := os.Stat(path); err1 != nil {
 		err1 := os.MkdirAll(path, 0711)
-		if err1 != nil {
-			err = err1
+		if err1 != nil{
+			err=err1
 			return
 		}
 	}
@@ -238,8 +238,8 @@ func VerifyArticle(c *routing.Context) error {
 	req.ID = c.Form("artID")
 	req.UserId = c.Form("user")
 
-	u, err := service.User.CheckSession(req.UserId)
-	if err != nil {
+	u,err := service.User.CheckSession(req.UserId)
+	if err != nil{
 		return err
 	}
 	var art entity.Article
@@ -260,38 +260,38 @@ func VerifyArticle(c *routing.Context) error {
 	req.Title = c.Form("title")
 	req.SecondTitle = c.Form("second_title")
 	modify := c.Form("modify_type")
-	if modify == "1" {
+	if modify == "1"{
 		req.ModifyType = entity.ModifyTypeAble
-	} else {
+	}else{
 		req.ModifyType = entity.ModifyTypeEnable
 	}
 	req.Sort = c.Form("sort")
 	req.Content = c.Form("content")
-	imgF, imgH, err := c.Request.FormFile("bacc")
-	if err != nil {
+	imgF,imgH,err := c.Request.FormFile("bacc")
+	if err != nil{
 		app.Logger.Info().Msg("no img")
 	}
 	//保存背景图
-	if imgF == nil {
+	if imgF == nil{
 		fmt.Println("no img")
-	} else {
-		imgPath, err := saveFile(imgF, imgH)
-		if err != nil {
+	}else {
+		imgPath,err := saveFile(imgF,imgH)
+		if err != nil{
 			return err
 		}
 		defer imgF.Close()
 		req.Photo = imgPath
 	}
 	//保存附件
-	testF, testH, err := c.Request.FormFile("attach")
-	if err != nil {
+	testF,testH,err := c.Request.FormFile("attach")
+	if err != nil{
 		app.Logger.Info().Msg("no attachment")
 	}
-	if testF == nil {
+	if testF == nil{
 		fmt.Println("no img")
-	} else {
-		testPath, err := saveFile(testF, testH)
-		if err != nil {
+	}else {
+		testPath,err := saveFile(testF,testH)
+		if err != nil{
 			return err
 		}
 		defer testF.Close()
@@ -335,8 +335,8 @@ func LikeOneArticle(c *routing.Context) error {
 //获取文章点赞数量
 func GetArticleLikeCount(c *routing.Context) error {
 	artID := c.Param("article_id")
-	count, err := service.Article.GetArticleLikeCount(artID)
-	if err != nil {
+	count,err := service.Article.GetArticleLikeCount(artID)
+	if err != nil{
 		return err
 	}
 	return c.Write(count)
@@ -350,7 +350,7 @@ func ForwardArticle(c *routing.Context) error {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
 	err = service.Article.ForwardArticle(req)
-	if err != nil {
+	if err != nil{
 		return err
 	}
 	return c.Write(http.StatusOK)
@@ -365,7 +365,7 @@ func ForwardAuthorization(c *routing.Context) error {
 	}
 	req.ArtID = c.Param("article_id")
 	err = service.Article.ForwardAuthorization(req)
-	if err != nil {
+	if err != nil{
 		return err
 	}
 	return c.Write(http.StatusOK)
@@ -378,10 +378,11 @@ func CommentArticle(c *routing.Context) error {
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
+	req.ArtID = c.Param("art_id")
 	req.UserID = session.GetUserSession(c).ID
 	req.Name = session.GetUserSession(c).Name
 	err = service.Article.CommentArticle(req)
-	if err != nil {
+	if err != nil{
 		return err
 	}
 	return c.Write(http.StatusOK)
@@ -394,10 +395,11 @@ func CommentReply(c *routing.Context) error {
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
+	req.ComID = c.Param("com_id")
 	req.UserID = session.GetUserSession(c).ID
 	req.Name = session.GetUserSession(c).Name
 	err = service.Article.CommentReply(req)
-	if err != nil {
+	if err != nil{
 		return err
 	}
 	return c.Write(http.StatusOK)
@@ -406,14 +408,14 @@ func CommentReply(c *routing.Context) error {
 //获取所有评论及回复
 func GetArticleComment(c *routing.Context) error {
 	artID := c.Param("art_id")
-	if artID == "" {
+	if artID == ""{
 		return code.New(http.StatusBadRequest, code.CodeBadRequest)
 	}
-	response, err := service.Article.GetArticleComment(artID)
-	if err != nil {
+	response,err := service.Article.GetArticleComment(artID)
+	if err != nil{
 		return err
 	}
-	if len(response) == 0 {
+	if len(response) == 0{
 		response = []form.ArticleCommentResponse{}
 	}
 	pager := util.GetPaginatedListFromRequest(c, len(response))
@@ -422,5 +424,6 @@ func GetArticleComment(c *routing.Context) error {
 	} else {
 		return c.Write(response[pager.Offset():pager.TotalCount])
 	}
+
 
 }

@@ -155,7 +155,7 @@
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                  <a href="javascript:;" onclick="artcom();">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fa fa-bullhorn fa-stack-1x fa-inverse"></i>
@@ -190,9 +190,47 @@
                 </li>
             </ul>
             <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+              <div id="comment" style="display: none;">
+                  <textarea name='' cols='40' rows='5' id="artcomment"></textarea><br/><input type='submit' value='发表' onclick="artcomment();"/>&nbsp;&nbsp;<input type="submit" value='取消' onclick="cannelcom();"/>
+              </div>
+
           </div>
         </div>
+
+        <div id="main_comment">
+            <div>
+                <p>
+                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>:so nice ! &nbsp;&nbsp;(Replies:100)
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
+                </p>
+                <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" style="text-decoration: none;color: #1c7430">Lebron</a>
+                    @@@
+                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>
+                    :  <span>it's so good !</span>
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>:so nice ! &nbsp;&nbsp;(Replies:100)
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
+                </p>
+                <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" style="text-decoration: none;color: #1c7430">Lebron</a>
+                    @@@
+                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>
+                    :  <span>it's so good !</span>
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
+                </p>
+            </div>
+        </div>
       </div>
+
+
     </footer>
 
     <!-- Bootstrap core JavaScript -->
@@ -356,7 +394,119 @@
                 }
             });
 
+
+            //获取所有评论及回复
+          $.ajax({
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/article/"+artID+"/comments",
+              success: function (data) {
+                  var html = `<p>All Comments:</p>`;
+                  $.each(data, function(i, obj) {
+                      var s = i;
+                      var m = obj.comment.com_id;
+                      var userID = obj.comment.user_id;
+                      var userName = obj.comment.name;
+                      html += `<div>
+                <p>
+                    <a href="#" style="text-decoration: none;color: #1c7430">`+obj.comment.name+`</a>:`+obj.comment.content+`&nbsp;&nbsp;(Replies:100)
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" id="`+i+`" onclick="onct(\'`+m + `\',`+s+`,\'`+userID+`\',\'`+userName+`\'`+`);">回复</a>
+                </p>`;  //循环遍历，拼接
+                      //循环填充单条评论回复
+
+                      $.each(obj.replies,function (j,ob) {
+                          v = i+j
+                          html += `<p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" style="text-decoration: none;color: #1c7430">`+ob.name+`</a>
+                    @@@
+                    <a href="#" style="text-decoration: none;color: #1c7430">`+ob.father_name+`</a>
+                    :  <span>`+ob.content+`</span>
+                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" id="`+i+j+`" onclick="onct(\'`+m+`\',`+v+`,\'`+userID+`\',\'`+userName+`\'`+`);">回复</a>
+                </p>`;
+                      });
+                   html += `</div>`;
+                  });
+                  $("#main_comment").html(html);//动态插入html
+              },
+              beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Session", session);
+              },
+              error : function() {
+                  alert("search blog failed");
+              }
+          });
+
         });
+
+         /*-------------------------------------评论-----------------------------------------------*/
+
+        //显示评论框
+         function artcom() {
+             $("#comment").attr("style","display:block");
+         }
+         //隐藏评论框
+         function cannelcom() {
+             $(".reply_textarea").remove();
+             $("#comment").attr("style","display:none");
+         }
+        //弹出回复框
+
+        function onct(s,w,id,name) {
+            $(".reply_textarea").remove();
+            $("#"+w).parent().append("<div class='reply_textarea'><textarea name='' cols='40' " +
+                    "rows='5' id='reply_comment'></textarea><br/><input type='submit' value='发表' onclick='reply_comment(\""+ s + "\",\""+ id + "\",\""+name+"\");'/>&nbsp;&nbsp;<input type=" +
+                    "'submit' value='取消' onclick='cannel();'/></div>");
+        }
+         //取消回复框
+         function cannel() {
+             $(".reply_textarea").remove();
+         }
+         //发表文章评论
+         function artcomment() {
+             var v = $("#artcomment").val();
+
+             $.ajax({
+                 type: "POST",//方法类型
+                 contentType: "application/json",
+                 url: "http://192.168.35.193:8081/article/"+artID+"/comment",
+                 data: JSON.stringify({"content":v}),
+                 success: function (result) {
+                     alert("comment success..")
+                 },
+                 beforeSend: function(xhr) {
+                     xhr.setRequestHeader("X-Access-Session", session);
+                 },
+                 error : function() {
+                     $("#tip").html("LOGIN");
+                     $("#tip").attr("href","../login.html");
+                 }
+             });
+
+         }
+            //发表评论回复
+         function reply_comment(s,id,name) {
+             var v = $("#reply_comment").val();
+             $.ajax({
+                 type: "POST",//方法类型
+                 contentType: "application/json",
+                 url: "http://192.168.35.193:8081/article/comments/"+s+"/reply",
+                 data: JSON.stringify({"father_id":id,"father_name":name,"content":v}),
+                 success: function (result) {
+                     alert("comment success..")
+                 },
+                 beforeSend: function(xhr) {
+                     xhr.setRequestHeader("X-Access-Session", session);
+                 },
+                 error : function() {
+                     $("#tip").html("LOGIN");
+                     $("#tip").attr("href","../login.html");
+                 }
+             });
+
+         }
+
+
 
 
     </script>  
