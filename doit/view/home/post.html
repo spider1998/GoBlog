@@ -189,7 +189,6 @@
                     </a>
                 </li>
             </ul>
-            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
               <div id="comment" style="display: none;">
                   <textarea name='' cols='40' rows='5' id="artcomment"></textarea><br/><input type='submit' value='发表' onclick="artcomment();"/>&nbsp;&nbsp;<input type="submit" value='取消' onclick="cannelcom();"/>
               </div>
@@ -198,36 +197,9 @@
         </div>
 
         <div id="main_comment">
-            <div>
-                <p>
-                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>:so nice ! &nbsp;&nbsp;(Replies:100)
-                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
-                </p>
-                <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#" style="text-decoration: none;color: #1c7430">Lebron</a>
-                    @@@
-                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>
-                    :  <span>it's so good !</span>
-                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
-                </p>
-            </div>
-
-            <div>
-                <p>
-                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>:so nice ! &nbsp;&nbsp;(Replies:100)
-                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
-                </p>
-                <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#" style="text-decoration: none;color: #1c7430">Lebron</a>
-                    @@@
-                    <a href="#" style="text-decoration: none;color: #1c7430">Spider1998</a>
-                    :  <span>it's so good !</span>
-                    <a href="javascript:;" class="reply_btn" style="text-decoration: none" >回复</a>
-                </p>
-            </div>
+            <!-- 评论主体内容 -->
         </div>
+          <p class="copyright text-muted">Copyright &copy; Go-Blog 2019</p>
       </div>
 
 
@@ -472,7 +444,7 @@
                  url: "http://192.168.35.193:8081/article/"+artID+"/comment",
                  data: JSON.stringify({"content":v}),
                  success: function (result) {
-                     alert("comment success..")
+                     window.location.reload();
                  },
                  beforeSend: function(xhr) {
                      xhr.setRequestHeader("X-Access-Session", session);
@@ -493,7 +465,7 @@
                  url: "http://192.168.35.193:8081/article/comments/"+s+"/reply",
                  data: JSON.stringify({"father_id":id,"father_name":name,"content":v}),
                  success: function (result) {
-                     alert("comment success..")
+                     window.location.reload();
                  },
                  beforeSend: function(xhr) {
                      xhr.setRequestHeader("X-Access-Session", session);
