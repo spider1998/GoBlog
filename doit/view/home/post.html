@@ -409,7 +409,7 @@
                       var userName = obj.comment.name;
                       html += `<div>
                 <p>
-                    <a href="#" style="text-decoration: none;color: #1c7430">`+obj.comment.name+`</a>:`+obj.comment.content+`&nbsp;&nbsp;(Replies:100)
+                    <a href="#" style="text-decoration: none;color: #1c7430">`+obj.comment.name+`</a>:`+obj.comment.content+`&nbsp;&nbsp;(Replies:`+obj.comment.reply_count+`)
                     <a href="javascript:;" class="reply_btn" style="text-decoration: none" id="`+i+`" onclick="onct(\'`+m + `\',`+s+`,\'`+userID+`\',\'`+userName+`\'`+`);">回复</a>
                 </p>`;  //循环遍历，拼接
                       //循环填充单条评论回复

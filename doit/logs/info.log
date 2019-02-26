@@ -2692,3 +2692,59 @@
 {"level":"info","time":"2019-02-25T18:36:05+08:00","message":"[192.168.35.248] [10.114ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
 {"level":"info","time":"2019-02-25T18:36:05+08:00","message":"[192.168.35.248] [8.370ms] GET /user/sessions/f33fb4bbac2262e06d73e423e9429f38 HTTP/1.1 200 350"}
 {"level":"info","time":"2019-02-25T18:36:05+08:00","message":"[192.168.35.248] [18.466ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 707"}
+{"level":"info","service":"nsq_logger","time":"2019-02-26T09:17:23+08:00","message":"ERR    1 [go-blog.log/go-blog] (192.168.35.193:4150) IO error - EOF"}
+{"level":"info","service":"nsq_logger","time":"2019-02-26T09:17:23+08:00","message":"WRN    1 [go-blog.log/go-blog] there are 0 connections left alive"}
+{"level":"info","pid":26961,"time":"2019-02-26T09:20:56+08:00","message":"app booted."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":"."},"time":"2019-02-26T09:20:56+08:00","message":"loaded config."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"start load db..."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"loaded db."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"registering routes."}
+{"level":"info","time":"2019-02-26T09:20:56+08:00","message":"load cron."}
+{"level":"info","crons":[],"time":"2019-02-26T09:20:56+08:00","message":"find cron from db."}
+{"level":"info","server_addr":":8081","time":"2019-02-26T09:20:56+08:00","message":"run http server."}
+{"level":"info","time":"2019-02-26T09:22:56+08:00","message":"[192.168.35.248] [0.133ms] GET /user/verify/email/ HTTP/1.1 301 53"}
+{"level":"info","time":"2019-02-26T09:22:56+08:00","message":"[192.168.35.248] [0.074ms] GET /user/verify/email HTTP/1.1 404 10"}
+{"level":"info","time":"2019-02-26T09:23:28+08:00","message":"[192.168.35.248] [83.141ms] POST /user/login HTTP/1.1 403 42"}
+{"level":"info","time":"2019-02-26T09:23:29+08:00","message":"[192.168.35.248] [68.901ms] POST /user/login HTTP/1.1 403 42"}
+{"level":"info","time":"2019-02-26T09:23:38+08:00","message":"[192.168.35.248] [72.269ms] POST /user/login HTTP/1.1 200 35"}
+{"level":"info","time":"2019-02-26T09:23:38+08:00","message":"[192.168.35.248] [2.327ms] GET /article/articles HTTP/1.1 200 2109"}
+{"level":"info","time":"2019-02-26T09:23:38+08:00","message":"[192.168.35.248] [0.047ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-02-26T09:23:39+08:00","message":"[192.168.35.248] [276.163ms] GET /user/sessions/26cab7809dc2ac8466e07f524d9f6e4c HTTP/1.1 200 350"}
+{"level":"info","time":"2019-02-26T09:23:46+08:00","message":"[192.168.35.248] [0.979ms] GET /article/articles HTTP/1.1 200 2109"}
+{"level":"info","time":"2019-02-26T09:23:46+08:00","message":"[192.168.35.248] [3.858ms] GET /user/sessions/26cab7809dc2ac8466e07f524d9f6e4c HTTP/1.1 200 350"}
+{"level":"info","time":"2019-02-26T09:23:46+08:00","message":"[192.168.35.248] [0.050ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-02-26T09:23:52+08:00","message":"[192.168.35.248] [11.870ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 707"}
+{"level":"info","time":"2019-02-26T09:23:52+08:00","message":"[192.168.35.248] [10.997ms] GET /user/sessions/26cab7809dc2ac8466e07f524d9f6e4c HTTP/1.1 200 350"}
+{"level":"info","time":"2019-02-26T09:23:52+08:00","message":"[192.168.35.248] [19.799ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
+{"level":"info","time":"2019-02-26T09:23:52+08:00","message":"[192.168.35.248] [27.686ms] GET /article/articles/7897de3a-96f8-4ceb-b725-7844472121d2 HTTP/1.1 200 496"}
+{"level":"info","time":"2019-02-26T09:24:10+08:00","message":"[192.168.35.248] [3.751ms] GET /user/sessions/26cab7809dc2ac8466e07f524d9f6e4c HTTP/1.1 200 350"}
+{"level":"info","time":"2019-02-26T09:24:10+08:00","message":"[192.168.35.248] [1.901ms] GET /article/articles HTTP/1.1 200 2109"}
+{"level":"info","time":"2019-02-26T09:24:10+08:00","message":"[192.168.35.248] [0.042ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-02-26T09:24:16+08:00","message":"[192.168.35.248] [71.121ms] POST /user/login HTTP/1.1 200 35"}
+{"level":"info","time":"2019-02-26T09:24:16+08:00","message":"[192.168.35.248] [1.698ms] GET /article/articles HTTP/1.1 200 2109"}
+{"level":"info","time":"2019-02-26T09:24:16+08:00","message":"[192.168.35.248] [7.284ms] GET /user/sessions/d5b395c9dc528814c764e0f6ca86ea1c HTTP/1.1 200 354"}
+{"level":"info","time":"2019-02-26T09:24:16+08:00","message":"[192.168.35.248] [0.059ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-02-26T09:24:17+08:00","message":"[192.168.35.248] [6.207ms] GET /user/sessions/d5b395c9dc528814c764e0f6ca86ea1c HTTP/1.1 200 354"}
+{"level":"info","time":"2019-02-26T09:24:18+08:00","message":"[192.168.35.248] [7.936ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
+{"level":"info","time":"2019-02-26T09:24:18+08:00","message":"[192.168.35.248] [7.822ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 707"}
+{"level":"info","time":"2019-02-26T09:24:18+08:00","message":"[192.168.35.248] [14.064ms] GET /article/articles/7897de3a-96f8-4ceb-b725-7844472121d2 HTTP/1.1 200 496"}
+{"level":"info","time":"2019-02-26T09:24:43+08:00","message":"[192.168.35.248] [20.492ms] POST /article/comments/bhppph621biqdc0vlnm0/reply HTTP/1.1 200 4"}
+{"level":"info","time":"2019-02-26T09:24:46+08:00","message":"[192.168.35.248] [5.087ms] GET /article/articles/7897de3a-96f8-4ceb-b725-7844472121d2 HTTP/1.1 200 496"}
+{"level":"info","time":"2019-02-26T09:24:46+08:00","message":"[192.168.35.248] [9.815ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 948"}
+{"level":"info","time":"2019-02-26T09:24:46+08:00","message":"[192.168.35.248] [20.786ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
+{"level":"info","time":"2019-02-26T09:24:46+08:00","message":"[192.168.35.248] [26.010ms] GET /user/sessions/d5b395c9dc528814c764e0f6ca86ea1c HTTP/1.1 200 354"}
+{"level":"info","time":"2019-02-26T09:25:01+08:00","message":"[192.168.35.248] [20.735ms] POST /article/7897de3a-96f8-4ceb-b725-7844472121d2/comment HTTP/1.1 200 4"}
+{"level":"info","time":"2019-02-26T09:25:04+08:00","message":"[192.168.35.248] [9.693ms] GET /article/articles/7897de3a-96f8-4ceb-b725-7844472121d2 HTTP/1.1 200 496"}
+{"level":"info","time":"2019-02-26T09:25:04+08:00","message":"[192.168.35.248] [19.805ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
+{"level":"info","time":"2019-02-26T09:25:04+08:00","message":"[192.168.35.248] [17.595ms] GET /user/sessions/d5b395c9dc528814c764e0f6ca86ea1c HTTP/1.1 200 354"}
+{"level":"info","time":"2019-02-26T09:25:04+08:00","message":"[192.168.35.248] [21.145ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 1188"}
+{"level":"info","time":"2019-02-26T09:27:51+08:00","message":"[192.168.35.248] [11.711ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/like HTTP/1.1 200 2"}
+{"level":"info","time":"2019-02-26T09:27:51+08:00","message":"[192.168.35.248] [15.873ms] GET /article/7897de3a-96f8-4ceb-b725-7844472121d2/comments HTTP/1.1 200 1188"}
+{"level":"info","time":"2019-02-26T09:27:51+08:00","message":"[192.168.35.248] [22.145ms] GET /article/articles/7897de3a-96f8-4ceb-b725-7844472121d2 HTTP/1.1 200 496"}
+{"level":"info","time":"2019-02-26T09:27:51+08:00","message":"[192.168.35.248] [96.336ms] GET /user/sessions/d5b395c9dc528814c764e0f6ca86ea1c HTTP/1.1 200 354"}

@@ -456,7 +456,7 @@ func (a *ArticleService) GetArticleComment(artID string)(res []form.ArticleComme
 	for _,comment := range comments{
 		var reps []form.SonReply
 		re.Comment.ComID = comment.ID
-		re.Comment.ReplyCount = comment.ReplyCount
+		re.Comment.ReplyCount = comment.ReplyCount - 1
 		re.Comment.UserID = comment.UserID
 		re.Comment.Content = comment.Content
 		re.Comment.Name = comment.Name
