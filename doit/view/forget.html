@@ -92,17 +92,13 @@
 			var email = $("#email").val();
 			var code = $("#cach").val();	
 		            $.ajax({
-		                type: "POST",//方法类型
+		                type: "PATCH",//方法类型
 		                contentType: "application/json",
 		                dataType: "json",//预期服务器返回的数据类型
-		                url: "http://192.168.35.193:8081/user/register" ,//url
+		                url: "http://192.168.35.193:8081/user/forget" ,//url
 		                data: JSON.stringify({"name":name,"password":password,"email":email,"cach":code}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
 		                success: function (result) {
-		                    console.log(result);//打印服务端返回的数据(调试用)
-		                    if (result.status == 200) {
-		                        window.location.href = "./login.html"
-		                    }
-		                    ;
+		                    window.location.href = "./login.html"
 		                },
 		                error : function() {
 		                    alert(result.text);

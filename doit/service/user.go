@@ -98,7 +98,6 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 //忘记密码
 func (u *UserService) ForgetPassword(request entity.RegisterUserRequest,account string) (err error) {
 	err = v.ValidateStruct(&request,
-		v.Field(&request.Name, v.Required, v.RuneLength(5, 15)),
 		v.Field(&request.Password, v.Required, v.RuneLength(6, 16)),
 	)
 	if err != nil{
@@ -120,7 +119,7 @@ func (u *UserService) ForgetPassword(request entity.RegisterUserRequest,account 
 	}
 	var user entity.User
 	err = app.DB.Select().Where(dbx.HashExp{"name": request.Name}).
-		Where(dbx.HashExp{"password": request.Password}).One(&user)
+		AndWhere(dbx.HashExp{"email": request.Email}).One(&user)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusNotFound, code.CodeUserNotExist)
