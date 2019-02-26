@@ -21,25 +21,31 @@
 
                     <div class="card-body py-5">
                         <div class="form-group">
-                            <label class="form-control-label">Email</label>
-                            <input type="email" class="form-control">
+                            <label class="form-control-label">Name</label>
+                            <input type="name" class="form-control" id="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Cach</label>
+                            <!-- data:image/jpeg;base64, -->
+                            <img src="" class="form-control" id="cach" onclick="update();">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Verification</label>
+                            <input class="form-control" id="cachcode">
                         </div>
 
                         <div class="form-group">
                             <label class="form-control-label">Password</label>
-                            <input type="password" class="form-control">
-                        </div>
-
-                        <div class="custom-control custom-checkbox mt-4">
-                            <input type="checkbox" class="custom-control-input" id="login">
-                            <label class="custom-control-label" for="login">Check this custom checkbox</label>
+                            <input type="password" class="form-control" id="password">
                         </div>
                     </div>
 
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <button type="submit" class="btn btn-primary px-5">Login</button>
+                                <button type="submit" class="btn btn-primary px-5" onclick="login();">Login</button>
                             </div>
 
                             <div class="col-6">
@@ -58,5 +64,59 @@
 <script src="./vendor/chart.js/chart.min.js"></script>
 <script src="./js/carbon.js"></script>
 <script src="./js/demo.js"></script>
+<script>
+    var token = ""
+    $(document).ready(function(){
+        //页面初始化加载验证码
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/captcha/",
+                success: function (result) {
+                  $("#cach").attr("src","data:image/jpeg;base64,"+result.image);
+                  token = result.token
+                },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    });
+    //点击更新验证码
+    function update() {
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/captcha",
+                success: function (result) {
+                  $("#cach").attr("src","data:image/jpeg;base64,"+result.image);
+                  token = result.token
+                },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+
+    //登录
+    function login() {
+        var name =$("#name").val();
+        var password =$("#password").val();
+        var cach =$("#cachcode").val();
+
+        $.ajax({
+                type: "POST",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/sessions",
+                data: JSON.stringify({"name":name,"password":password,"captcha_code":cach,"captcha_token":token}),
+                success: function (result) {
+                  location.href = "index.html?token="+result.token
+                },
+
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+</script>
 </body>
 </html>

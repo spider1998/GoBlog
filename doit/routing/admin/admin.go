@@ -1,13 +1,14 @@
 package admin
 
 import (
+	"github.com/go-ozzo/ozzo-routing"
+	"strings"
 	"Project/doit/code"
+	"net/http"
+	"Project/doit/service"
 	"Project/doit/entity"
 	"Project/doit/handler/article"
-	"Project/doit/service"
-	"github.com/go-ozzo/ozzo-routing"
-	"net/http"
-	"strings"
+	"fmt"
 )
 
 func ManagerRegisterRoutes(router *routing.RouteGroup) {
@@ -18,38 +19,39 @@ func ManagerRegisterRoutes(router *routing.RouteGroup) {
 	)
 
 	{
-		router.Get("/captcha", captchaHandler.Generate)  // 拉取图片验证码
-		router.Post("/sessions", operatorHandler.SignIn) // 管理员登录
+		router.Get("/captcha", captchaHandler.Generate)							// 拉取图片验证码
+		router.Post("/sessions", operatorHandler.SignIn)						// 管理员登录
 	}
 
-	//router.Use(sessionChecker)
+	router.Use(sessionChecker)
 
 	{
 		/*-----------------------------------------System------------------------------------------------*/
 		//router.Post("/announcements",operatorHandler.CreateSiteAnnounce)			// 发布公告
-		router.Get("/backups", listBackups)              // 获取备份列表
-		router.Post("/backups", makeBackup)              // 备份数据库
-		router.Post("/restores", restoreBackup)          // 还原数据库
-		router.Patch("/schedules/<key>", updateSchedule) // 更新计划任务
-		router.Get("/schedules/<key>", getSchedule)      // 获取计划任务
+		router.Get("/backups", listBackups)              						// 获取备份列表
+		router.Post("/backups", makeBackup)              						// 备份数据库
+		router.Post("/restores", restoreBackup)          						// 还原数据库
+		router.Patch("/schedules/<key>", updateSchedule) 						// 更新计划任务
+		router.Get("/schedules/<key>", getSchedule)      						// 获取计划任务
 		/*-----------------------------------------Statistics------------------------------------------------*/
-		router.Get("/statistics", operatorHandler.GetStatistics) // 获取站点统计数据
+		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		/*-----------------------------------------Log------------------------------------------------*/
-		router.Get("/logs", logHandler.QueryLogs) // 查询日志
+		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
 		/*-----------------------------------------User------------------------------------------------*/
-		router.Get("/sessions/current", operatorHandler.GetSession)     // 获取管理员信息
-		router.Get("/users", operatorHandler.QueryBlogUser)             // 查询用户
-		router.Patch("/users/status", operatorHandler.ModifyUserStatus) // 启用/禁用用户
+		router.Get("/sessions/current", operatorHandler.GetSession)				// 获取管理员信息
+		router.Get("/users",operatorHandler.QueryBlogUser)						// 查询用户
+		router.Patch("/users/status",operatorHandler.ModifyUserStatus)			// 启用/禁用用户
 		/*-----------------------------------------Article------------------------------------------------*/
-		router.Get("/articles/<art_id>", article.GetArticle)                 //	获取指定文章
-		router.Get("/articles", operatorHandler.GetArticlesList)             //	获取文章列表
-		router.Delete("/articles/<art_id>", operatorHandler.DeleteArticle)   //	删除指定文章
-		router.Post("/sorts", operatorHandler.CreateArticleSort)             //	创建文章分类
-		router.Delete("/sorts/<sort_id>", operatorHandler.DeleteArticleSort) //	删除文章分类
-		router.Get("/sorts", operatorHandler.GetArticlesSorts)               //	获取文章分类
+		router.Get("/articles/<art_id>",article.GetArticle)						//	获取指定文章
+		router.Get("/articles",operatorHandler.GetArticlesList)					//	获取文章列表
+		router.Delete("/articles/<art_id>",operatorHandler.DeleteArticle)		//	删除指定文章
+		router.Post("/sorts",operatorHandler.CreateArticleSort)					//	创建文章分类
+		router.Delete("/sorts/<sort_id>",operatorHandler.DeleteArticleSort)		//	删除文章分类
+		router.Get("/sorts",operatorHandler.GetArticlesSorts)					//	获取文章分类
 
 	}
 }
+
 
 const (
 	sessionTokenHeaderKey = "X-Access-Token"
@@ -68,6 +70,8 @@ func sessionChecker(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println("xxxxxxxx")
+	fmt.Println(operator.Name)
 	c.Set(sessionKey, operator)
 	return c.Next()
 }
@@ -75,3 +79,6 @@ func sessionChecker(c *routing.Context) error {
 func getSessionOperator(c *routing.Context) entity.Operator {
 	return c.Get(sessionKey).(entity.Operator)
 }
+
+
+
