@@ -37,6 +37,7 @@ func ManagerRegisterRoutes(router *routing.RouteGroup) {
 		router.Get("/statistics",operatorHandler.GetStatistics)					// 获取站点统计数据
 		router.Get("/statistics/sort",operatorHandler.GetSortStatistic)			// 获取文章各类别统计
 		router.Get("/statistics/gender",operatorHandler.GetGenderStatic)		// 获取性别各时间段发文统计
+		router.Get("/statistics/area",operatorHandler.GetAreaStatic)			// 获取用户地区分布统计
 		/*-----------------------------------------Log------------------------------------------------*/
 		router.Get("/logs", logHandler.QueryLogs)								// 查询日志
 		/*-----------------------------------------User------------------------------------------------*/

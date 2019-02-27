@@ -33,6 +33,12 @@ type GenderStaticResponse struct {
 	Female	[]int `json:"female"`
 }
 
+type AreaStatisticResponse struct {
+	Area 	[]string 	`json:"area"`
+	Array 	[]int 		`json:"arry"`
+}
+
+
 
 type MainComment struct {
 	ComID 			string `json:"com_id"`

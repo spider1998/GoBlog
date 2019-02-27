@@ -22,6 +22,42 @@ var Operator = &OperatorService{}
 
 type OperatorService struct{}
 
+type AreaNum struct {
+	Area 	string `json:"area"`
+	Count	int `json:"count"`
+}
+
+//获取用户地区分布统计
+func (s *OperatorService) GetAreaStatic()(res form.AreaStatisticResponse,err error) {
+	sess := app.DB.Select("area,count(*) as count").From(entity.TableUser).
+		GroupBy("area").OrderBy("count desc").Limit(5)
+	var counts []AreaNum
+	err = sess.All(&counts)
+	if err != nil {
+		err = errors.Wrap(err, "fail to query article data.")
+		return
+	}
+	var sum int = 0
+	for _,cou := range counts{
+		res.Area = append(res.Area,cou.Area)
+		res.Array = append(res.Array,cou.Count)
+		sum += cou.Count
+	}
+	var arts []entity.User
+	err = app.DB.Select().All(&arts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	res.Area = append(res.Area,"其他")
+	res.Array = append(res.Array,len(arts)-sum)
+	return
+}
+
 //获取性别时间段发文统计
 func (s *OperatorService) GetGenderStatic()(res form.GenderStaticResponse,err error) {
 	var genderS []entity.GenderStatistic
