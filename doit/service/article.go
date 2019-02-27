@@ -371,7 +371,7 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 	}else{
 		genderS.Female += 1
 	}
-	err = app.DB.Model(&art).Update("Female","Male","ArtSum")
+	err = app.DB.Model(&genderS).Update("Female","Male","ArtSum")
 	if err != nil {
 		err = errors.WithStack(err)
 		return
