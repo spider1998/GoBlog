@@ -35,7 +35,7 @@ type GenderStaticResponse struct {
 
 type AreaStatisticResponse struct {
 	Area 	[]string 	`json:"area"`
-	Array 	[]int 		`json:"arry"`
+	Array 	[]int 		`json:"array"`
 }
 
 
