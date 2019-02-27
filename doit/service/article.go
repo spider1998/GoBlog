@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"github.com/rs/xid"
 	"Project/doit/form"
+	"time"
 )
 
 
@@ -298,6 +299,81 @@ func (a *ArticleService) CreateArticle(req entity.CreateArticleRequest) (art ent
 			return
 		}
 		err = errors.Wrap(err, "fail to create article")
+		return
+	}
+	//记录类别统计
+	var sort entity.Sort
+	err = app.DB.Select().Where(dbx.HashExp{"name": req.Sort}).One(&sort)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusNotFound, code.CodeInvalidData).Err("sort not found.")
+		}
+		err = errors.Wrap(err, "fail to find sort.")
+		return
+	}
+	sort.Sum += 1
+	err = app.DB.Model(&sort).Update( "Sum")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	//记录性别发文统计
+	var timeStr int
+	if time.Now().Hour() >= 8 && time.Now().Hour() < 12{
+		timeStr = 1
+	}else if time.Now().Hour() >= 12 && time.Now().Hour() < 16{
+		timeStr = 2
+	}else if time.Now().Hour() >= 16 && time.Now().Hour() < 20{
+		timeStr = 3
+	}else if time.Now().Hour() >= 20 && time.Now().Hour() < 24{
+		timeStr = 4
+	}else if time.Now().Hour() >= 24 && time.Now().Hour() < 4{
+		timeStr = 5
+	}else if time.Now().Hour() >= 4 && time.Now().Hour() < 8{
+		timeStr = 6
+	}
+	var genderS entity.GenderStatistic
+	err = app.DB.Select().Where(dbx.HashExp{"times": timeStr}).One(&genderS)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			genderS.ArtSum = 1
+			genderS.Times = timeStr
+			if u.Gender == entity.GenderMale{
+				genderS.Male = 1
+			}else{
+				genderS.Female = 1
+			}
+			err = app.DB.Transactional(func(tx *dbx.Tx) error {
+				err = tx.Model(&genderS).Insert()
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			if err != nil {
+				if util.IsDBDuplicatedErr(err) {
+					err = code.New(http.StatusConflict, code.CodeStatisticExist)
+					return
+				}
+				err = errors.Wrap(err, "fail to create gender statistic")
+				return
+			}
+
+		}else{
+			err = errors.Wrap(err, "fail to find sort.")
+			return
+		}
+		return
+	}
+	genderS.ArtSum += 1
+	if u.Gender == entity.GenderMale{
+		genderS.Male += 1
+	}else{
+		genderS.Female += 1
+	}
+	err = app.DB.Model(&art).Update("Female","Male","ArtSum")
+	if err != nil {
+		err = errors.WithStack(err)
 		return
 	}
 	return

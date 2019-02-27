@@ -18,6 +18,7 @@ var (
 	Comment				entity.Comment
 	Reply				entity.Reply
 	SysCron				entity.SysCron
+	GenderStatistic		entity.GenderStatistic
 )
 
 func Migrate(dsn string) error {
@@ -28,7 +29,7 @@ func Migrate(dsn string) error {
 		panic(err)
 	}
 	err = db.AutoMigrate(&User,&Article,&Content,&ArticleVersion,&ArticleForward,
-		&Log,&Operator,&Sort,&SysCron,&Comment,&Reply).Error
+		&Log,&Operator,&Sort,&SysCron,&Comment,&Reply,&GenderStatistic).Error
 	return err
 }
 

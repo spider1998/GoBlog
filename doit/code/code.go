@@ -18,20 +18,21 @@ const (
 	CodeArticleExist                  = 10005
 	CodeArticleNotExist               = 10006
 	CodeArticleNotChange              = 10007
-	CodeDenied                        = 10008
-	CodeContentNotExist               = 10009
-	CodeIDNotAllowed                  = 100010
-	CodeInvalidCaptcha                = 100011
-	CodeInvalidData                   = 100012
-	CodeOperatorNotExist              = 100013
-	CodeUserDisabled                  = 100014
-	CodeTokenNotExist                 = 100015
-	CodeStateInvalid                  = 100016
-	CodeOperatorTokenRequired         = 100017
-	CodeCommentExist                  = 100018
-	CodeCommentNotExist               = 100019
+	CodeDenied						  =	10008
+	CodeContentNotExist				  = 10009
+	CodeIDNotAllowed				  =	100010
+	CodeInvalidCaptcha				  = 100011
+	CodeInvalidData					  = 100012
+	CodeOperatorNotExist			  = 100013
+	CodeUserDisabled				  =	100014
+	CodeTokenNotExist				  = 100015
+	CodeStateInvalid				  = 100016
+	CodeOperatorTokenRequired		  = 100017
+	CodeCommentExist				  = 100018
+	CodeCommentNotExist				  = 100019
 
-	CodeTaskIsInProgress = 100020
+	CodeTaskIsInProgress			  = 100020
+	CodeStatisticExist				  = 100021
 
 	CodeRecordNotExist Code = 10803
 )
@@ -49,23 +50,24 @@ var codeMap = map[Code]string{
 	CodeUserAccessSessionInvalid: "Session error",
 	CodeVerifyError:              "Verification code error",
 
-	CodeArticleExist:          "article exist",
-	CodeArticleNotExist:       "article not exist",
-	CodeArticleNotChange:      "article not change any more",
-	CodeDenied:                "Permission denied",
-	CodeContentNotExist:       "Content not exist",
-	CodeIDNotAllowed:          "ID Not Allowed",
-	CodeInvalidCaptcha:        "Invalid Captcha",
-	CodeInvalidData:           "Invalid Data",
-	CodeOperatorNotExist:      "Operator Not Exist",
-	CodeUserDisabled:          "User Disabled",
-	CodeTokenNotExist:         "Token Not Exist",
-	CodeStateInvalid:          "State Invalid",
-	CodeOperatorTokenRequired: "Operator Token Required",
-	CodeCommentExist:          "Comment Exist",
-	CodeCommentNotExist:       "Comment Not Exist",
+	CodeArticleExist:     "article exist",
+	CodeArticleNotExist:  "article not exist",
+	CodeArticleNotChange: "article not change any more",
+	CodeDenied:			"Permission denied",
+	CodeContentNotExist: "Content not exist",
+	CodeIDNotAllowed	: "ID Not Allowed",
+	CodeInvalidCaptcha	:	"Invalid Captcha",
+	CodeInvalidData		:	"Invalid Data",
+	CodeOperatorNotExist:	"Operator Not Exist",
+	CodeUserDisabled	:	"User Disabled",
+	CodeTokenNotExist	:	"Token Not Exist",
+	CodeStateInvalid	:	"State Invalid",
+	CodeOperatorTokenRequired	:	"Operator Token Required",
+	CodeCommentExist			:	"Comment Exist",
+	CodeCommentNotExist			:	"Comment Not Exist",
 
-	CodeTaskIsInProgress: "Task Is In Progress",
+	CodeTaskIsInProgress		:	"Task Is In Progress",
+	CodeStatisticExist			:	"Statistic Exist",
 }
 
 //解析码的具体信息

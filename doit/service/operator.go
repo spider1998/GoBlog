@@ -22,6 +22,46 @@ var Operator = &OperatorService{}
 
 type OperatorService struct{}
 
+//获取性别时间段发文统计
+func (s *OperatorService) GetGenderStatic()(res form.GenderStaticResponse,err error) {
+	var genderS []entity.GenderStatistic
+	err = app.DB.Select().OrderBy("times asc").All(&genderS)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	res.Female = []int{0,0,0,0,0,0}
+	res.Male = []int{0,0,0,0,0,0}
+	for i,gen := range genderS{
+		res.Female[i] = gen.Female
+		res.Male[i] = gen.Male
+	}
+	return
+}
+
+//获取文章类别统计信息
+func (s *OperatorService) GetSortStatistic()(res form.SortStaticResponse,err error) {
+	var sorts []entity.Sort
+	err = app.DB.Select().Where(dbx.HashExp{"state":1}).All(&sorts)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	for _,sort := range sorts{
+		res.Sorts = append(res.Sorts,sort.Name)
+		res.Arry = append(res.Arry,sort.Sum)
+	}
+	return
+}
+
 //获取站点统计信息
 func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err error) {
 	var users []entity.User

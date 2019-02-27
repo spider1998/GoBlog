@@ -26,6 +26,24 @@ func (OperatorHandler) GetStatistics(c *routing.Context) error {
 	return c.Write(res)
 }
 
+//获取文章类别统计
+func (OperatorHandler) GetSortStatistic(c *routing.Context) error {
+	res,err := service.Operator.GetSortStatistic()
+	if err != nil{
+		return err
+	}
+	return c.Write(res)
+}
+
+//获取性别各时间段发文统计
+func (OperatorHandler) GetGenderStatic(c *routing.Context) error {
+	res,err := service.Operator.GetGenderStatic()
+	if err != nil{
+		return err
+	}
+	return c.Write(res)
+}
+
 //获取每个月份文章发布数
 func (OperatorHandler) GetMonthArticle(c *routing.Context) error {
 	yearStr := c.Param("year")

@@ -10,12 +10,15 @@ const (
 )
 
 type Sort struct {
-	Name       string    `json:"name"`
-	Operator   string    `json:"operator"`
-	CreateTime string    `json:"create_time"`
-	State      SortState `json:"state"`
+	Name 		string 		`json:"name"`
+	Operator 	string 		`json:"operator"`
+	CreateTime	string 		`json:"create_time"`
+	State 		SortState 	`json:"state"`
+	Sum 		int 		`json:"sum"`
 }
+
 
 func (Sort) TableName() string {
 	return TableSort
 }
+
