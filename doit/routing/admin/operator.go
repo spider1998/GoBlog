@@ -12,6 +12,7 @@ import (
 	"Project/doit/util"
 	"Project/doit/entity"
 	"strconv"
+	"time"
 )
 
 type OperatorHandler struct{}
@@ -28,9 +29,15 @@ func (OperatorHandler) GetStatistics(c *routing.Context) error {
 //获取每个月份文章发布数
 func (OperatorHandler) GetMonthArticle(c *routing.Context) error {
 	yearStr := c.Param("year")
-	year,err := strconv.Atoi(yearStr)
-	if err != nil{
-		return err
+	var year int
+	if yearStr == "0"{
+		year = time.Now().Year()
+	}else{
+		yearInt,err := strconv.Atoi(yearStr)
+		if err != nil{
+			return err
+		}
+		year = yearInt
 	}
 	res,err := service.Operator.GetMonthArticle(year)
 	if err != nil{

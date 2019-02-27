@@ -8,7 +8,6 @@ import (
 	"Project/doit/service"
 	"Project/doit/entity"
 	"Project/doit/handler/article"
-	"fmt"
 )
 
 func ManagerRegisterRoutes(router *routing.RouteGroup) {
@@ -71,8 +70,6 @@ func sessionChecker(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("xxxxxxxx")
-	fmt.Println(operator.Name)
 	c.Set(sessionKey, operator)
 	return c.Next()
 }

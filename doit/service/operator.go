@@ -15,6 +15,7 @@ import (
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/mediocregopher/radix.v2/redis"
 	"io/ioutil"
+	"fmt"
 )
 
 var Operator = &OperatorService{}
@@ -44,8 +45,10 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 		return
 	}
 	sess := app.DB.Select("count(*)").From(entity.TableArticle)
-	st := time.Now().Format("2016-01-02")
-	et := time.Now().Format("2016-01-02")
+	st := time.Now().Format("2006-01-02")
+	et := time.Now().Format("2006-01-02")
+	fmt.Println("ccccccccc")
+	fmt.Println(st)
 	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
 		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
 	//记录总数
@@ -55,8 +58,10 @@ func (s *OperatorService) GetStatistics()(res form.SiteStatisticResponse,err err
 		err = errors.Wrap(err, "fail to query arts.")
 		return
 	}
+	fmt.Println("ccccccccc")
+	fmt.Println(n)
 	sess1 := app.DB.Select("count(*)").From(entity.TableUser)
-	sess.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
+	sess1.AndWhere(dbx.NewExp("create_time>={:t1}",dbx.Params{"t1":st + " 00:00:00"})).
 		AndWhere(dbx.NewExp("create_time<{:t2}",dbx.Params{"t2":et + " 23:59:59"}))
 	//记录总数
 	var m int
@@ -90,10 +95,15 @@ type Count struct {
 	Count	int `json:"count"`
 	Date	int `json:"date"`
 }
+
+type Monthres struct {
+	Arry []int `json:"arry"`
+}
+
 //获取每个月份文章发布数
-func (s *OperatorService) GetMonthArticle(year int)(res []int,err error) {
+func (s *OperatorService) GetMonthArticle(year int)(res Monthres,err error) {
 	sess := app.DB.Select("count(*) AS count,MONTH(create_time) as date").From(entity.TableArticle).
-		Where(dbx.NewExp("YEAR(create_time)={:ct}",dbx.Params{"ct":2019})).
+		Where(dbx.NewExp("YEAR(create_time)={:ct}",dbx.Params{"ct":year})).
 			GroupBy("MONTH(create_time)")
 	var count []Count
 	err = sess.All(&count)
@@ -101,9 +111,9 @@ func (s *OperatorService) GetMonthArticle(year int)(res []int,err error) {
 		err = errors.Wrap(err, "fail to query article data.")
 		return
 	}
-	res = []int{0,0,0,0,0,0,0,0,0,0,0,0}
+	res.Arry = []int{0,0,0,0,0,0,0,0,0,0,0,0}
 	for _,cou := range count{
-		res[cou.Date-1] = cou.Count
+		res.Arry[cou.Date-1] = cou.Count
 	}
 	return
 }
@@ -348,7 +358,7 @@ func (s *OperatorService) GetArticlesList(req form.QueryArticleRequest) (arts []
 func (s *OperatorService) CreateArticleSort(req form.CreateArticleSortRequest)(sort entity.Sort,err error) {
 	sort.Operator = req.Name
 	sort.Name = req.Sort
-	sort.CreateTime = time.Now().Format("2016-01-02 15:04:05")
+	sort.CreateTime = time.Now().Format("2006-01-02 15:04:05")
 	sort.State = entity.SortStateAble
 	err = app.DB.Transactional(func(tx *dbx.Tx) error {
 		err = tx.Model(&sort).Insert()
