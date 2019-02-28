@@ -93,36 +93,42 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="tables.html" class="nav-link active" id="art_top">
+                            <i class="icon icon-speedometer"></i> 文章排行
+                        </a>
+                    </li>
+
 
 
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> Layouts <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-target"></i> 站点管理 <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="layouts-normal.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Normal
+                                <a href="layouts-normal.html" class="nav-link" id="admin_user">
+                                    <i class="icon icon-target"></i> 用户管理
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-fixed-sidebar.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Fixed Sidebar
+                                <a href="layouts-fixed-sidebar.html" class="nav-link" id="admin_art">
+                                    <i class="icon icon-target"></i> 文章管理
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-fixed-header.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Fixed Header
+                                <a href="layouts-fixed-header.html" class="nav-link" id="admin_announce">
+                                    <i class="icon icon-target"></i> 公告管理
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-hidden-sidebar.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Hidden Sidebar
+                                <a href="layouts-hidden-sidebar.html" class="nav-link" id="admin_setting">
+                                    <i class="icon icon-target"></i> 配置管理
                                 </a>
                             </li>
                         </ul>
@@ -402,6 +408,11 @@
 
         $("#static").attr("href","index.html?token="+token)
         $("#web_chat").attr("href","chartjs.html?token="+token)
+        $("#art_top").attr("href","tables.html?token="+token)
+        $("#admin_user").attr("href","admin_user.html?token="+token)
+        $("#admin_art").attr("href","admin_art.html?token="+token)
+        $("#admin_announce").attr("href","admin_announce.html?token="+token)
+        $("#admin_setting").attr("href","admin_setting.html?token="+token)
         //页面初始化获取管理员登陆信息/statistics
         $.ajax({
                 type: "GET",//方法类型

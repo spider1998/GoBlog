@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Go-Blog - Admin</title>
+    <title>Carbon - Admin Template</title>
     <link rel="stylesheet" href="./vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="./vendor/font-awesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
-<body class="sidebar-fixed header-fixed">
+<body class="sidebar-hidden header-fixed">
 <div class="page-wrapper">
     <nav class="navbar page-header">
         <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
@@ -17,10 +17,8 @@
         </a>
 
         <a class="navbar-brand" href="#">
-            <p style="color: red;font-weight: bold;">Go-Blog - Admin</p>
-            <!-- <img src="./imgs/logo.png" alt="logo"> -->
+            <img src="./imgs/logo.png" alt="logo">
         </a>
-
 
         <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
             <i class="fa fa-bars"></i>
@@ -44,7 +42,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="./imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
-                    <span class="small ml-1 d-md-down-none" id="operater">John Smith</span>
+                    <span class="small ml-1 d-md-down-none">John Smith</span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
@@ -83,53 +81,38 @@
                     <li class="nav-title">Navigation</li>
 
                     <li class="nav-item">
-                        <a class="nav-link" id="static">
-                            <i class="icon icon-speedometer"></i> 站点总览
+                        <a href="index.html" class="nav-link">
+                            <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" id="web_chat">
-                            <i class="icon icon-speedometer"></i> 分析统计
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="tables.html" class="nav-link active" id="art_top">
-                            <i class="icon icon-speedometer"></i> 文章排行
-                        </a>
-                    </li>
-
-
-
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> 站点管理 <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-target"></i> Layouts <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="layouts-normal.html" class="nav-link" id="admin_user">
-                                    <i class="icon icon-target"></i> 用户管理
+                                <a href="layouts-normal.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Normal
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-fixed-sidebar.html" class="nav-link" id="admin_art">
-                                    <i class="icon icon-target"></i> 文章管理
+                                <a href="layouts-fixed-sidebar.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Sidebar
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-fixed-header.html" class="nav-link" id="admin_announce">
-                                    <i class="icon icon-target"></i> 公告管理
+                                <a href="layouts-fixed-header.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Header
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="layouts-hidden-sidebar.html" class="nav-link" id="admin_setting">
-                                    <i class="icon icon-target"></i> 配置管理
+                                <a href="layouts-hidden-sidebar.html" class="nav-link active">
+                                    <i class="icon icon-target"></i> Hidden Sidebar
                                 </a>
                             </li>
                         </ul>
@@ -192,7 +175,7 @@
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="chartjs.html" class="nav-link active">
+                                <a href="chartjs.html" class="nav-link">
                                     <i class="icon icon-graph"></i> Chart.js
                                 </a>
                             </li>
@@ -266,54 +249,164 @@
             </nav>
         </div>
 
-        <div class="content">
+        <div class="content" style="height: 5000px;">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
-                        <div class="card-header bg-light">
-                            各类别统计：
+                        <div class="card-header">
+                            Default Card
                         </div>
 
                         <div class="card-body">
-                            <canvas id="bar-chart" width="100%" height="50"></canvas>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
                         <div class="card-header bg-light">
-                            各月份文章发布统计：
+                            Light Header
                         </div>
 
                         <div class="card-body">
-                            <canvas id="line-chart" width="100%" height="50"></canvas>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
+                        </div>
+
+                        <div class="card-footer bg-light">
+                            Card Footer
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row mt-4">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
                         <div class="card-header bg-light">
-                            各时间段发文数量（按性别分类）：
+                            Card with Actions
+
+                            <div class="card-actions">
+                                <a href="#" class="btn">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+
+                                <a href="#" class="btn">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="card-body">
-                            <canvas id="radar-chart" width="100%" height="50"></canvas>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
-                        <div class="card-header bg-light">
-                            全国用户地区分布排行（Top5）:
+                        <div class="card-header border border-top-0 border-right-0 border-left-0">
+                            Card Divded Header
                         </div>
 
                         <div class="card-body">
-                            <canvas id="pie-chart" width="100%" height="50"></canvas>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            Light Card
+                        </div>
+
+                        <div class="card-body bg-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-primary">
+                            Primary Card
+                        </div>
+
+                        <div class="card-body bg-primary">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-info">
+                            Info Card
+                        </div>
+
+                        <div class="card-body bg-info">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-danger">
+                            Danger Card
+                        </div>
+
+                        <div class="card-body bg-danger">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-success">
+                            Success Card
+                        </div>
+
+                        <div class="card-body bg-success">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-warning">
+                            Warning Card
+                        </div>
+
+                        <div class="card-body bg-warning">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white border-0">
+                        <div class="card-header bg-dark">
+                            Dark Card
+                        </div>
+
+                        <div class="card-body bg-dark">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
                         </div>
                     </div>
                 </div>
@@ -327,48 +420,5 @@
 <script src="./vendor/chart.js/chart.min.js"></script>
 <script src="./js/carbon.js"></script>
 <script src="./js/demo.js"></script>
-<script>
-
-//提取url参数函数
-      function getQueryVariable(variable)
-        {
-           var query = window.location.search.substring(1);
-           var vars = query.split("&");
-           for (var i=0;i<vars.length;i++) {
-                   var pair = vars[i].split("=");
-                   if(pair[0] == variable){return pair[1];}
-           }
-           return(false);
-        }
-
-    var token = getQueryVariable("token")
-    $(document).ready(function(){
-
-        $("#static").attr("href","index.html?token="+token)
-        $("#web_chat").attr("href","chartjs.html?token="+token)
-        $("#art_top").attr("href","tables.html?token="+token)
-        $("#admin_user").attr("href","admin_user.html?token="+token)
-        $("#admin_art").attr("href","admin_art.html?token="+token)
-        $("#admin_announce").attr("href","admin_announce.html?token="+token)
-        $("#admin_setting").attr("href","admin_setting.html?token="+token)
-        //页面初始化获取管理员登陆信息/statistics
-        $.ajax({
-                type: "GET",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/sessions/current",
-                success: function (result) {
-                  $("#operater").html(result.name);
-                },
-                beforeSend: function(xhr) {
-                  xhr.setRequestHeader("X-Access-Token", token);
-              },
-                error : function() {
-                  alert(result.error)
-                }
-            });
-        
-    });
-    
-</script>
 </body>
 </html>

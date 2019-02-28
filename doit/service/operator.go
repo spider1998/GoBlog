@@ -332,14 +332,14 @@ func (s *OperatorService) CountUsers(cond form.QueryUserRequest) (n int,err erro
 
 //查询用户列表
 func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entity.User,err error) {
-	sess := app.DB.Select("*").From(entity.TableUser)
+	sess := app.DB.Select("count(*)").From(entity.TableUser)
 	if cond.ID != "" {
 		sess.AndWhere(dbx.HashExp{"id": cond.ID})
 	}
-	if string(cond.Gender) != "" {
+	if string(cond.Gender) != "" && cond.Gender!=0{
 		sess.AndWhere(dbx.HashExp{"gender": cond.Gender})
 	}
-	if string(cond.State) != "" {
+	if string(cond.State) != "" && cond.State!=0 {
 		sess.AndWhere(dbx.HashExp{"state": cond.State})
 	}
 	if cond.Oder != "" {
@@ -349,13 +349,10 @@ func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entit
 			sess.OrderBy("create_time asc")		//升序
 		}
 	}
-	err = sess.All(&res)
+	err = sess.Select().All(&res)
 	if err != nil {
 		err = errors.WithStack(err)
 		return
-	}
-	if res == nil {
-		res = make([]entity.User, 0)
 	}
 	return
 }

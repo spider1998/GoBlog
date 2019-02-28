@@ -140,6 +140,7 @@ func (OperatorHandler) QueryBlogUser(c *routing.Context) error {
 		req.State = 2
 	}
 	response,err := service.Operator.QueryBlogUser(req)
+	fmt.Println(response)
 	if err != nil{
 		return err
 	}

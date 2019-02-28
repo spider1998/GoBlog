@@ -268,12 +268,11 @@
 
         <div class="content">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            文章点赞（TOP 10）：
-                            <br>
-                            【每天刷新】
+                            【Go-Blog Users】 :
+                            
                         </div>
 
                         <div class="card-body">
@@ -281,46 +280,21 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Auth</th>
-                                        <th>Hot</th>
-                                        <th>PubTime</th>
+                                        <th>Name</th>
+                                        <th>State</th>
+                                        <th>Area</th>
+                                        <th>Gender</th>
+                                        <th>Mobile</th>
+                                        <th>Created</th>
+                                        <th>operating</th>
                                     </tr>
                                     </thead>
                                     <tbody id="hot">
                                    <!--  填充内容 -->
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            文章阅读量（TOP 10）：
-                            <br>
-                            【实时刷新】
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Auth</th>
-                                        <th>Read</th>
-                                        <th>PubTime</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="read">
-                                    <!-- 填充内容 -->
-                                    </tbody>
-                                </table>
+                                    <button id="up">上一页</button>&nbsp;&nbsp
+                                    <button id="down">下一页</button>
                             </div>
                         </div>
                     </div>
@@ -351,7 +325,9 @@
 
     var token = getQueryVariable("token")
     $(document).ready(function(){
-
+        var total = 0
+        var page = 0
+        var size = 0
         $("#static").attr("href","index.html?token="+token)
         $("#web_chat").attr("href","chartjs.html?token="+token)
         $("#art_top").attr("href","tables.html?token="+token)
@@ -378,33 +354,62 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles/top10",
-                success: function (result) {
+                url: "http://192.168.35.193:8081/admin/users?page=1&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#down").attr("style","display:none")
+                        $("#up").attr("style","display:block")
+                        $("#down").attr("style","display:none")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
                   var html1 = ``;
-                  var html2 = ``;
-                  $.each(result.hot, function(i, obj) {
-                        html1 += ` <tr>
-                                    <td>`+obj.id+`</td>
-                                    <td class="text-nowrap">`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.hot+`</td>
-                                    <td>`+obj.time+`</td>
-                                    </tr>
-                                `
-                  });
-                  $.each(result.read, function(i, obj) {
-                        html2 += ` <tr>
-                                    <td>`+obj.id+`</td>
-                                    <td class="text-nowrap">`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.read+`</td>
-                                    <td>`+obj.time+`</td>
-                                    </tr>
-                                `
-                  });
+                  $.each(result.user, function(i, obj) {
+                    var state = " "
+                    var mobile = " "
+                    var gender = " "
+                    var oper = " "
+                    if(obj.state == 1){
+                        state = `<p style="color:green">正常</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                    }else{
+                        state = `<p style="color:red">禁用</p>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                    }
+                    if(obj.mobile == ""){
+                        mobile = "未预留联系方式"
+                    }else{
+                        mobile = obj.mobile
+                    }
+                    if(obj.gender == 1){
+                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
+                    }else{
+                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
+                    }
 
+                        html1 += ` <tr>
+                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+state+`</td>
+                                    <td>`+obj.area+`</td>
+                                    <td>`+gender+`</td>
+                                    <td>`+mobile+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+oper+`</td>
+                                    </tr>
+                                `
+                  });
                   $("#hot").html(html1);
-                  $("#read").html(html2);
                 },
                 beforeSend: function(xhr) {
                   xhr.setRequestHeader("X-Access-Token", token);
@@ -413,9 +418,187 @@
                   alert(result.error)
                 }
             });
+
+
         
     });
+    //禁用用户
+    function enable(i) {
+        $.ajax({
+                type: "PATCH",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/users/status?state=2&user_id="+i,
+                success: function (result) {
+                  location.href = "admin_user.html?token="+token
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
 
+    //启用用户
+    function able(i) {
+        $.ajax({
+                type: "PATCH",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/users/status?state=1&user_id="+i,
+                success: function (result) {
+                  location.href = "admin_user.html?token="+token
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+    //上一页
+    function upage(s) {
+        p = parseInt(s) - 1
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/users?page="+p+"&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#down").attr("style","display:none")
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
+                  var html1 = ``;
+                  $.each(result.user, function(i, obj) {
+                    var state = " "
+                    var mobile = " "
+                    var gender = " "
+                    var oper = " "
+                    if(obj.state == 1){
+                        state = `<p style="color:green">正常</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                    }else{
+                        state = `<p style="color:red">禁用</p>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                    }
+                    if(obj.mobile == ""){
+                        mobile = "未预留联系方式"
+                    }else{
+                        mobile = obj.mobile
+                    }
+                    if(obj.gender == 1){
+                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
+                    }else{
+                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
+                    }
+
+                        html1 += ` <tr>
+                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+state+`</td>
+                                    <td>`+obj.area+`</td>
+                                    <td>`+gender+`</td>
+                                    <td>`+mobile+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+oper+`</td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+    //下一页
+    function dpage(s) {
+        p = parseInt(s) + 1
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/users?page="+p+"&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#down").attr("style","display:none")
+                        $("#up").attr("style","display:block")
+                        $("#down").attr("style","display:none")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
+                  var html1 = ``;
+                  $.each(result.user, function(i, obj) {
+                    var state = " "
+                    var mobile = " "
+                    var gender = " "
+                    var oper = " "
+                    if(obj.state == 1){
+                        state = `<p style="color:green">正常</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                    }else{
+                        state = `<p style="color:red">禁用</p>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                    }
+                    if(obj.mobile == ""){
+                        mobile = "未预留联系方式"
+                    }else{
+                        mobile = obj.mobile
+                    }
+                    if(obj.gender == 1){
+                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
+                    }else{
+                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
+                    }
+
+                        html1 += ` <tr>
+                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+state+`</td>
+                                    <td>`+obj.area+`</td>
+                                    <td>`+gender+`</td>
+                                    <td>`+mobile+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+oper+`</td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
 </script>
 </body>
 </html>
