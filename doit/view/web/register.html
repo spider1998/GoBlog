@@ -35,13 +35,63 @@
 					<div class= "tm-content col-xl-6 col-sm-8 col-xs-8 ml-auto section">
 					<header class="mb-5"><h1>Go-Blog</h1></header>
 					<P class="mb-5">A sign-up letter template with three background images shuffling by fade in out movements. Thank you for visiting our site!</P>
-					
+                        <div class="tm-social-icons-container text-xs-center">
+                            <a href="./login.html" class="tm-social-link"><i class="fa font-awesome">login</i></a>
+                        </div>
                     <form action="#" method="get" class="subscribe-form">
                	    	<div class="row form-section">
 
 							<div class="col-md-7 col-sm-7 col-xs-7">
 			                      <input name="name" type="text" class="form-control" id="name" placeholder="Your Name..." required/>
 				  			</div>
+
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                                &nbsp;&nbsp;&nbsp;Your Area:
+                                <select style="height: 60px" class="form-control" name="area" id="area">
+									<option value="北京">北京</option>
+                                    <option value="天津">天津</option>
+                                    <option value="上海">上海</option>
+                                    <option value="重庆">重庆</option>
+                                    <option value="河北">河北</option>
+                                    <option value="山西">山西</option>
+                                    <option value="黑龙江">黑龙江</option>
+                                    <option value="辽宁">辽宁</option>
+                                    <option value="吉林">吉林</option>
+                                    <option value="江苏">江苏</option>
+                                    <option value="浙江">浙江</option>
+                                    <option value="安徽">安徽</option>
+                                    <option value="福建">福建</option>
+                                    <option value="江西">江西</option>
+                                    <option value="山东">山东</option>
+                                    <option value="河南">河南</option>
+                                    <option value="湖北">湖北</option>
+                                    <option value="湖南">湖南</option>
+                                    <option value="广东">广东</option>
+                                    <option value="海南">海南</option>
+                                    <option value="四川">四川</option>
+                                    <option value="贵州">贵州</option>
+                                    <option value="云南">云南</option>
+                                    <option value="陕西">陕西</option>
+                                    <option value="甘肃">甘肃</option>
+                                    <option value="青海">青海</option>
+                                    <option value="台湾">台湾</option>
+                                    <option value="内蒙">内蒙</option>
+                                    <option value="广西">广西</option>
+                                    <option value="宁夏">宁夏</option>
+                                    <option value="新疆">新疆</option>
+                                    <option value="西藏">西藏</option>
+                                    <option value="香港">香港</option>
+                                    <option value="澳门">澳门</option>
+								</select>
+                            </div>
+
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                                &nbsp;&nbsp;&nbsp;Your Gender:
+                                <select style="height: 60px" class="form-control" name="gender" id="gender">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </div>
 
 				  			<div class="col-md-7 col-sm-7 col-xs-7">
 			                      <input name="password" type="password" class="form-control" id="password" placeholder="Your Nassword..." required/>
@@ -64,10 +114,7 @@
 							</div>
 						</div>
                     </form>
-                    
-					<div class="tm-social-icons-container text-xs-center">
-	                    <a href="./login.html" class="tm-social-link"><i class="fa font-awesome">login</i></a>
-	                </div>
+
 
 					</div>
 				</div>	
@@ -90,12 +137,15 @@
 			var password =$("#password").val();
 			var email = $("#email").val();
 			var code = $("#cach").val();	
+			var area = $("#area").val();
+			var gender = $("#gender").val();
 		            $.ajax({
 		                type: "POST",//方法类型
 		                contentType: "application/json",
 		                dataType: "json",//预期服务器返回的数据类型
 		                url: "http://192.168.35.193:8081/user/register" ,//url
-		                data: JSON.stringify({"name":name,"password":password,"email":email,"cach":code}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
+		                data: JSON.stringify({"name":name,"password":password,
+							"email":email,"cach":code,"area":area,"gender":gender}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
 		                success: function (result) {
 		                        window.location.href = "./login.html"
 		                },

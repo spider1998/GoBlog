@@ -55,6 +55,8 @@ type RegisterUserRequest struct {
 	Password string `json:"password"` //密码
 	Email    string `json:"email"`    //邮箱
 	Cach     string `json:"cach"`     //验证码
+	Area 	 string `json:"area"`	  //地区
+	Gender 	 int `json:"gender"`
 }
 
 type LoginUserRequest struct {

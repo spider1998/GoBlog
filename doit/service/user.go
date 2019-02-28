@@ -46,6 +46,8 @@ type UserService struct {
 func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account string) (user entity.User, err error) {
 	err = v.ValidateStruct(&request,
 		v.Field(&request.Name, v.Required, v.RuneLength(5, 15)),
+		v.Field(&request.Area, v.Required),
+		v.Field(&request.Gender, v.Required),
 		v.Field(&request.Password, v.Required, v.RuneLength(6, 16)),
 	)
 	if err != nil{
@@ -69,11 +71,13 @@ func (u *UserService) RegisterUser(request entity.RegisterUserRequest, account s
 	user.ID = uuid.New().String()
 	user.Name = request.Name
 	user.PasswordHash, err = util.GeneratePasswordHash([]byte(request.Password))
-	user.Email = request.Email
 	if err != nil {
 		err = errors.Wrap(err, "fail to generate password hash")
 		return
 	}
+	user.Email = request.Email
+	user.Gender = request.Gender
+	user.Area =	request.Area
 	user.DatetimeAware = entity.DatetimeAwareNow()
 	user.State = entity.UserStateOK
 
