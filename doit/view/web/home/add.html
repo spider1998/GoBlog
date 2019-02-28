@@ -116,8 +116,8 @@
               <p style="color: blue;">Choice article sort:</p>
               <div class="form-group floating-label-form-group controls">
                 <select id="sort" class="form-control" name="sort">
-                  <option value="0">technology</option> 
-                  <option value="1">literary</option> 
+                  <option value="0">technology</option>
+                  <option value="1">literary</option>
                   <option value="2" selected="selected">All</option>
               </select> 
                 <p class="help-block text-danger"></p>
@@ -251,13 +251,27 @@
                 }
             });
 
+          $.ajax({
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/article/sorts" ,
+              success: function (result) {
+                  var html = ``;
+                  $.each(result, function(i, obj) {
+                      html += `<option value="`+obj.name+`">`+obj.name+`</option>`
+                  });
+                  $("#sort").html(html);//动态插入html
+              },
+              error : function() {
+                  alert("full sort failed");
+              }
+          });
+
         });
 
         function redirect() {
           location.href = "index.html?session="+session
         };
-
-
 
         var E = window.wangEditor
         var editor = new E('#editor')
