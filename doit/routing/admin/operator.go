@@ -44,6 +44,15 @@ func (OperatorHandler) GetGenderStatic(c *routing.Context) error {
 	return c.Write(res)
 }
 
+//获取文章排行
+func (OperatorHandler) GetArticleTop(c *routing.Context) error {
+	res,err := service.Operator.GetArticleTop()
+	if err != nil{
+		return err
+	}
+	return c.Write(res)
+}
+
 //获取用户地区分布统计
 func (OperatorHandler) GetAreaStatic(c *routing.Context) error {
 	res,err := service.Operator.GetAreaStatic()

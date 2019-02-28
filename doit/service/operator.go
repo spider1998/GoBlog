@@ -27,6 +27,45 @@ type AreaNum struct {
 	Count	int `json:"count"`
 }
 
+//获取文章排行
+func (s *OperatorService) GetArticleTop()(res form.ArticleTopResponse,err error) {
+	var art1 []entity.Article
+	err = app.DB.Select().OrderBy("hot desc").Limit(10).All(&art1)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	var art2 []entity.Article
+	err = app.DB.Select().OrderBy("read desc").Limit(10).All(&art2)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	for i,ar := range art1{
+		res.Hot[i].ID = ar.ID
+		res.Hot[i].Hot = ar.Hot
+		res.Hot[i].Auth = ar.Auth
+		res.Hot[i].Title = ar.Title
+		res.Hot[i].Time = ar.CreateTime
+	}
+	for i,ar := range art2{
+		res.Read[i].ID = ar.ID
+		res.Read[i].Read = ar.Read
+		res.Read[i].Auth = ar.Auth
+		res.Read[i].Title = ar.Title
+		res.Read[i].Time = ar.CreateTime
+	}
+	return
+}
+
 //获取用户地区分布统计
 func (s *OperatorService) GetAreaStatic()(res form.AreaStatisticResponse,err error) {
 	sess := app.DB.Select("area,count(*) as count").From(entity.TableUser).

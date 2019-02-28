@@ -38,6 +38,27 @@ type AreaStatisticResponse struct {
 	Array 	[]int 		`json:"array"`
 }
 
+type ArticleTopResponse struct {
+	Hot 	[10]HotTop  	`json:"hot"`
+	Read	[10]ReadTop 	`json:"read"`
+}
+
+type HotTop struct {
+	ID		string 		`json:"id"`
+	Title 	string 		`json:"title"`
+	Auth 	string 		`json:"auth"`
+	Hot 	int 		`json:"hot"`
+	Time    string 		`json:"time"`
+}
+
+type ReadTop struct {
+	ID		string 		`json:"id"`
+	Title 	string 		`json:"title"`
+	Auth 	string 		`json:"auth"`
+	Read 	int 		`json:"read"`
+	Time    string 		`json:"time"`
+} 
+
 
 
 type MainComment struct {

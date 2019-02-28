@@ -10,6 +10,7 @@ const (
 )
 
 type Sort struct {
+	ID 			string 		`json:"id" gorm:"pk"`
 	Name 		string 		`json:"name"`
 	Operator 	string 		`json:"operator"`
 	CreateTime	string 		`json:"create_time"`
