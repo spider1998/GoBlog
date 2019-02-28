@@ -20,9 +20,7 @@ type Log struct {
 	Action     string                 `json:"action"`
 	Remark     string                 `json:"remark"`
 	IP         string                 `json:"ip"`
-	Ext        map[string]interface{} `json:"ext" gorm:"type:json"`
 	CreateTime time.Time              `json:"create_time" gorm:"created"`
-	UpdateTime time.Time              `json:"update_time" gorm:"updated"`
 }
 
 type CreateLogRequest struct {
@@ -35,17 +33,6 @@ type CreateLogRequest struct {
 	Ext      map[string]interface{} `json:"ext"`
 }
 
-func (l *Log) BeforeInsert() {
-	if l.Ext == nil {
-		l.Ext = make(map[string]interface{})
-	}
-}
-
-func (l *Log) BeforeUpdate() {
-	if l.Ext == nil {
-		l.Ext = make(map[string]interface{})
-	}
-}
 
 func (Log) TableName() string {
 	return TableLog

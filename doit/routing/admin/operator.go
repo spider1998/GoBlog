@@ -193,7 +193,7 @@ func (OperatorHandler)DeleteArticle(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-	service.Log.LogOperator(
+	_,err = service.Log.LogOperator(
 		getSessionOperator(c),
 		app.System,
 		"operator.create-sort",
@@ -201,6 +201,9 @@ func (OperatorHandler)DeleteArticle(c *routing.Context) error {
 		access.GetClientIP(c.Request),
 		util.M{"article": articleID},
 	)
+	if err != nil{
+		return err
+	}
 
 	return c.Write(http.StatusOK)
 }
