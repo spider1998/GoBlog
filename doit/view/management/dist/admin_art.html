@@ -4,75 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Carbon - Admin Template</title>
+    <title>Go-Blog - Admin</title>
     <link rel="stylesheet" href="./vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="./vendor/font-awesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
-<body class="header-fixed">
+<body class="sidebar-fixed header-fixed">
 <div class="page-wrapper">
-    <nav class="navbar page-header">
-        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
-            <i class="fa fa-bars"></i>
+    <div class="page-header">
+        <nav class="navbar page-header">
+            <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <a class="navbar-brand" href="#">
+            <p style="color: red;font-weight: bold;">Go-Blog - Admin</p>
+            <!-- <img src="./imgs/logo.png" alt="logo"> -->
         </a>
 
-        <a class="navbar-brand" href="#">
-            <img src="./imgs/logo.png" alt="logo">
-        </a>
+            <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                <i class="fa fa-bars"></i>
+            </a>
 
-        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
-            <i class="fa fa-bars"></i>
-        </a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
 
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item d-md-down-none">
-                <a href="#">
-                    <i class="fa fa-bell"></i>
-                    <span class="badge badge-pill badge-danger">5</span>
-                </a>
-            </li>
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-envelope-open"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
 
-            <li class="nav-item d-md-down-none">
-                <a href="#">
-                    <i class="fa fa-envelope-open"></i>
-                    <span class="badge badge-pill badge-danger">5</span>
-                </a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="./imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
-                    <span class="small ml-1 d-md-down-none">John Smith</span>
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-header">Account</div>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-user"></i> Profile
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="./imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                        <span class="small ml-1 d-md-down-none" id="operater">John Smith</span>
                     </a>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope"></i> Messages
-                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header">Account</div>
 
-                    <div class="dropdown-header">Settings</div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-user"></i> Profile
+                        </a>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-bell"></i> Notifications
-                    </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-envelope"></i> Messages
+                        </a>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-wrench"></i> Settings
-                    </a>
+                        <div class="dropdown-header">Settings</div>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-lock"></i> Logout
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </nav>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-bell"></i> Notifications
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-wrench"></i> Settings
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-lock"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
     <div class="main-container">
         <div class="sidebar">
@@ -81,43 +84,36 @@
                     <li class="nav-title">Navigation</li>
 
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">
-                            <i class="icon icon-speedometer"></i> Dashboard
+                        <a href="index.html" class="nav-link" id="static">
+                            <i class="icon icon-speedometer"></i> 站点总览
                         </a>
                     </li>
 
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> Layouts <i class="fa fa-caret-left"></i>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" id="web_chat">
+                            <i class="icon icon-speedometer"></i> 分析统计
                         </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="layouts-normal.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Normal
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-sidebar.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Fixed Sidebar
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-header.html" class="nav-link active">
-                                    <i class="icon icon-target"></i> Fixed Header
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-hidden-sidebar.html" class="nav-link">
-                                    <i class="icon icon-target"></i> Hidden Sidebar
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="tables.html" class="nav-link active" id="art_top">
+                            <i class="icon icon-speedometer"></i> 文章排行
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link active"  id="admin_user">
+                            <i class="icon icon-speedometer"></i> 用户管理
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link active" id="admin_art">
+                            <i class="icon icon-speedometer"></i> 文章管理
+                        </a>
+                    </li>
+
+                    
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-energy"></i> UI Kits <i class="fa fa-caret-left"></i>
@@ -189,7 +185,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="tables.html" class="nav-link">
+                        <a href="tables.html" class="nav-link active">
                             <i class="icon icon-grid"></i> Tables
                         </a>
                     </li>
@@ -249,167 +245,52 @@
             </nav>
         </div>
 
-        <div class="content" style="height: 5000px;">
+        <div class="content">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            Default Card
-                        </div>
-
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            Light Header
+                            【Go-Blog Users】 :
+                            <br><br>
+                            <input type="text" placeholder="输入文章ID查询" id="uid">
+                            &nbsp;&nbsp;&nbsp;
+                            类别：
+                            <select id="sorts">
+                              <option value="1"></option>
+                              <option value="2"></option>
+                              <option value="" selected="selected"></option>
+                          </select>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <button id="querys" onclick="querys();">Search</button>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <button style="background-color: #cada9f"><a href="">All Articles</a></button>
                         </div>
 
                         <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto atque deleniti dolor dolores doloribus ducimus ea, eveniet facere hic illo illum laborum maiores nemo optio quas quis tenetur totam.
-                        </div>
-
-                        <div class="card-footer bg-light">
-                            Card Footer
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            Card with Actions
-
-                            <div class="card-actions">
-                                <a href="#" class="btn">
-                                    <i class="fa fa-pencil-alt"></i>
-                                </a>
-
-                                <a href="#" class="btn">
-                                    <i class="fa fa-cog"></i>
-                                </a>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Auth</th>
+                                        <th>Sort</th>
+                                        <th>Created</th>
+                                        <th>Updated</th>
+                                        <th>operating</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="hot">
+                                   <!--  填充内容 -->
+                                    </tbody>
+                                </table>
+                                    <button id="up">上一页</button>&nbsp;&nbsp
+                                    <button id="down">下一页</button>
                             </div>
                         </div>
-
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header border border-top-0 border-right-0 border-left-0">
-                            Card Divded Header
-                        </div>
-
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            Light Card
-                        </div>
-
-                        <div class="card-body bg-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-primary">
-                            Primary Card
-                        </div>
-
-                        <div class="card-body bg-primary">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-info">
-                            Info Card
-                        </div>
-
-                        <div class="card-body bg-info">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-danger">
-                            Danger Card
-                        </div>
-
-                        <div class="card-body bg-danger">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-success">
-                            Success Card
-                        </div>
-
-                        <div class="card-body bg-success">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-warning">
-                            Warning Card
-                        </div>
-
-                        <div class="card-body bg-warning">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white border-0">
-                        <div class="card-header bg-dark">
-                            Dark Card
-                        </div>
-
-                        <div class="card-body bg-dark">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam cupiditate dolore facere magnam, rerum sint velit voluptate voluptates? A assumenda consequuntur debitis eaque est in ipsam iure molestiae quam.
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -420,5 +301,259 @@
 <script src="./vendor/chart.js/chart.min.js"></script>
 <script src="./js/carbon.js"></script>
 <script src="./js/demo.js"></script>
+<script>
+    function getQueryVariable(variable)
+        {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+        }
+
+    var token = getQueryVariable("token")
+    $(document).ready(function(){
+        var total = 0
+        var page = 0
+        var size = 0
+        $("#static").attr("href","index.html?token="+token)
+        $("#web_chat").attr("href","chartjs.html?token="+token)
+        $("#art_top").attr("href","tables.html?token="+token)
+        $("#admin_user").attr("href","admin_user.html?token="+token)
+        $("#admin_art").attr("href","admin_art.html?token="+token)
+        $("#admin_announce").attr("href","admin_announce.html?token="+token)
+        $("#admin_setting").attr("href","admin_setting.html?token="+token)
+        //页面初始化获取管理员登陆信息/statistics
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/sessions/current",
+                success: function (result) {
+                  $("#operater").html(result.name);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+        //填充文章类别
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/article/sorts",
+                success: function (result) {
+                  var html = ``;
+                  $.each(result, function(i, obj) {
+                      html += `<option value="`+obj.name+`">`+obj.name+`</option>`
+                  });
+                  html += `<option value="" selected="selected">All</option>`
+                  $("#sorts").html(html);//动态插入html
+                },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/articles?page=1&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:none")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
+                  var html1 = ``;
+                  $.each(result.arts, function(i, obj) {
+                        html1 += ` <tr>
+                                    <td>`+obj.title+`</td>
+                                    <td>`+obj.auth+`</td>
+                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+obj.update_time+`</td>
+                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+
+
+        
+    });
+    //删除文章
+    //启用用户
+    function deletes(i) {
+        $.ajax({
+                type: "DELETE",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/articles/"+i,
+                success: function (result) {
+                  location.href = "admin_art.html?token="+token
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+
+    //上一页
+    function upage(s) {
+        p = parseInt(s) - 1
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/articles?page="+p+"&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#down").attr("style","display:none")
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
+                  var html1 = ``;
+                  $.each(result.arts, function(i, obj) {
+                        html1 += ` <tr>
+                                    <td>`+obj.title+`</td>
+                                    <td>`+obj.auth+`</td>
+                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+obj.update_time+`</td>
+                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+    //下一页
+    function dpage(s) {
+        p = parseInt(s) + 1
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/articles?page="+p+"&page_size=5",
+                success: function (result,status,res) {
+                    total = res.getResponseHeader("X-Page-Total")
+                    page = res.getResponseHeader("X-Page")
+                    size = res.getResponseHeader("X-Page-Size")
+                    if (page*size<total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:block")
+                        $("#down").attr("onclick","dpage(\'"+page+"\');")
+                    }
+                    if (page*size>=total) {
+                        $("#up").attr("style","display:block")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:none")
+                     }
+                    if (page==1) {
+                        $("#up").attr("style","display:none")
+                    }
+                    
+                  var html1 = ``;
+                  $.each(result.arts, function(i, obj) {
+                        html1 += ` <tr>
+                                    <td>`+obj.title+`</td>
+                                    <td>`+obj.auth+`</td>
+                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+obj.update_time+`</td>
+                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+
+    //条件查询
+    function querys() {
+        $("#down").attr("style","display:none")
+        uid = $("#uid").val()
+        sorts = $("#sorts").val()
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/articles?id="+uid+"&oder="+sorts,
+                success: function (result) {
+                  var html1 = ``;
+                  $.each(result.arts, function(i, obj) {
+                        html1 += ` <tr>
+                                    <td>`+obj.title+`</td>
+                                    <td>`+obj.auth+`</td>
+                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+obj.update_time+`</td>
+                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+</script>
 </body>
 </html>

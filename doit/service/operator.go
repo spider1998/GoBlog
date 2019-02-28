@@ -400,6 +400,22 @@ func (s *OperatorService)DeleteArticle(articleID string) (err error) {
 	if err != nil{
 		return err
 	}
+	//同步类别统计
+	var sort entity.Sort
+	err = app.DB.Select().Where(dbx.HashExp{"name": art.Sort}).One(&sort)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	sort.Sum -= 1
+	err = app.DB.Model(&sort).Update("Sum")
+	if err != nil{
+		return
+	}
 	return
 }
 

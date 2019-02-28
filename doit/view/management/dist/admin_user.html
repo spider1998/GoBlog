@@ -101,39 +101,18 @@
                         </a>
                     </li>
 
-
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> 站点管理 <i class="fa fa-caret-left"></i>
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link active"  id="admin_user">
+                            <i class="icon icon-speedometer"></i> 用户管理
                         </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="layouts-normal.html" class="nav-link" id="admin_user">
-                                    <i class="icon icon-target"></i> 用户管理
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-sidebar.html" class="nav-link" id="admin_art">
-                                    <i class="icon icon-target"></i> 文章管理
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-header.html" class="nav-link" id="admin_announce">
-                                    <i class="icon icon-target"></i> 公告管理
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-hidden-sidebar.html" class="nav-link" id="admin_setting">
-                                    <i class="icon icon-target"></i> 配置管理
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link active" id="admin_art">
+                            <i class="icon icon-speedometer"></i> 文章管理
+                        </a>
+                    </li>
+
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
@@ -272,7 +251,35 @@
                     <div class="card">
                         <div class="card-header bg-light">
                             【Go-Blog Users】 :
-                            
+                            <br><br>
+                            <input type="text" placeholder="输入用户ID查询" id="uid">
+                            &nbsp;&nbsp;&nbsp;
+                            性别：
+                            <select id="genders">
+                              <option value="1">男</option>
+                              <option value="2">女</option>
+                              <option value="" selected="selected"></option>
+                          </select>
+
+                          &nbsp;&nbsp;&nbsp;
+                            用户状态：
+                            <select id="states">
+                              <option value="1">正常</option>
+                              <option value="2">已禁用</option>
+                              <option value="" selected="selected"></option>
+                          </select>
+
+                          &nbsp;&nbsp;&nbsp;
+                            排序：
+                            <select id="oders">
+                              <option value="1">降序</option>
+                              <option value="2">升序</option>
+                              <option value="" selected="selected"></option>
+                          </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <button id="querys" onclick="querys();">Search</button>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <button style="background-color: #cada9f"><a href="">All Users</a></button>
                         </div>
 
                         <div class="card-body">
@@ -368,7 +375,7 @@
                     if (page*size>=total) {
                         $("#down").attr("style","display:none")
                         $("#up").attr("style","display:block")
-                        $("#down").attr("style","display:none")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
                      }
                     if (page==1) {
                         $("#up").attr("style","display:none")
@@ -548,12 +555,71 @@
                     if (page*size>=total) {
                         $("#down").attr("style","display:none")
                         $("#up").attr("style","display:block")
-                        $("#down").attr("style","display:none")
+                        $("#up").attr("onclick","upage(\'"+page+"\');")
                      }
                     if (page==1) {
                         $("#up").attr("style","display:none")
                     }
                     
+                  var html1 = ``;
+                  $.each(result.user, function(i, obj) {
+                    var state = " "
+                    var mobile = " "
+                    var gender = " "
+                    var oper = " "
+                    if(obj.state == 1){
+                        state = `<p style="color:green">正常</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                    }else{
+                        state = `<p style="color:red">禁用</p>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                    }
+                    if(obj.mobile == ""){
+                        mobile = "未预留联系方式"
+                    }else{
+                        mobile = obj.mobile
+                    }
+                    if(obj.gender == 1){
+                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
+                    }else{
+                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
+                    }
+
+                        html1 += ` <tr>
+                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+state+`</td>
+                                    <td>`+obj.area+`</td>
+                                    <td>`+gender+`</td>
+                                    <td>`+mobile+`</td>
+                                    <td>`+obj.create_time+`</td>
+                                    <td>`+oper+`</td>
+                                    </tr>
+                                `
+                  });
+                  $("#hot").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+
+    //条件查询
+    function querys() {
+        $("#down").attr("style","display:none")
+        $("#down").attr("style","display:none")
+        uid = $("#uid").val()
+        genders = $("#genders").val()
+        states = $("#states").val()
+        oders = $("#oders").val()
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/users?user_id="+uid+"&oder="+oders+"&state="+states+"&gender="+genders,
+                success: function (result,status,res) {
                   var html1 = ``;
                   $.each(result.user, function(i, obj) {
                     var state = " "

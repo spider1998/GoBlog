@@ -188,7 +188,7 @@ func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 
 //删除文章
 func (OperatorHandler)DeleteArticle(c *routing.Context) error {
-	articleID := c.Param("article_id")
+	articleID := c.Param("art_id")
 	err := service.Operator.DeleteArticle(articleID)
 	if err != nil {
 		return err
