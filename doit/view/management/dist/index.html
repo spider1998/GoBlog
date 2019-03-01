@@ -88,158 +88,38 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link active" id="web_chat">
+                        <a href="index.html" class="nav-link" id="web_chat">
                             <i class="icon icon-speedometer"></i> 分析统计
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="tables.html" class="nav-link active" id="art_top">
+                        <a href="tables.html" class="nav-link" id="art_top">
                             <i class="icon icon-speedometer"></i> 文章排行
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link active"  id="admin_user">
+                        <a href="layouts-normal.html" class="nav-link"  id="admin_user">
                             <i class="icon icon-speedometer"></i> 用户管理
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link active" id="admin_art">
+                        <a href="layouts-normal.html" class="nav-link" id="admin_art">
                             <i class="icon icon-speedometer"></i> 文章管理
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link" id="admin_log">
+                            <i class="icon icon-speedometer"></i> 站点日志
                         </a>
                     </li>
 
                     
 
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-energy"></i> UI Kits <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="alerts.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Alerts
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="buttons.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Buttons
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="cards.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Cards
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="modals.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Modals
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="tabs.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Tabs
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="progress-bars.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Progress Bars
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="widgets.html" class="nav-link">
-                                    <i class="icon icon-energy"></i> Widgets
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-graph"></i> Charts <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="chartjs.html" class="nav-link">
-                                    <i class="icon icon-graph"></i> Chart.js
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="forms.html" class="nav-link">
-                            <i class="icon icon-puzzle"></i> Forms
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="tables.html" class="nav-link">
-                            <i class="icon icon-grid"></i> Tables
-                        </a>
-                    </li>
-
-                    <li class="nav-title">More</li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-umbrella"></i> Pages <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="blank.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Blank Page
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="login.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Login
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="register.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Register
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="invoice.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Invoice
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="404.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> 404
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="500.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> 500
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="settings.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Settings
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
                 </ul>
             </nav>
         </div>
@@ -392,6 +272,7 @@
         $("#admin_art").attr("href","admin_art.html?token="+token)
         $("#admin_announce").attr("href","admin_announce.html?token="+token)
         $("#admin_setting").attr("href","admin_setting.html?token="+token)
+        $("#admin_log").attr("href","admin_log.html?token="+token)
         //页面初始化获取管理员登陆信息/statistics
         $.ajax({
                 type: "GET",//方法类型

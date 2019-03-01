@@ -179,7 +179,7 @@ func (OperatorHandler) ModifyUserStatus(c *routing.Context) error {
 		getSessionOperator(c),
 		app.System,
 		"operator.modify-user-status",
-		fmt.Sprintf("修改用户账号状态。"),
+		fmt.Sprintf("修改用户账号状态id("+user.ID+")。"),
 		access.GetClientIP(c.Request),
 		util.M{"operator": user},
 	)
@@ -197,7 +197,7 @@ func (OperatorHandler)DeleteArticle(c *routing.Context) error {
 		getSessionOperator(c),
 		app.System,
 		"operator.create-sort",
-		fmt.Sprintf("管理员删除文章。"),
+		fmt.Sprintf("管理员删除文章id("+articleID+")。"),
 		access.GetClientIP(c.Request),
 		util.M{"article": articleID},
 	)

@@ -361,7 +361,7 @@ func (s *OperatorService) QueryBlogUser(cond form.QueryUserRequest) (res []entit
 func (s *OperatorService) ModifyUserStatus(req entity.ModifyUserStateRequest) (user entity.User,err error) {
 	err = v.ValidateStruct(&req,
 		v.Field(&req.ID, v.Required),
-		v.Field(&req.State, v.Required,v.In(entity.UserStateBaned,entity.UserStateOK)),
+		v.Field(&req.State, v.Required),
 	)
 	if err != nil {
 		return

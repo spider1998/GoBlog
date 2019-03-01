@@ -108,19 +108,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link active" id="admin_art">
+                        <a href="layouts-normal.html" class="nav-link" id="admin_art">
                             <i class="icon icon-speedometer"></i> 文章管理
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link" id="admin_log">
+                        <a href="layouts-normal.html" class="nav-link active" id="admin_log">
                             <i class="icon icon-speedometer"></i> 站点日志
                         </a>
                     </li>
 
                     
                     
+            
                 </ul>
             </nav>
         </div>
@@ -132,18 +133,22 @@
                         <div class="card-header bg-light">
                             【Go-Blog Users】 :
                             <br><br>
-                            <input type="text" placeholder="输入文章ID查询" id="uid">
+                            <input type="text" placeholder="输入操作内容查询" id="uid">
                             &nbsp;&nbsp;&nbsp;
-                            类别：
+                            人员类型：
                             <select id="sorts">
-                              <option value="1"></option>
-                              <option value="2"></option>
+                              <option value="1">普通用户</option>
+                              <option value="2">管理员</option>
                               <option value="" selected="selected"></option>
                           </select>
+                          &nbsp;&nbsp;&nbsp;
+                          <label for="meeting">开始时间：</label><input id="from_time" type="datetime-local" value="2014-01-13"/>
+                          &nbsp;&nbsp;&nbsp;
+                          <label for="meeting">截止时间：</label><input id="to_time" type="datetime-local" value="2014-01-13"/>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <button id="querys" onclick="querys();">Search</button>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <button style="background-color: #cada9f"><a href="">All Articles</a></button>
+                           <button style="background-color: #cada9f"><a href="">All Logs</a></button>
                         </div>
 
                         <div class="card-body">
@@ -151,12 +156,14 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Auth</th>
-                                        <th>Sort</th>
-                                        <th>Created</th>
-                                        <th>Updated</th>
-                                        <th>operating</th>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Name</th>
+                                        <th>System</th>
+                                        <th>Interface-Action</th>
+                                        <th>Remark</th>
+                                        <th>IP</th>
+                                        <th>Time</th>
                                     </tr>
                                     </thead>
                                     <tbody id="hot">
@@ -206,7 +213,7 @@
         $("#admin_announce").attr("href","admin_announce.html?token="+token)
         $("#admin_setting").attr("href","admin_setting.html?token="+token)
         $("#admin_log").attr("href","admin_log.html?token="+token)
-        //页面初始化获取管理员登陆信息/statistics
+        //页面初始化获取管理员登陆信息/
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -221,28 +228,11 @@
                   alert(result.error)
                 }
             });
-        //填充文章类别
-        $.ajax({
-                type: "GET",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/article/sorts",
-                success: function (result) {
-                  var html = ``;
-                  $.each(result, function(i, obj) {
-                      html += `<option value="`+obj.name+`">`+obj.name+`</option>`
-                  });
-                  html += `<option value="" selected="selected">All</option>`
-                  $("#sorts").html(html);//动态插入html
-                },
-                error : function() {
-                  alert(result.error)
-                }
-            });
 
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles?page=1&page_size=5",
+                url: "http://192.168.35.193:8081/admin/logs?page=1&page_size=5",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -263,14 +253,21 @@
                     }
                     
                   var html1 = ``;
-                  $.each(result.arts, function(i, obj) {
+                  $.each(result, function(i, obj) {
+                    if(obj.user_type==1){
+                        type = `<p style="color:green">普通用户</p>`
+                    }else{
+                        type = `<p style="color:#ea1212">管理员</p>`
+                    }
                         html1 += ` <tr>
-                                    <td>`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.id+`</td>
+                                    <td>`+type+`</td>
+                                    <td>`+obj.user_name+`</td>
+                                    <td>`+obj.system+`</td>
+                                    <td>`+obj.action+`</td>
+                                    <td>`+obj.remark+`</td>
+                                    <td>`+obj.ip+`</td>
                                     <td>`+obj.create_time+`</td>
-                                    <td>`+obj.update_time+`</td>
-                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
                                     </tr>
                                 `
                   });
@@ -287,28 +284,7 @@
 
         
     });
-    //删除文章
-    function deletes(i) {
-             msg = "确定删除？"
-            if (confirm(msg)==true){
-                    $.ajax({
-                        type: "DELETE",//方法类型
-                        contentType: "application/json",
-                        url: "http://192.168.35.193:8081/admin/articles/"+i,
-                        success: function (result) {
-                          location.href = "admin_art.html?token="+token
-                        },
-                        beforeSend: function(xhr) {
-                          xhr.setRequestHeader("X-Access-Token", token);
-                      },
-                        error : function() {
-                          alert(result.error)
-                        }
-                });
-            }else{
-                return false;
-            }
-    }
+
 
     //上一页
     function upage(s) {
@@ -316,7 +292,7 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles?page="+p+"&page_size=5",
+                url: "http://192.168.35.193:8081/admin/logs?page="+p+"&page_size=5",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -339,12 +315,14 @@
                   var html1 = ``;
                   $.each(result.arts, function(i, obj) {
                         html1 += ` <tr>
-                                    <td>`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.id+`</td>
+                                    <td>`+obj.user_type+`</td>
+                                    <td>`+obj.name+`</td>
+                                    <td>`+obj.system+`</td>
+                                    <td>`+obj.action+`</td>
+                                    <td>`+obj.remark+`</td>
+                                    <td>`+obj.ip+`</td>
                                     <td>`+obj.create_time+`</td>
-                                    <td>`+obj.update_time+`</td>
-                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
                                     </tr>
                                 `
                   });
@@ -364,7 +342,7 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles?page="+p+"&page_size=5",
+                url: "http://192.168.35.193:8081/admin/logs?page="+p+"&page_size=5",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -387,12 +365,14 @@
                   var html1 = ``;
                   $.each(result.arts, function(i, obj) {
                         html1 += ` <tr>
-                                    <td>`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.id+`</td>
+                                    <td>`+obj.user_type+`</td>
+                                    <td>`+obj.name+`</td>
+                                    <td>`+obj.system+`</td>
+                                    <td>`+obj.action+`</td>
+                                    <td>`+obj.remark+`</td>
+                                    <td>`+obj.ip+`</td>
                                     <td>`+obj.create_time+`</td>
-                                    <td>`+obj.update_time+`</td>
-                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
                                     </tr>
                                 `
                   });
@@ -410,22 +390,26 @@
     //条件查询
     function querys() {
         $("#down").attr("style","display:none")
-        uid = $("#uid").val()
-        sorts = $("#sorts").val()
+        text = $("#uid").val()
+        type = $("#sorts").val()
+        from_time = $("#from_time").val()
+        to_time = $("#to_time").val()
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles?id="+uid+"&oder="+sorts,
+                url: "http://192.168.35.193:8081/admin/logs?remark="+text+"&user_type="+type+"&from_time="+from_time+"&to_time="+to_time,
                 success: function (result) {
                   var html1 = ``;
-                  $.each(result.arts, function(i, obj) {
+                  $.each(result, function(i, obj) {
                         html1 += ` <tr>
-                                    <td>`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.sort+`</td>
+                                    <td>`+obj.id+`</td>
+                                    <td>`+obj.user_type+`</td>
+                                    <td>`+obj.name+`</td>
+                                    <td>`+obj.system+`</td>
+                                    <td>`+obj.action+`</td>
+                                    <td>`+obj.remark+`</td>
+                                    <td>`+obj.ip+`</td>
                                     <td>`+obj.create_time+`</td>
-                                    <td>`+obj.update_time+`</td>
-                                    <td><button onclick="deletes(\'`+obj.id+`\');" style="background-color:#de92d2">Delete</button></td>
                                     </tr>
                                 `
                   });

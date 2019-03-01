@@ -40,7 +40,7 @@ func (s *LogService) Log(userType entity.LogUserType, userID, userName, system, 
 	log.Action = action
 	log.Remark = remark
 	log.IP = ip
-	log.CreateTime = time.Now()
+	log.CreateTime = time.Now().Format("2006-01-02 15:04-05")
 
 	err = v.ValidateStruct(&log,
 		v.Field(&log.UserType, v.Required, v.In(entity.LogUserTypeUser, entity.LogUserTypeOperator)),

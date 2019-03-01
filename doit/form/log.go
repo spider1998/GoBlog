@@ -4,6 +4,7 @@ import (
 	"Project/doit/entity"
 )
 
+
 const (
 	LogUserTypeUser     entity.LogUserType = 1
 	LogUserTypeOperator entity.LogUserType = 2
@@ -20,8 +21,11 @@ type CreateLogRequest struct {
 }
 
 type QueryLogsCond struct {
-	UserType entity.LogUserType
-	Remark   string
-	FromTime string
-	ToTime   string
+	UserType entity.LogUserType `json:"user_type"`
+	Remark   string `json:"remark"`
+	FromTime string `json:"from_time"`
+	ToTime   string `json:"to_time"`
 }
+
+
+

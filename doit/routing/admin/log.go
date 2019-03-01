@@ -1,14 +1,15 @@
 package admin
 
 import (
-	"Project/doit/code"
-	"Project/doit/entity"
-	"Project/doit/form"
-	"Project/doit/service"
-	"Project/doit/util"
-	"github.com/go-ozzo/ozzo-routing"
-	"net/http"
 	"strconv"
+	"github.com/go-ozzo/ozzo-routing"
+	"Project/doit/form"
+	"Project/doit/code"
+	"net/http"
+	"Project/doit/entity"
+	"Project/doit/util"
+	"Project/doit/service"
+	"strings"
 )
 
 type LogHandler struct{}
@@ -19,13 +20,20 @@ func (LogHandler) QueryLogs(c *routing.Context) error {
 	if userTypeStr := c.Query("user_type"); userTypeStr != "" {
 		userType, err := strconv.Atoi(userTypeStr)
 		if err != nil {
-			return code.New(http.StatusBadRequest, code.CodeInvalidData)
+			return code.New(http.StatusBadRequest,code.CodeInvalidData)
 		}
 		cond.UserType = entity.LogUserType(userType)
 	}
 	cond.Remark = c.Query("remark")
-	cond.FromTime = c.Query("from_time")
-	cond.ToTime = c.Query("to_time")
+	ft := c.Query("from_time")
+	if ft != ""{
+		cond.FromTime = strings.Replace(ft,"T"," ",-1) + ":00"
+	}
+	tt := c.Query("to_time")
+	if tt != ""{
+		cond.ToTime = strings.Replace(tt,"T"," ",-1) + ":00"
+	}
+
 
 	n, err := service.Log.CountLogs(cond)
 	if err != nil {

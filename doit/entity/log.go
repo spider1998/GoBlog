@@ -1,6 +1,5 @@
 package entity
 
-import "time"
 
 const TableLog = "log"
 
@@ -20,7 +19,7 @@ type Log struct {
 	Action     string                 `json:"action"`
 	Remark     string                 `json:"remark"`
 	IP         string                 `json:"ip"`
-	CreateTime time.Time              `json:"create_time" gorm:"created"`
+	CreateTime string              `json:"create_time" gorm:"created"`
 }
 
 type CreateLogRequest struct {
