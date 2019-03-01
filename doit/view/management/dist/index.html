@@ -89,31 +89,37 @@
 
                     <li class="nav-item">
                         <a href="index.html" class="nav-link" id="web_chat">
-                            <i class="icon icon-speedometer"></i> 分析统计
+                            <i class="icon icon-puzzle"></i> 分析统计
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="tables.html" class="nav-link" id="art_top">
-                            <i class="icon icon-speedometer"></i> 文章排行
+                            <i class="icon icon-energy"></i> 文章排行
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="layouts-normal.html" class="nav-link"  id="admin_user">
-                            <i class="icon icon-speedometer"></i> 用户管理
+                            <i class="icon icon-people"></i> 用户管理
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="layouts-normal.html" class="nav-link" id="admin_art">
-                            <i class="icon icon-speedometer"></i> 文章管理
+                            <i class="icon icon-cloud-download"></i> 文章管理
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="layouts-normal.html" class="nav-link" id="art_sort">
+                            <i class="icon icon-graph"></i> 类别管理
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="layouts-normal.html" class="nav-link" id="admin_log">
-                            <i class="icon icon-speedometer"></i> 站点日志
+                            <i class="icon icon-target"></i> 站点日志
                         </a>
                     </li>
 
@@ -273,6 +279,7 @@
         $("#admin_announce").attr("href","admin_announce.html?token="+token)
         $("#admin_setting").attr("href","admin_setting.html?token="+token)
         $("#admin_log").attr("href","admin_log.html?token="+token)
+        $("#art_sort").attr("href","art_sort.html?token="+token)
         //页面初始化获取管理员登陆信息/statistics
         $.ajax({
                 type: "GET",//方法类型

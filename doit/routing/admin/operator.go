@@ -210,11 +210,20 @@ func (OperatorHandler)DeleteArticle(c *routing.Context) error {
 
 //获取文章分类
 func (OperatorHandler)GetArticlesSorts(c *routing.Context) error {
-	sorts,err := service.Operator.GetArticlesSorts()
+	admin := c.Query("admin")
+	response,err := service.Operator.GetArticlesSorts(admin)
 	if err != nil {
 		return err
 	}
-	return c.Write(sorts)
+	var res []entity.Sort
+	pager := util.GetPaginatedListFromRequest(c, len(response))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		res = response[pager.Offset() : pager.Offset()+pager.Limit()]
+	} else {
+		res = response[pager.Offset():pager.TotalCount]
+	}
+
+	return c.Write(res)
 }
 
 //获取文章列表（条件查询）
@@ -240,10 +249,17 @@ func (OperatorHandler) GetArticlesList(c *routing.Context) error {
 	return c.Write(res)
 }
 
-//删除文章分类
-func (OperatorHandler)DeleteArticleSort(c *routing.Context) error {
+//修改文章分类
+func (OperatorHandler)ModifyArticleSort(c *routing.Context) error {
 	sortID := c.Param("sort_id")
-	sort,err := service.Operator.DeleteArticlesSorts(sortID)
+	state := c.Query("state")
+	var msg string
+	if state == "1"{
+		msg = "启用"
+	}else{
+		msg = "禁用"
+	}
+	sorts,err := service.Operator.ModifyArticleSort(sortID,state)
 	if err != nil {
 		return err
 	}
@@ -251,11 +267,11 @@ func (OperatorHandler)DeleteArticleSort(c *routing.Context) error {
 		getSessionOperator(c),
 		app.System,
 		"operator.create-sort",
-		fmt.Sprintf("管理员删除文章分类。"),
+		fmt.Sprintf("管理员"+msg+"文章分类。"),
 		access.GetClientIP(c.Request),
-		util.M{"sort": sort.Name},
+		util.M{"sort": sorts.Name},
 	)
-	return c.Write(sort)
+	return c.Write(sorts)
 }
 
 

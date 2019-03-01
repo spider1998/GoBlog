@@ -420,7 +420,7 @@ func (s *OperatorService)DeleteArticle(articleID string) (err error) {
 }
 
 //删除文章分类
-func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,err error)  {
+func (s *OperatorService)ModifyArticleSort(sortID string,state string) (sort entity.Sort,err error)  {
 	err = app.DB.Select().Where(dbx.HashExp{"id": sortID}).One(&sort)
 	if err != nil {
 		if util.IsDBNotFound(err) {
@@ -430,7 +430,11 @@ func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,er
 		err = errors.WithStack(err)
 		return
 	}
-	sort.State = entity.SortStateEnable
+	if state == "1"{
+		sort.State = entity.SortStateAble
+	}else{
+		sort.State = entity.SortStateEnable
+	}
 	err = app.DB.Model(&sort).Update("State")
 	if err != nil{
 		return
@@ -439,15 +443,27 @@ func (s *OperatorService)DeleteArticlesSorts(sortID string) (sort entity.Sort,er
 }
 
 //获取文章分类
-func (s *OperatorService)GetArticlesSorts() (sorts []entity.Sort,err error) {
-	err = app.DB.Select().Where(dbx.HashExp{"state": entity.SortStateAble}).All(&sorts)
-	if err != nil {
-		if util.IsDBNotFound(err) {
-			err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+func (s *OperatorService)GetArticlesSorts(admin string) (sorts []entity.Sort,err error) {
+	if admin == "1"{
+		err = app.DB.Select().All(&sorts)
+		if err != nil {
+			if util.IsDBNotFound(err) {
+				err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+				return
+			}
+			err = errors.WithStack(err)
 			return
 		}
-		err = errors.WithStack(err)
-		return
+	}else {
+		err = app.DB.Select().Where(dbx.HashExp{"state": entity.SortStateAble}).All(&sorts)
+		if err != nil {
+			if util.IsDBNotFound(err) {
+				err = code.New(http.StatusBadRequest, code.CodeUserNotExist)
+				return
+			}
+			err = errors.WithStack(err)
+			return
+		}
 	}
 	return
 }

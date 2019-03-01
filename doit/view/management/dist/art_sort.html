@@ -102,7 +102,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link active"  id="admin_user">
+                        <a href="layouts-normal.html" class="nav-link"  id="admin_user">
                             <i class="icon icon-people"></i> 用户管理
                         </a>
                     </li>
@@ -114,7 +114,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-normal.html" class="nav-link" id="art_sort">
+                        <a href="layouts-normal.html" class="nav-link active" id="art_sort">
                             <i class="icon icon-graph"></i> 类别管理
                         </a>
                     </li>
@@ -124,8 +124,9 @@
                             <i class="icon icon-target"></i> 站点日志
                         </a>
                     </li>
-
-
+                    
+                    
+            
                 </ul>
             </nav>
         </div>
@@ -135,36 +136,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            【Go-Blog Users】 :
-                            <br><br>
-                            <input type="text" placeholder="输入用户ID查询" id="uid">
-                            &nbsp;&nbsp;&nbsp;
-                            性别：
-                            <select id="genders">
-                              <option value="1">男</option>
-                              <option value="2">女</option>
-                              <option value="" selected="selected"></option>
-                          </select>
-
-                          &nbsp;&nbsp;&nbsp;
-                            用户状态：
-                            <select id="states">
-                              <option value="1">正常</option>
-                              <option value="2">已禁用</option>
-                              <option value="" selected="selected"></option>
-                          </select>
-
-                          &nbsp;&nbsp;&nbsp;
-                            排序：
-                            <select id="oders">
-                              <option value="1">降序</option>
-                              <option value="2">升序</option>
-                              <option value="" selected="selected"></option>
-                          </select>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <button id="querys" onclick="querys();">Search</button>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <button style="background-color: #cada9f"><a href="">All Users</a></button>
+                            【Go-Blog Logs】 :
                         </div>
 
                         <div class="card-body">
@@ -174,11 +146,10 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>State</th>
-                                        <th>Area</th>
-                                        <th>Gender</th>
-                                        <th>Mobile</th>
-                                        <th>Created</th>
-                                        <th>operating</th>
+                                        <th>Operator</th>
+                                        <th>Art Sum</th>
+                                        <th>Time</th>
+                                        <th>Operate</th>
                                     </tr>
                                     </thead>
                                     <tbody id="hot">
@@ -229,7 +200,7 @@
         $("#admin_setting").attr("href","admin_setting.html?token="+token)
         $("#admin_log").attr("href","admin_log.html?token="+token)
         $("#art_sort").attr("href","art_sort.html?token="+token)
-        //页面初始化获取管理员登陆信息/statistics
+        //页面初始化获取管理员登陆信息/
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -248,7 +219,7 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users?page=1&page_size=5",
+                url: "http://192.168.35.193:8081/admin/sorts?page=1&page_size=15&admin=1",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -260,44 +231,28 @@
                         $("#down").attr("onclick","dpage(\'"+page+"\');")
                     }
                     if (page*size>=total) {
-                        $("#down").attr("style","display:none")
                         $("#up").attr("style","display:block")
                         $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:none")
                      }
                     if (page==1) {
                         $("#up").attr("style","display:none")
                     }
                     
                   var html1 = ``;
-                  $.each(result.user, function(i, obj) {
-                    var state = " "
-                    var mobile = " "
-                    var gender = " "
-                    var oper = " "
+                  $.each(result, function(i, obj) {
                     if(obj.state == 1){
-                        state = `<p style="color:green">正常</p>`
-                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                        state = `<p style="color:green">启用</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="ensort(\``+obj.id+`\`);">禁用</a></button>`
                     }else{
                         state = `<p style="color:red">禁用</p>`
-                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="asort(\'`+obj.id+`\');">启用</a></button>`
                     }
-                    if(obj.mobile == ""){
-                        mobile = "未预留联系方式"
-                    }else{
-                        mobile = obj.mobile
-                    }
-                    if(obj.gender == 1){
-                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
-                    }else{
-                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
-                    }
-
                         html1 += ` <tr>
-                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+obj.name+`</td>
                                     <td>`+state+`</td>
-                                    <td>`+obj.area+`</td>
-                                    <td>`+gender+`</td>
-                                    <td>`+mobile+`</td>
+                                    <td>`+obj.operator+`</td>
+                                    <td>`+obj.sum+`</td>
                                     <td>`+obj.create_time+`</td>
                                     <td>`+oper+`</td>
                                     </tr>
@@ -312,52 +267,16 @@
                   alert(result.error)
                 }
             });
-
-
-        
     });
-    //禁用用户
-    function enable(i) {
-        $.ajax({
-                type: "PATCH",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users/status?state=2&user_id="+i,
-                success: function (result) {
-                  location.href = "admin_user.html?token="+token
-                },
-                beforeSend: function(xhr) {
-                  xhr.setRequestHeader("X-Access-Token", token);
-              },
-                error : function() {
-                  alert(result.error)
-                }
-            });
-    }
 
-    //启用用户
-    function able(i) {
-        $.ajax({
-                type: "PATCH",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users/status?state=1&user_id="+i,
-                success: function (result) {
-                  location.href = "admin_user.html?token="+token
-                },
-                beforeSend: function(xhr) {
-                  xhr.setRequestHeader("X-Access-Token", token);
-              },
-                error : function() {
-                  alert(result.error)
-                }
-            });
-    }
+
     //上一页
     function upage(s) {
         p = parseInt(s) - 1
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users?page="+p+"&page_size=5",
+                url: "http://192.168.35.193:8081/admin/sorts?page="+p+"&page_size=15&admin=1",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -373,40 +292,25 @@
                         $("#up").attr("style","display:block")
                         $("#up").attr("onclick","upage(\'"+page+"\');")
                      }
-                    if (page==1) {
+                     if (page==1) {
                         $("#up").attr("style","display:none")
                     }
                     
+                    
                   var html1 = ``;
-                  $.each(result.user, function(i, obj) {
-                    var state = " "
-                    var mobile = " "
-                    var gender = " "
-                    var oper = " "
+                  $.each(result, function(i, obj) {
                     if(obj.state == 1){
-                        state = `<p style="color:green">正常</p>`
-                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                        state = `<p style="color:green">启用</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="ensort(\``+obj.id+`\`);">禁用</a></button>`
                     }else{
                         state = `<p style="color:red">禁用</p>`
-                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="asort(\'`+obj.id+`\');">启用</a></button>`
                     }
-                    if(obj.mobile == ""){
-                        mobile = "未预留联系方式"
-                    }else{
-                        mobile = obj.mobile
-                    }
-                    if(obj.gender == 1){
-                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
-                    }else{
-                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
-                    }
-
                         html1 += ` <tr>
-                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+obj.name+`</td>
                                     <td>`+state+`</td>
-                                    <td>`+obj.area+`</td>
-                                    <td>`+gender+`</td>
-                                    <td>`+mobile+`</td>
+                                    <td>`+obj.operator+`</td>
+                                    <td>`+obj.sum+`</td>
                                     <td>`+obj.create_time+`</td>
                                     <td>`+oper+`</td>
                                     </tr>
@@ -428,7 +332,7 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users?page="+p+"&page_size=5",
+                url: "http://192.168.35.193:8081/admin/sorts?page="+p+"&page_size=15&admin=1",
                 success: function (result,status,res) {
                     total = res.getResponseHeader("X-Page-Total")
                     page = res.getResponseHeader("X-Page")
@@ -440,44 +344,28 @@
                         $("#down").attr("onclick","dpage(\'"+page+"\');")
                     }
                     if (page*size>=total) {
-                        $("#down").attr("style","display:none")
                         $("#up").attr("style","display:block")
                         $("#up").attr("onclick","upage(\'"+page+"\');")
+                        $("#down").attr("style","display:none")
                      }
                     if (page==1) {
                         $("#up").attr("style","display:none")
                     }
                     
                   var html1 = ``;
-                  $.each(result.user, function(i, obj) {
-                    var state = " "
-                    var mobile = " "
-                    var gender = " "
-                    var oper = " "
+                  $.each(result, function(i, obj) {
                     if(obj.state == 1){
-                        state = `<p style="color:green">正常</p>`
-                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
+                        state = `<p style="color:green">启用</p>`
+                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="ensort(\``+obj.id+`\`);">禁用</a></button>`
                     }else{
                         state = `<p style="color:red">禁用</p>`
-                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
+                        oper = `<button style="background-color:#94de94"><a href="" onclick="asort(\'`+obj.id+`\');">启用</a></button>`
                     }
-                    if(obj.mobile == ""){
-                        mobile = "未预留联系方式"
-                    }else{
-                        mobile = obj.mobile
-                    }
-                    if(obj.gender == 1){
-                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
-                    }else{
-                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
-                    }
-
                         html1 += ` <tr>
-                                    <td class="text-nowrap">`+obj.name+`</td>
+                                    <td>`+obj.name+`</td>
                                     <td>`+state+`</td>
-                                    <td>`+obj.area+`</td>
-                                    <td>`+gender+`</td>
-                                    <td>`+mobile+`</td>
+                                    <td>`+obj.operator+`</td>
+                                    <td>`+obj.sum+`</td>
                                     <td>`+obj.create_time+`</td>
                                     <td>`+oper+`</td>
                                     </tr>
@@ -494,55 +382,14 @@
             });
     }
 
-    //条件查询
-    function querys() {
-        $("#down").attr("style","display:none")
-        $("#down").attr("style","display:none")
-        uid = $("#uid").val()
-        genders = $("#genders").val()
-        states = $("#states").val()
-        oders = $("#oders").val()
+    //禁用文章分类
+    function ensort(i) {
         $.ajax({
-                type: "GET",//方法类型
+                type: "PATCH",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/users?user_id="+uid+"&oder="+oders+"&state="+states+"&gender="+genders,
-                success: function (result,status,res) {
-                  var html1 = ``;
-                  $.each(result.user, function(i, obj) {
-                    var state = " "
-                    var mobile = " "
-                    var gender = " "
-                    var oper = " "
-                    if(obj.state == 1){
-                        state = `<p style="color:green">正常</p>`
-                        oper = `<button style="background-color:#eaa6a6"><a href="" onclick="enable(\``+obj.id+`\`);">禁用</a></button>`
-                    }else{
-                        state = `<p style="color:red">禁用</p>`
-                        oper = `<button style="background-color:#94de94"><a href="" onclick="able(\'`+obj.id+`\');">启用</a></button>`
-                    }
-                    if(obj.mobile == ""){
-                        mobile = "未预留联系方式"
-                    }else{
-                        mobile = obj.mobile
-                    }
-                    if(obj.gender == 1){
-                        gender = `<i class="fa fa-mars" style="font-size:24px;color:blue"></i>`
-                    }else{
-                        gender = `<i class="fa fa-venus" style="font-size:24px;color:red"></i>`
-                    }
-
-                        html1 += ` <tr>
-                                    <td class="text-nowrap">`+obj.name+`</td>
-                                    <td>`+state+`</td>
-                                    <td>`+obj.area+`</td>
-                                    <td>`+gender+`</td>
-                                    <td>`+mobile+`</td>
-                                    <td>`+obj.create_time+`</td>
-                                    <td>`+oper+`</td>
-                                    </tr>
-                                `
-                  });
-                  $("#hot").html(html1);
+                url: "http://192.168.35.193:8081/admin/sorts/status/"+i+"?state=2",
+                success: function (result) {
+                  location.href = "art_sort.html?token="+token
                 },
                 beforeSend: function(xhr) {
                   xhr.setRequestHeader("X-Access-Token", token);
@@ -552,6 +399,26 @@
                 }
             });
     }
+
+    //启用文章分类
+    function asort(i) {
+        $.ajax({
+                type: "PATCH",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/sorts/status/"+i+"?state=1",
+                success: function (result) {
+                  location.href = "art_sort.html?token="+token
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
+    }
+
+   
 </script>
 </body>
 </html>
