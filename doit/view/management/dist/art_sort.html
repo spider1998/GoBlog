@@ -124,6 +124,12 @@
                             <i class="icon icon-target"></i> 站点日志
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="backup.html" class="nav-link" id="backup">
+                            <i class="icon icon-umbrella"></i> 数据备份
+                        </a>
+                    </li>s
                     
                     
             
@@ -136,7 +142,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            【Go-Blog Logs】 :
+                            【Go-Blog Sorts】 :
                         </div>
 
                         <div class="card-body">
@@ -163,6 +169,28 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            【Add New Sort】 :
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <input type="text" name="sort_name" placeholder="类别名称" id="add_sort">
+                                <br><br>
+                                <button onclick="add_sort();">提 交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             </div>
         </div>
@@ -200,6 +228,7 @@
         $("#admin_setting").attr("href","admin_setting.html?token="+token)
         $("#admin_log").attr("href","admin_log.html?token="+token)
         $("#art_sort").attr("href","art_sort.html?token="+token)
+        $("#backup").attr("href","backup.html?token="+token)
         //页面初始化获取管理员登陆信息/
         $.ajax({
                 type: "GET",//方法类型
@@ -417,6 +446,32 @@
                 }
             });
     }
+
+    //增加文章分类
+    function add_sort() {
+        sort = $("#add_sort").val();
+            msg = "确定添加此类别？？"
+            if (confirm(msg)==true){
+                    $.ajax({
+                        type: "POST",//方法类型
+                        contentType: "application/json",
+                        url: "http://192.168.35.193:8081/admin/sorts",
+                        data:JSON.stringify({"sort":sort}),
+                        success: function (result) {
+                          location.href = "art_sort.html?token="+token
+                        },
+                        beforeSend: function(xhr) {
+                          xhr.setRequestHeader("X-Access-Token", token);
+                      },
+                        error : function() {
+                          alert(result.error)
+                        }
+                });
+            }else{
+                return false;
+            }
+    }
+
 
    
 </script>

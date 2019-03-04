@@ -1,11 +1,11 @@
 package admin
 
 import (
+	"net/http"
 	"Project/doit/app"
 	"Project/doit/code"
 	"Project/doit/entity"
 	"Project/doit/service"
-	"net/http"
 	"sort"
 	"strconv"
 	"strings"
@@ -40,7 +40,7 @@ func restoreBackup(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
-	return nil
+	return c.Write(http.StatusOK)
 }
 
 type Spec struct {
@@ -71,7 +71,7 @@ func updateSchedule(c *routing.Context) error {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err("invalid spec.")
 	}
 
-	_, err = app.DB.Update(entity.TableSysCron, dbx.Params{"updated_at": util.DateTimeStd(), "spec": spec}, dbx.HashExp{"key": service.CronDBBackupKey}).Execute()
+	_, err = app.DB.Update(entity.TableSysCron, dbx.Params{"update_time": util.DateTimeStd(), "spec": spec}, dbx.HashExp{"key": service.CronDBBackupKey}).Execute()
 	if err != nil {
 		return err
 	}

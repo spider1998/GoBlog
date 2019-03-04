@@ -18,9 +18,9 @@
             </a>
 
             <a class="navbar-brand" href="#">
-                <p style="color: red;font-weight: bold;">Go-Blog - Admin</p>
+            <p style="color: red;font-weight: bold;">Go-Blog - Admin</p>
             <!-- <img src="./imgs/logo.png" alt="logo"> -->
-            </a>
+        </a>
 
             <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
                 <i class="fa fa-bars"></i>
@@ -96,7 +96,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="tables.html" class="nav-link active" id="art_top">
+                        <a href="tables.html" class="nav-link" id="art_top">
                             <i class="icon icon-energy"></i> 文章排行
                         </a>
                     </li>
@@ -126,24 +126,23 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="backup.html" class="nav-link" id="backup">
+                        <a href="backup.html" class="nav-link active" id="backup">
                             <i class="icon icon-umbrella"></i> 数据备份
                         </a>
                     </li>
-
                     
+                    
+            
                 </ul>
             </nav>
         </div>
 
         <div class="content">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            文章点赞（TOP 10）：
-                            <br>
-                            【每天刷新】
+                            【Go-Blog Backups】 :
                         </div>
 
                         <div class="card-body">
@@ -151,11 +150,9 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Auth</th>
-                                        <th>Hot</th>
-                                        <th>PubTime</th>
+                                        <th>Index</th>
+                                        <th>Datetime</th>
+                                        <th>Operate</th>
                                     </tr>
                                     </thead>
                                     <tbody id="hot">
@@ -166,29 +163,48 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-light">
-                            文章阅读量（TOP 10）：
-                            <br>
-                            【实时刷新】
+                            【Add New Backups】 :
                         </div>
 
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <button onclick="add_backups();" style="background-color: #f5bd2a">新建数据备份</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            【Backup Schedules】 :
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Auth</th>
-                                        <th>Read</th>
-                                        <th>PubTime</th>
+                                        <th>Hour</th>
+                                        <th>Day</th>
+                                        <th>Month</th>
+                                        <th>Week</th>
+                                        <th>Last Executed</th>
+                                        <th>Next Executed</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="read">
-                                    <!-- 填充内容 -->
+                                    <tbody id="task">
+                                   <!--  填充内容 -->
                                     </tbody>
                                 </table>
                             </div>
@@ -196,6 +212,35 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            【Update Backups Schedule】 :
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <input type="text" name="" id="hours" placeholder="Hour(1-24)">
+                                &nbsp;&nbsp;
+                                <input type="text" name="" id="days" placeholder="Day(1-30)">
+                                &nbsp;&nbsp;
+                                <input type="text" name="" id="months" placeholder="Month(1-12)">
+                                &nbsp;&nbsp;
+                                <input type="text" name="" id="weeks" placeholder="Week(1-7)">
+                                &nbsp;&nbsp;
+                                <button onclick="updates();" style="background-color: #36daa3">更新备份计划</button>
+                                <br><br><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             </div>
         </div>
@@ -221,7 +266,9 @@
 
     var token = getQueryVariable("token")
     $(document).ready(function(){
-
+        var total = 0
+        var page = 0
+        var size = 0
         $("#static").attr("href","index.html?token="+token)
         $("#web_chat").attr("href","chartjs.html?token="+token)
         $("#art_top").attr("href","tables.html?token="+token)
@@ -232,7 +279,7 @@
         $("#admin_log").attr("href","admin_log.html?token="+token)
         $("#art_sort").attr("href","art_sort.html?token="+token)
         $("#backup").attr("href","backup.html?token="+token)
-        //页面初始化获取管理员登陆信息/statistics
+        //页面初始化获取管理员登陆信息/
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
@@ -251,33 +298,20 @@
         $.ajax({
                 type: "GET",//方法类型
                 contentType: "application/json",
-                url: "http://192.168.35.193:8081/admin/articles/top10",
+                url: "http://192.168.35.193:8081/admin/backups",
                 success: function (result) {
                   var html1 = ``;
-                  var html2 = ``;
-                  $.each(result.hot, function(i, obj) {
+                  var j = 1
+                  $.each(result, function(i, obj) {
                         html1 += ` <tr>
-                                    <td>`+obj.id+`</td>
-                                    <td class="text-nowrap">`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.hot+`</td>
-                                    <td>`+obj.time+`</td>
+                                    <td>`+j+`</td>
+                                    <td>`+obj+`</td>
+                                    <td><button style="background-color:#eaa6a6"><a href="" onclick="restore(\``+obj+`\`);">还原</a></button></td>
                                     </tr>
                                 `
+                        j += 1
                   });
-                  $.each(result.read, function(i, obj) {
-                        html2 += ` <tr>
-                                    <td>`+obj.id+`</td>
-                                    <td class="text-nowrap">`+obj.title+`</td>
-                                    <td>`+obj.auth+`</td>
-                                    <td>`+obj.read+`</td>
-                                    <td>`+obj.time+`</td>
-                                    </tr>
-                                `
-                  });
-
                   $("#hot").html(html1);
-                  $("#read").html(html2);
                 },
                 beforeSend: function(xhr) {
                   xhr.setRequestHeader("X-Access-Token", token);
@@ -286,9 +320,122 @@
                   alert(result.error)
                 }
             });
-        
+        //获取备份计划
+        $.ajax({
+                type: "GET",//方法类型
+                contentType: "application/json",
+                url: "http://192.168.35.193:8081/admin/schedules/db.backup",
+                success: function (result) {
+                    var html1 = ``;
+                    html1 += ` <tr>
+                                <td>`+result.hour+`</td>
+                                <td>`+result.day+`</td>
+                                <td>`+result.month+`</td>
+                                <td>`+result.week+`</td>
+                                <td>`+result.last_executed_at+`</td>
+                                <td>`+result.next_executed_at+`</td>
+                                </tr>
+                            `
+                
+                  $("#task").html(html1);
+                },
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("X-Access-Token", token);
+              },
+                error : function() {
+                  alert(result.error)
+                }
+            });
     });
 
+    //还原备份
+    function restore(i) {
+        sort = $("#add_sort").val();
+            msg = "确定还原"+i+"备份，此操作可能导致数据丢失，请提前备份当前数据！！！"
+            if (confirm(msg)==true){
+                    $.ajax({
+                        type: "POST",//方法类型
+                        contentType: "application/json",
+                        url: "http://192.168.35.193:8081/admin/restores",
+                        data:JSON.stringify({"datetime":i}),
+                        success: function (result) {
+                          location.href = "index.html?token="+token
+                        },
+                        beforeSend: function(xhr) {
+                          xhr.setRequestHeader("X-Access-Token", token);
+                      },
+                        error : function() {
+                          alert(result.error)
+                        }
+                     });
+            }else{
+                return false;
+            }
+    }
+    //增加备份
+    function add_backups() {
+            msg = "确定备份当前数据？？"
+            if (confirm(msg)==true){
+                    $.ajax({
+                        type: "POST",//方法类型
+                        contentType: "application/json",
+                        url: "http://192.168.35.193:8081/admin/backups",
+                        success: function (result) {
+                          window.location.reload();
+                        },
+                        beforeSend: function(xhr) {
+                          xhr.setRequestHeader("X-Access-Token", token);
+                      },
+                        error : function() {
+                          window.location.reload();
+                        }
+                });
+            }else{
+                return false;
+            }
+    }
+
+    function updates() {
+            msg = "确定更新备份计划？？"
+            hours = $("#hours").val();
+            days = $("#days").val();
+            months = $("#months").val();
+            weeks = $("#weeks").val();
+            if (hours==""){
+                hours = "*"
+            }
+            if (days==""){
+                days = "*"
+            }
+            if (months==""){
+                months = "*"
+            }
+            if (weeks==""){
+                weeks = "*"
+            }
+            if (confirm(msg)==true){
+                    $.ajax({
+                        type: "PATCH",
+                        contentType: "application/json",
+                        url: "http://192.168.35.193:8081/admin/schedules/db.backup",
+                        data:JSON.stringify({"hour":hours,"day":days,"month":months,"week":weeks}),
+                        success: function (result) {
+                          window.location.reload();
+                        },
+                        beforeSend: function(xhr) {
+                          xhr.setRequestHeader("X-Access-Token", token);
+                      },
+                        error : function() {
+                          window.location.reload();
+                        }
+                });
+            }else{
+                return false;
+            }
+    }
+
+
+   
 </script>
 </body>
 </html>
