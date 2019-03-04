@@ -13,9 +13,8 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 	router.Get("/articles", article.GetArticles)								// 获取全部文章
 	router.Post("/add", article.AddArticle)       								// 创建文章
 	router.Post("/verify", article.VerifyArticle) 								// 用户修改文章
-
+	router.Get("/<art_id>/comments",article.GetArticleComment)					//获取文章所有评论及回复
 	router.Get("/sorts",operatorHandler.GetArticlesSorts)					//	获取文章分类
-
 
 	router.Use(user.CheckSession)													// 检查用户登录状态信息
 	router.Get("/arts/my", article.GetMyArticles)								// 获取个人全部文章
@@ -35,5 +34,4 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 
 	router.Post("/<art_id>/comment",article.CommentArticle)						//评论文章
 	router.Post("/comments/<com_id>/reply",article.CommentReply)				//评论回复
-	router.Get("/<art_id>/comments",article.GetArticleComment)					//获取文章所有评论及回复
 }
