@@ -7,18 +7,19 @@ import (
 )
 
 var (
-	User 				entity.User
-	Article				entity.Article
-	Content 			entity.Content
-	ArticleVersion		entity.ArticleVersion
-	ArticleForward		entity.ArticleForward
-	Log					entity.Log
-	Operator			entity.Operator
-	Sort				entity.Sort
-	Comment				entity.Comment
-	Reply				entity.Reply
-	SysCron				entity.SysCron
-	GenderStatistic		entity.GenderStatistic
+	User            entity.User
+	Article         entity.Article
+	Content         entity.Content
+	ArticleVersion  entity.ArticleVersion
+	ArticleForward  entity.ArticleForward
+	Log             entity.Log
+	Operator        entity.Operator
+	Sort            entity.Sort
+	Comment         entity.Comment
+	Reply           entity.Reply
+	SysCron         entity.SysCron
+	GenderStatistic entity.GenderStatistic
+	Message         entity.Message
 )
 
 func Migrate(dsn string) error {
@@ -28,8 +29,7 @@ func Migrate(dsn string) error {
 		Logger.Error().Err(err).Msg("DB connection error.")
 		panic(err)
 	}
-	err = db.AutoMigrate(&User,&Article,&Content,&ArticleVersion,&ArticleForward,
-		&Log,&Operator,&Sort,&SysCron,&Comment,&Reply,&GenderStatistic).Error
+	err = db.AutoMigrate(&User, &Article, &Content, &ArticleVersion, &ArticleForward,
+		&Log, &Operator, &Sort, &SysCron, &Comment, &Reply, &GenderStatistic,&Message).Error
 	return err
 }
-

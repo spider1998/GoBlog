@@ -15,6 +15,8 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 	router.Post("/verify", article.VerifyArticle) 								// 用户修改文章
 	router.Get("/<art_id>/comments",article.GetArticleComment)					//获取文章所有评论及回复
 	router.Get("/sorts",operatorHandler.GetArticlesSorts)					//	获取文章分类
+	router.Get("/articles/hot/top10",operatorHandler.GetArticleTop)				// 获取文章排行前十
+
 
 	router.Use(user.CheckSession)													// 检查用户登录状态信息
 	router.Get("/arts/my", article.GetMyArticles)								// 获取个人全部文章

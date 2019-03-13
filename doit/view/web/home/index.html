@@ -71,6 +71,10 @@
       </div>
     </header>
 
+    <div style="margin-top: 100px">
+        <p style="color: #0c5460;margin-left: 100px;position: absolute;top: 700px">Advertising space for rent</p>
+    </div>
+
     <!-- Main Content -->
     <div class="container">
       <div class="row">
@@ -79,8 +83,7 @@
           <!-- Pager -->
 
         </div>
-        <div class="clearfix">
-            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        <div class="clearfix" id="hotart">
         </div>
       </div>
     </div>
@@ -163,13 +166,13 @@
             });
             staticF = "http://192.168.35.193:8081/static/"
             $.ajax({
-                type: "GET",//方法类型
-                contentType: "application/json",
-                url: "http://192.168.35.193:8081/article/articles",
-                success: function (data) {
-                    var html = `<p>All blogs:</p>`;
-                    $.each(data, function(i, obj) {
-                            html += `<div class="post-preview">
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/article/articles",
+              success: function (data) {
+                  var html = `<p>All blogs:</p>`;
+                  $.each(data, function(i, obj) {
+                      html += `<div class="post-preview">
             <a href="post.html?article=`+obj.id+"&session="+session+`" id="">
               <h2 class="post-title">`+obj.title+`
               </h2>
@@ -184,13 +187,36 @@
           </div>
             <hr>
           <hr>`;  //循环遍历，拼接
-                    });
-                    $("#blogCon").html(html);//动态插入html
-                },
-                error : function() {
+                  });
+                  $("#blogCon").html(html);//动态插入html
+              },
+              error : function() {
                   alert("search blog failed");
-                }
-            });
+              }
+          });
+
+
+          $.ajax({
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/article/articles/hot/top10",
+              success: function (data) {
+                  var html = `<p>热门文章推荐(Top 10):</p>`;
+                  $.each(data.hot, function(i, obj) {
+                      html += `
+            <a href="post.html?article=`+obj.id+"&session="+session+`" id="">
+              <p class="post-title">`+obj.title+`&nbsp;&nbsp;&nbsp;热度：`+obj.hot+`
+              </p>
+            </a>
+
+          `;  //循环遍历，拼接
+                  });
+                  $("#hotart").html(html);//动态插入html
+              },
+              error : function() {
+                  alert("search blog failed");
+              }
+          });
 
 
 
