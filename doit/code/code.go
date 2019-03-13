@@ -6,14 +6,13 @@ type Code int
 
 //响应码
 const (
-	CodeServerErr    Code = 1
-	CodeBadRequest   Code = 2
-	CodeNoPermission Code = 3
-
-	CodeUserExist                Code = 10000
-	CodeUserNotExist             Code = 10001
-	CodeUserInvalidPassword      Code = 10002
-	CodeUserAccessSessionInvalid Code = 10003
+	CodeServerErr                Code = 1
+	CodeBadRequest                = 2
+	CodeNoPermission             = 3
+	CodeUserExist                 = 10000
+	CodeUserNotExist              = 10001
+	CodeUserInvalidPassword      = 10002
+	CodeUserAccessSessionInvalid  = 10003
 	CodeVerifyError                   = 10004
 	CodeArticleExist                  = 10005
 	CodeArticleNotExist               = 10006
@@ -31,45 +30,42 @@ const (
 	CodeCommentExist                  = 100018
 	CodeCommentNotExist               = 100019
 	CodeMessageNotExist               = 100020
-
-	CodeTaskIsInProgress = 100020
-	CodeStatisticExist   = 100021
-
-	CodeRecordNotExist Code = 10803
+	CodeCreateMessageError            = 100021
+	CodeTaskIsInProgress              = 100020
+	CodeStatisticExist                = 100021
+	CodeRecordNotExist            = 10803
 )
 
 //响应码对应信息集合
 var codeMap = map[Code]string{
-	CodeServerErr:    "internal server error.",
-	CodeBadRequest:   "invalid request.",
-	CodeNoPermission: "operation is not allowed.",
-
+	CodeServerErr:                "internal server error.",
+	CodeBadRequest:               "invalid request.",
+	CodeNoPermission:             "operation is not allowed.",
 	CodeUserExist:                "account already exists.",
 	CodeRecordNotExist:           "record not exist.",
 	CodeUserNotExist:             "user not exist",
 	CodeUserInvalidPassword:      "password error",
 	CodeUserAccessSessionInvalid: "Session error",
 	CodeVerifyError:              "Verification code error",
-
-	CodeArticleExist:          "article exist",
-	CodeArticleNotExist:       "article not exist",
-	CodeArticleNotChange:      "article not change any more",
-	CodeDenied:                "Permission denied",
-	CodeContentNotExist:       "Content not exist",
-	CodeIDNotAllowed:          "ID Not Allowed",
-	CodeInvalidCaptcha:        "Invalid Captcha",
-	CodeInvalidData:           "Invalid Data",
-	CodeOperatorNotExist:      "Operator Not Exist",
-	CodeUserDisabled:          "User Disabled",
-	CodeTokenNotExist:         "Token Not Exist",
-	CodeStateInvalid:          "State Invalid",
-	CodeOperatorTokenRequired: "Operator Token Required",
-	CodeCommentExist:          "Comment Exist",
-	CodeCommentNotExist:       "Comment Not Exist",
-	CodeMessageNotExist:		"Message Not Exist",
-
-	CodeTaskIsInProgress: "Task Is In Progress",
-	CodeStatisticExist:   "Statistic Exist",
+	CodeArticleExist:             "article exist",
+	CodeArticleNotExist:          "article not exist",
+	CodeArticleNotChange:         "article not change any more",
+	CodeDenied:                   "Permission denied",
+	CodeContentNotExist:          "Content not exist",
+	CodeIDNotAllowed:             "ID Not Allowed",
+	CodeInvalidCaptcha:           "Invalid Captcha",
+	CodeInvalidData:              "Invalid Data",
+	CodeOperatorNotExist:         "Operator Not Exist",
+	CodeUserDisabled:             "User Disabled",
+	CodeTokenNotExist:            "Token Not Exist",
+	CodeStateInvalid:             "State Invalid",
+	CodeOperatorTokenRequired:    "Operator Token Required",
+	CodeCommentExist:             "Comment Exist",
+	CodeCommentNotExist:          "Comment Not Exist",
+	CodeMessageNotExist:          "Message Not Exist",
+	CodeCreateMessageError:       "Create Message Error",
+	CodeTaskIsInProgress:         "Task Is In Progress",
+	CodeStatisticExist:           "Statistic Exist",
 }
 
 //解析码的具体信息

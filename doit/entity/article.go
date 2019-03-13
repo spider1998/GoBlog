@@ -125,9 +125,9 @@ type ArticleForward struct {
 }
 
 type ArticleAuthorization struct {
-	ArtID    string       `json:"art_id"`
-	RecordID string       `json:"record_id"`
-	State    StateForward `json:"state"`
+	ArtID string `json:"art_id"`
+	State string `json:"state"`
+	UserID 	string `json:"user_id"`
 }
 
 func (Article) TableName() string {

@@ -15,10 +15,12 @@ type MessageService struct{}
 
 var Message MessageService
 
-func (m MessageService) Create(accountID, title, content string) error {
+func (m MessageService) Create(accountID, title, serverID, content, originID string) error {
 	var message entity.Message
 	message.ID = uuid.New().String()
 	message.UserID = accountID
+	message.OriginID = originID
+	message.ServerID = serverID
 	message.Title = title
 	message.Content = content
 	message.Read = false
