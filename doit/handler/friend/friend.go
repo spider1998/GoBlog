@@ -14,6 +14,25 @@ import (
 	"net/http"
 )
 
+//获取好友列表
+func GetFriendList(c *routing.Context) (err error) {
+	userID := c.Query("user_id")
+	state := c.Query("state")
+	friends, err := service.Friend.GetFriendList(userID,state)
+	if err != nil {
+		return err
+	}
+	var res []entity.Friend
+	pager := util.GetPaginatedListFromRequest(c, len(friends))
+	if pager.Offset()+pager.Limit() <= pager.TotalCount {
+		res = friends[pager.Offset() : pager.Offset()+pager.Limit()]
+	} else {
+		res = friends[pager.Offset():pager.TotalCount]
+	}
+	return c.Write(res)
+
+}
+
 //删除好友
 func DeleteFriend(c *routing.Context) (err error) {
 	userID := session.GetUserSession(c).ID

@@ -19,6 +19,28 @@ var Friend = FriendService{}
 
 type FriendService struct{}
 
+//获取好友列表
+func (f *FriendService) GetFriendList(userID, state string) (friends []entity.Friend, err error) {
+	status, err := strconv.Atoi(state)
+	if err != nil {
+		return
+	}
+	var fState entity.FriendStatus
+	if status == int(entity.FriendOK) {
+		fState = entity.FriendOK
+	} else {
+		fState = entity.FriendBlack
+	}
+	err = app.DB.Select().Where(dbx.HashExp{"user_id": userID}).
+		AndWhere(dbx.HashExp{"friend_state": fState}).
+		OrWhere(dbx.HashExp{"friend_id": userID}).
+		AndWhere(dbx.HashExp{"user_state": fState}).All(&friends)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //好友申请授权
 func (f *FriendService) AddAuthorization(req form.AddFriendRequest, state string) (err error) {
 	err = v.ValidateStruct(&req,

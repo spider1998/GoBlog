@@ -20,6 +20,7 @@ var (
 	SysCron         entity.SysCron
 	GenderStatistic entity.GenderStatistic
 	Message         entity.Message
+	Friend          entity.Friend
 )
 
 func Migrate(dsn string) error {
@@ -30,6 +31,7 @@ func Migrate(dsn string) error {
 		panic(err)
 	}
 	err = db.AutoMigrate(&User, &Article, &Content, &ArticleVersion, &ArticleForward,
-		&Log, &Operator, &Sort, &SysCron, &Comment, &Reply, &GenderStatistic,&Message).Error
+		&Log, &Operator, &Sort, &SysCron, &Comment, &Reply, &GenderStatistic,
+			&Message, &Friend).Error
 	return err
 }
