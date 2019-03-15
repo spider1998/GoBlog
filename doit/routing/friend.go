@@ -11,6 +11,6 @@ func FriendRegisterRoutes(router *routing.RouteGroup) {
 	router.Patch("/friends", friend.AddAuthorization) //好友申请授权
 	router.Delete("/friends", friend.DeleteFriend)    //删除好友
 	router.Get("/friends", friend.GetFriendList)      //获取好友列表
-	router.Patch("/blacklists", friend.PullBlack)     //拉黑好友
+	router.Patch("/blacklists", friend.PullBlack)     //拉黑好友/解除拉黑
 
 }

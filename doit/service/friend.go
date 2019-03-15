@@ -20,7 +20,13 @@ var Friend = FriendService{}
 type FriendService struct{}
 
 //拉黑好友
-func (f *FriendService) PullBlack(userID, recID string) (err error) {
+func (f *FriendService) PullBlack(userID, recID, state string) (err error) {
+	var status entity.FriendStatus
+	if state == "1" {
+		status = entity.FriendOK
+	} else {
+		status = entity.FriendBlack
+	}
 	var record entity.Friend
 	err = app.DB.Select().Where(dbx.HashExp{"id": recID}).One(&record)
 	if err != nil {
@@ -36,9 +42,9 @@ func (f *FriendService) PullBlack(userID, recID string) (err error) {
 		return
 	}
 	if userID == record.UserID {
-		record.FriendState = entity.FriendBlack
+		record.FriendState = status
 	} else {
-		record.UserState = entity.FriendBlack
+		record.UserState = status
 	}
 	err = app.DB.Model(&record).Update("UserState", "FriendState")
 	if err != nil {

@@ -18,7 +18,8 @@ import (
 func PullBlack(c *routing.Context) (err error) {
 	userID := session.GetUserSession(c).ID
 	recID := c.Query("record_id")
-	err = service.Friend.PullBlack(userID, recID)
+	state := c.Query("state")
+	err = service.Friend.PullBlack(userID, recID,state)
 	if err != nil {
 		return
 	}
