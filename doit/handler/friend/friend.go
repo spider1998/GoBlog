@@ -14,11 +14,22 @@ import (
 	"net/http"
 )
 
+//拉黑好友
+func PullBlack(c *routing.Context) (err error) {
+	userID := session.GetUserSession(c).ID
+	recID := c.Query("record_id")
+	err = service.Friend.PullBlack(userID, recID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //获取好友列表
 func GetFriendList(c *routing.Context) (err error) {
 	userID := c.Query("user_id")
 	state := c.Query("state")
-	friends, err := service.Friend.GetFriendList(userID,state)
+	friends, err := service.Friend.GetFriendList(userID, state)
 	if err != nil {
 		return err
 	}

@@ -19,6 +19,35 @@ var Friend = FriendService{}
 
 type FriendService struct{}
 
+//拉黑好友
+func (f *FriendService) PullBlack(userID, recID string) (err error) {
+	var record entity.Friend
+	err = app.DB.Select().Where(dbx.HashExp{"id": recID}).One(&record)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeFriendNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	if userID != record.UserID && userID != record.FriendID {
+		err = code.New(http.StatusBadRequest, code.CodeUserAccessSessionInvalid)
+		return
+	}
+	if userID == record.UserID {
+		record.FriendState = entity.FriendBlack
+	} else {
+		record.UserState = entity.FriendBlack
+	}
+	err = app.DB.Model(&record).Update("UserState", "FriendState")
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
+}
+
 //获取好友列表
 func (f *FriendService) GetFriendList(userID, state string) (friends []entity.Friend, err error) {
 	status, err := strconv.Atoi(state)
