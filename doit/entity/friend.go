@@ -4,9 +4,13 @@ const TableFriend = "friend"
 
 type FriendStatus int
 
+type AppFriendState int8
+
 const (
-	FriendOK    FriendStatus = 1
-	FriendBlack              = 2
+	FriendOK FriendStatus = 1 + iota
+	FriendBlack
+	AcceptApp	AppFriendState	=	1 +iota
+	RefusedApp
 )
 
 func (fr FriendStatus) Text() string {
@@ -21,10 +25,12 @@ func (fr FriendStatus) Text() string {
 }
 
 type Friend struct {
-	ID     string       `json:"id"`     //ID
-	Name   string       `json:"name"`   //姓名
-	Uid    int          `json:"uid"`    //所属好友
-	Status FriendStatus `json:"status"` //是否拉黑
+	ID          string       `json:"id"`                                         //ID
+	UserID      string       `json:"user_id" gorm:"index;not null"`              //用户ID
+	FriendID    string       `json:"friend_id" gorm:"index;not null"`            //好友ID
+	FriendState FriendStatus `json:"friend_state"`                               //是否拉黑
+	UserState   FriendStatus `json:"user_state"`                                 //是否被拉黑
+	CreateTime  string       `json:"create_time" gorm:"type:datetime;not null;"` //创建好友时间
 }
 
 type QueryUserRequest struct {

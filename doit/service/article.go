@@ -486,6 +486,35 @@ func (a *ArticleService) UpdateArticle(req entity.UpdateArticleRequest, userId s
 	return
 }
 
+func (a *ArticleService) ModifyAuthorization(req form.ContributeReq, state, authID string) (res string, err error) {
+	var art entity.Article
+	err = app.DB.Select().Where(dbx.HashExp{"id": req.ArtID}).One(&art)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeArticleNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	authID = art.UserId
+	if state == strconv.Itoa(int(entity.MessageAuthTypeAllowed)) {
+		art.Content = req.Content
+		err = app.DB.Model(&art).Update("Content")
+		if err != nil {
+			err = errors.WithStack(err)
+			return
+		}
+		res = art.Title + " 修改授权成功！"
+		return
+	}
+	if state == "2" {
+		res = art.Title + " 修改授权拒绝！"
+		return
+	}
+	return
+}
+
 //文章转发授权
 func (a *ArticleService) ForwardAuthorization(req entity.ArticleAuthorization) (res, authID string, err error) {
 	var art entity.Article
@@ -524,7 +553,7 @@ func (a *ArticleService) ForwardAuthorization(req entity.ArticleAuthorization) (
 	}
 	if req.State == "2" {
 		res = art.Title + " 转发授权拒绝！"
-		return 
+		return
 	}
 	return
 }

@@ -7,12 +7,12 @@ type Code int
 //响应码
 const (
 	CodeServerErr                Code = 1
-	CodeBadRequest                = 2
-	CodeNoPermission             = 3
-	CodeUserExist                 = 10000
-	CodeUserNotExist              = 10001
-	CodeUserInvalidPassword      = 10002
-	CodeUserAccessSessionInvalid  = 10003
+	CodeBadRequest                    = 2
+	CodeNoPermission                  = 3
+	CodeUserExist                     = 10000
+	CodeUserNotExist                  = 10001
+	CodeUserInvalidPassword           = 10002
+	CodeUserAccessSessionInvalid      = 10003
 	CodeVerifyError                   = 10004
 	CodeArticleExist                  = 10005
 	CodeArticleNotExist               = 10006
@@ -31,25 +31,26 @@ const (
 	CodeCommentNotExist               = 100019
 	CodeMessageNotExist               = 100020
 	CodeCreateMessageError            = 100021
-	CodeTaskIsInProgress              = 100020
-	CodeStatisticExist                = 100021
-	CodeRecordNotExist            = 10803
+	CodeTaskIsInProgress              = 100022
+	CodeStatisticExist                = 100023
+	CodeFriendExist                   = 100024
+	CodeRecordNotExist                = 10803
 )
 
 //响应码对应信息集合
 var codeMap = map[Code]string{
-	CodeServerErr:                "internal server error.",
-	CodeBadRequest:               "invalid request.",
-	CodeNoPermission:             "operation is not allowed.",
-	CodeUserExist:                "account already exists.",
-	CodeRecordNotExist:           "record not exist.",
-	CodeUserNotExist:             "user not exist",
+	CodeServerErr:                "Internal server error.",
+	CodeBadRequest:               "Invalid request.",
+	CodeNoPermission:             "Operation is not allowed.",
+	CodeUserExist:                "Account already exists.",
+	CodeRecordNotExist:           "Record not exist.",
+	CodeUserNotExist:             "User not exist",
 	CodeUserInvalidPassword:      "password error",
 	CodeUserAccessSessionInvalid: "Session error",
 	CodeVerifyError:              "Verification code error",
-	CodeArticleExist:             "article exist",
-	CodeArticleNotExist:          "article not exist",
-	CodeArticleNotChange:         "article not change any more",
+	CodeArticleExist:             "Article exist",
+	CodeArticleNotExist:          "Article not exist",
+	CodeArticleNotChange:         "Article not change any more",
 	CodeDenied:                   "Permission denied",
 	CodeContentNotExist:          "Content not exist",
 	CodeIDNotAllowed:             "ID Not Allowed",
@@ -62,13 +63,13 @@ var codeMap = map[Code]string{
 	CodeOperatorTokenRequired:    "Operator Token Required",
 	CodeCommentExist:             "Comment Exist",
 	CodeCommentNotExist:          "Comment Not Exist",
-	CodeMessageNotExist:          "Message Not Exist",
-	CodeCreateMessageError:       "Create Message Error",
-	CodeTaskIsInProgress:         "Task Is In Progress",
+	CodeMessageNotExist:    "Message Not Exist",
+	CodeCreateMessageError: "Create Message Error",
+	CodeTaskIsInProgress:   "Task Is In Progress",
 	CodeStatisticExist:           "Statistic Exist",
+	CodeFriendExist: "Friend Exist",
 }
 
-//解析码的具体信息
 func parseCodeMessage(code Code) string {
 	if msg, ok := codeMap[code]; ok {
 		return msg
@@ -76,7 +77,6 @@ func parseCodeMessage(code Code) string {
 	return codeMap[CodeServerErr]
 }
 
-//所有响应码列表
 func ListCode() []map[string]interface{} {
 	var codes []int
 	for k := range codeMap {

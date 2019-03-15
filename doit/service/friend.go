@@ -2,14 +2,65 @@ package service
 
 import (
 	"Project/doit/app"
+	"Project/doit/code"
 	"Project/doit/entity"
+	"Project/doit/form"
+	"Project/doit/util"
 	"github.com/go-ozzo/ozzo-dbx"
+	v "github.com/go-ozzo/ozzo-validation"
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
+	"net/http"
+	"strconv"
+	"time"
 )
 
 var Friend = FriendService{}
 
 type FriendService struct{}
+
+//好友申请授权
+func (f *FriendService) AddAuthorization(req form.AddFriendRequest, state string) (err error) {
+	err = v.ValidateStruct(&req,
+		v.Field(&req.Name, v.Required),
+		v.Field(&req.UserID, v.Required),
+		v.Field(&req.FriendID, v.Required),
+		v.Field(&req.Reason, v.Required),
+	)
+	if err != nil {
+		return
+	}
+	status, err := strconv.Atoi(state)
+	if err != nil {
+		return
+	}
+	if status == int(entity.AcceptApp) {
+		var friend entity.Friend
+		friend.ID = xid.New().String()
+		friend.FriendID = req.FriendID
+		friend.UserID = req.UserID
+		friend.UserState = entity.FriendOK
+		friend.FriendState = entity.FriendOK
+		friend.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+		err = app.DB.Transactional(func(tx *dbx.Tx) error {
+			err = tx.Model(&friend).Insert()
+			if err != nil {
+				return err
+			}
+			return nil
+		})
+		if err != nil {
+			if util.IsDBDuplicatedErr(err) {
+				err = code.New(http.StatusConflict, code.CodeFriendExist)
+				return
+			}
+			err = errors.Wrap(err, "fail to create friend relationship")
+			return
+		}
+	}
+	return
+
+}
 
 //查询人员
 func (f *FriendService) QueryUsers(req entity.QueryUserRequest) (persons []entity.BaseUser, err error) {

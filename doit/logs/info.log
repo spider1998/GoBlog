@@ -10969,3 +10969,124 @@
 {"level":"info","service":"nsq_logger","time":"2019-03-11T10:23:23+08:00","message":"ERR    1 [go-blog.log/go-blog] (192.168.35.193:4150) error connecting to nsqd - dial tcp 192.168.35.193:4150: connect: connection refused"}
 {"level":"info","service":"nsq_logger","time":"2019-03-11T10:24:23+08:00","message":"ERR    1 [go-blog.log/go-blog] (192.168.35.193:4150) error connecting to nsqd - dial tcp 192.168.35.193:4150: connect: connection refused"}
 {"level":"info","service":"nsq_logger","time":"2019-03-11T10:25:23+08:00","message":"ERR    1 [go-blog.log/go-blog] (192.168.35.193:4150) error connecting to nsqd - dial tcp 192.168.35.193:4150: connect: connection refused"}
+{"level":"info","pid":58068,"time":"2019-03-15T10:34:55+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:34:55+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:34:55+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:34:55+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:34:55+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:34:55+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:34:55+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"load cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:34:56+08:00","message":"run http server."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:34:56+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:34:56+08:00","message":"added cron."}
+{"level":"info","time":"2019-03-15T10:34:56+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:34:57+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:34:58+08:00","message":"start nsq runner."}
+{"level":"info","signal":2,"time":"2019-03-15T10:34:58+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:34:58+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:34:58+08:00","message":"already shutdown http server."}
+{"level":"info","time":"2019-03-15T10:34:59+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:35:00+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:35:01+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:35:02+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:35:03+08:00","message":"start nsq runner."}
+{"level":"info","pid":58179,"time":"2019-03-15T10:42:08+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:42:08+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:42:08+08:00","message":"load cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:42:08+08:00","message":"run http server."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:42:08+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:42:08+08:00","message":"added cron."}
+{"level":"info","time":"2019-03-15T10:42:09+08:00","message":"start nsq runner."}
+{"level":"info","signal":2,"time":"2019-03-15T10:42:09+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:42:09+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:42:09+08:00","message":"already shutdown http server."}
+{"level":"info","pid":58253,"time":"2019-03-15T10:43:35+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:43:35+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:43:35+08:00","message":"load cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:43:35+08:00","message":"run http server."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:43:35+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:43:35+08:00","message":"added cron."}
+{"level":"info","signal":2,"time":"2019-03-15T10:43:36+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:43:36+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:43:36+08:00","message":"already shutdown http server."}
+{"level":"info","time":"2019-03-15T10:43:36+08:00","message":"start nsq runner."}
+{"level":"info","pid":58329,"time":"2019-03-15T10:44:30+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:44:30+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:44:30+08:00","message":"load cron."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:44:30+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:44:30+08:00","message":"added cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:44:30+08:00","message":"run http server."}
+{"level":"info","time":"2019-03-15T10:44:31+08:00","message":"start nsq runner."}
+{"level":"info","signal":2,"time":"2019-03-15T10:44:31+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:44:31+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:44:31+08:00","message":"already shutdown http server."}
+{"level":"info","time":"2019-03-15T10:44:32+08:00","message":"start nsq runner."}
+{"level":"info","pid":58403,"time":"2019-03-15T10:45:51+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:45:51+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"load cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:45:51+08:00","message":"run http server."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:45:51+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:45:51+08:00","message":"added cron."}
+{"level":"info","signal":2,"time":"2019-03-15T10:45:51+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:45:51+08:00","message":"already shutdown http server."}
+{"level":"info","pid":58465,"time":"2019-03-15T10:46:50+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T10:46:50+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T10:46:50+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":""},"time":"2019-03-15T10:46:50+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T10:46:50+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T10:46:50+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T10:46:50+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"load cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T10:46:51+08:00","message":"run http server."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T10:46:51+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T10:46:51+08:00","message":"added cron."}
+{"level":"info","signal":2,"time":"2019-03-15T10:46:51+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"already shutdown http server."}
+{"level":"info","time":"2019-03-15T10:46:51+08:00","message":"start nsq runner."}

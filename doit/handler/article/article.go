@@ -231,6 +231,21 @@ func saveFile(file multipart.File, head *multipart.FileHeader) (path string, err
 	return
 }
 
+//非用户修改文章
+func ContributeArticle(c *routing.Context) error {
+	var req form.ContributeReq
+	err := c.Read(&req)
+	if err != nil {
+		return err
+	}
+	content := "修改" + req.ArtName + "为: " + req.Content
+	err = service.Message.Create(req.AuthID, app.Conf.BlogModify, req.ArtID, content, req.UserID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 //用户修改文章
 func VerifyArticle(c *routing.Context) error {
 
@@ -355,6 +370,27 @@ func ForwardArticle(c *routing.Context) error {
 	}
 	//发送转发授权消息
 	err = service.Message.Create(authID, app.Conf.BlogForward, req.ArtID, req.Reason, req.UserID)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeCreateMessageError)
+	}
+	return c.Write(http.StatusOK)
+}
+
+//文章修改授权
+func ModifyAuthorization(c *routing.Context) error {
+	var req form.ContributeReq
+	state := c.Query("auth")
+	authID := session.GetUserSession(c).ID
+	err := c.Read(&req)
+	if err != nil {
+		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
+	}
+	content,err := service.Article.ModifyAuthorization(req, state, authID)
+	if err != nil {
+		return err
+	}
+	//发送授权消息
+	err = service.Message.Create(req.UserID, app.Conf.BlogForward, req.ArtID, content, authID)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeCreateMessageError)
 	}
