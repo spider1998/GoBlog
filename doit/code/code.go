@@ -34,6 +34,7 @@ const (
 	CodeTaskIsInProgress              = 100022
 	CodeStatisticExist                = 100023
 	CodeFriendExist                   = 100024
+	CodeFriendNotExist                = 100025
 	CodeRecordNotExist                = 10803
 )
 
@@ -63,11 +64,12 @@ var codeMap = map[Code]string{
 	CodeOperatorTokenRequired:    "Operator Token Required",
 	CodeCommentExist:             "Comment Exist",
 	CodeCommentNotExist:          "Comment Not Exist",
-	CodeMessageNotExist:    "Message Not Exist",
-	CodeCreateMessageError: "Create Message Error",
-	CodeTaskIsInProgress:   "Task Is In Progress",
+	CodeMessageNotExist:          "Message Not Exist",
+	CodeCreateMessageError:       "Create Message Error",
+	CodeTaskIsInProgress:         "Task Is In Progress",
 	CodeStatisticExist:           "Statistic Exist",
-	CodeFriendExist: "Friend Exist",
+	CodeFriendExist:              "Friend Exist",
+	CodeFriendNotExist:"Friend Not Exist",
 }
 
 func parseCodeMessage(code Code) string {
