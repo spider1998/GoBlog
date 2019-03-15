@@ -36,9 +36,11 @@ type Config struct {
 	//备份
 	RuntimePath string `json:"runtime_path" default:"."` // 运行时路径，存储日志、备份数据等
 	//消息
-	BlogForward string `json:"blog_forward" default:"Blog Forward"` //文章转发消息标题
-	BlogModify  string `json:"blog_modify" default:"Blog Modify"`   //文章修改消息标题
-	FriendNotice	string `json:"friend_notice"`	//好友消息
+	BlogForward  string `json:"blog_forward" default:"Blog Forward"` //文章转发消息标题
+	BlogModify   string `json:"blog_modify" default:"Blog Modify"`   //文章修改消息标题
+	FriendNotice string `json:"friend_notice"`                       //好友消息
+	//公告密钥
+	AnnounceKey	string `json:"announce_key" default:"sess:go-blog-announce"`
 
 }
 

@@ -11090,3 +11090,269 @@
 {"level":"info","time":"2019-03-15T10:46:51+08:00","message":"try to shutdown http server."}
 {"level":"info","time":"2019-03-15T10:46:51+08:00","message":"already shutdown http server."}
 {"level":"info","time":"2019-03-15T10:46:51+08:00","message":"start nsq runner."}
+{"level":"info","pid":59023,"time":"2019-03-15T14:18:11+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":"","announce_key":"sess:go-blog-announce"},"time":"2019-03-15T14:18:11+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T14:18:11+08:00","message":"load cron."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T14:18:11+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T14:18:11+08:00","message":"added cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T14:18:11+08:00","message":"run http server."}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [0.040ms] GET /admin/captcha/ HTTP/1.1 301 49"}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [5.629ms] GET /admin/statistics/sort HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [5.754ms] GET /admin/statistics/gender HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [7.172ms] GET /admin/statistics/month/0 HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [7.279ms] GET /admin/statistics/area HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:18:50+08:00","message":"[192.168.35.248] [38.236ms] GET /admin/captcha HTTP/1.1 200 1992"}
+{"level":"info","time":"2019-03-15T14:19:12+08:00","message":"[192.168.35.248] [190.777ms] POST /admin/sessions HTTP/1.1 200 45"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [246.424ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [258.192ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [320.771ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [347.350ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [393.622ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:19:13+08:00","message":"[192.168.35.248] [398.075ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:19:15+08:00","message":"[192.168.35.248] [7.624ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:19:15+08:00","message":"[192.168.35.248] [66.386ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:19:15+08:00","message":"[192.168.35.248] [291.210ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:19:15+08:00","message":"[192.168.35.248] [311.428ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:19:15+08:00","message":"[192.168.35.248] [301.015ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [4.526ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [11.315ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [5.694ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [5.280ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [8.436ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:19:21+08:00","message":"[192.168.35.248] [51.800ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:22:31+08:00","message":"[192.168.35.248] [0.080ms] POST /admin/announcements HTTP/1.1 404 52"}
+{"level":"info","time":"2019-03-15T14:23:02+08:00","message":"[192.168.35.248] [3.401ms] POST /admin/announcements HTTP/1.1 400 41"}
+{"level":"info","signal":2,"time":"2019-03-15T14:24:16+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T14:24:16+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T14:24:16+08:00","message":"already shutdown http server."}
+{"level":"info","pid":59069,"time":"2019-03-15T14:24:33+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":"","announce_key":"sess:go-blog-announce"},"time":"2019-03-15T14:24:33+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"registering routes."}
+{"level":"info","time":"2019-03-15T14:24:33+08:00","message":"load cron."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T14:24:33+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T14:24:34+08:00","message":"added cron."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T14:24:34+08:00","message":"run http server."}
+{"level":"info","time":"2019-03-15T14:24:39+08:00","message":"[192.168.35.248] [5.755ms] POST /admin/announcements HTTP/1.1 200 0"}
+{"level":"info","time":"2019-03-15T14:25:24+08:00","message":"[192.168.35.248] [15.745ms] GET /admin/announcements HTTP/1.1 200 131"}
+{"level":"info","signal":2,"time":"2019-03-15T14:29:54+08:00","message":"received signal."}
+{"level":"info","time":"2019-03-15T14:29:54+08:00","message":"try to shutdown http server."}
+{"level":"info","time":"2019-03-15T14:29:54+08:00","message":"already shutdown http server."}
+{"level":"info","pid":59112,"time":"2019-03-15T14:30:01+08:00","message":"app booted."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"start nsq runner."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"run log sender."}
+{"level":"info","config":{"debug":true,"debug_http":false,"http_addr":":8081","mysql":"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4\u0026parseTime=true","redis":"192.168.35.193:6379","like_redis":"goblog","conf_path":".","pagination_page":1,"pagination_size":50,"nsqd":"192.168.35.193:4150","email":"2387805574@qq.com","epass":"henuqnarpnucdjci","etype":"smtp.qq.com","eport":587,"msid":"116943babddda930dcd8802a7f6f5bd4","mtoken":"28423c3bc2a1b63b4f432540e5b8cd96","mappid":"589910649b5347118abf1888f56a6071","mcach":"413802","mexpire":"60","maddr":"https://open.ucpaas.com/ol/sms/sendsms","content_size":500,"attachment_path":"attachment/","runtime_path":".","blog_forward":"Blog Forward","blog_modify":"Blog Modify","friend_notice":"","announce_key":"sess:go-blog-announce"},"time":"2019-03-15T14:30:01+08:00","message":"loaded config."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"start load db..."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"loaded db."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"migrate db..."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"applied migrations..."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"try to load redis."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"loaded redis."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"registering routes."}
+{"level":"info","server_addr":":8081","time":"2019-03-15T14:30:01+08:00","message":"run http server."}
+{"level":"info","time":"2019-03-15T14:30:01+08:00","message":"load cron."}
+{"level":"info","crons":[{"id":1,"key":"db.backup","spec":"0 0 17 * * *","last_executed_at":"2019-03-08 17:00:00","create_time":"2019-03-04 15:37:35","update_time":"2019-03-04 16:43:40"}],"time":"2019-03-15T14:30:01+08:00","message":"find cron from db."}
+{"level":"info","key":"db.backup","time":"2019-03-15T14:30:01+08:00","message":"added cron."}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [1.248ms] GET /user/sessions/false HTTP/1.1 403 73"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [1.652ms] GET /admin/announcements HTTP/1.1 200 131"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [179.617ms] GET /article/articles HTTP/1.1 200 5808"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [0.024ms] GET /static/ HTTP/1.1 301 42"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [0.065ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [229.566ms] GET /article/articles/hot/top10 HTTP/1.1 200 2378"}
+{"level":"info","time":"2019-03-15T14:30:38+08:00","message":"[192.168.35.248] [63.293ms] GET /static/attachment/397/pattern.png HTTP/1.1 200 154341"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [10.866ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [18.093ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [38.046ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [16.509ms] GET /article/sorts HTTP/1.1 200 312"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [57.609ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [19.546ms] GET /admin/articles?page=1&page_size=5 HTTP/1.1 200 858"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [87.387ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [28.813ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [53.261ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [41.626ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [118.663ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [132.119ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:32:37+08:00","message":"[192.168.35.248] [64.973ms] GET /admin/sorts?page=1&page_size=15&admin=1 HTTP/1.1 200 415"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [5.895ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [28.103ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [10.101ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [25.150ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [30.404ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:34:17+08:00","message":"[192.168.35.248] [200.455ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [12.697ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [18.239ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [20.029ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [4.966ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [15.148ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:39:54+08:00","message":"[192.168.35.248] [72.170ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [3.377ms] GET /admin/statistics/gender HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [16.949ms] GET /admin/statistics/sort HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [7.147ms] GET /admin/statistics HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [15.129ms] GET /admin/sessions/current HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [33.697ms] GET /admin/statistics/area HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:55+08:00","message":"[192.168.35.248] [38.211ms] GET /admin/statistics/month/0 HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [1.867ms] GET /admin/statistics/sort HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [21.822ms] GET /admin/statistics/gender HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [19.199ms] GET /admin/statistics/area HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [34.198ms] GET /admin/statistics/month/0 HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [12.877ms] GET /admin/statistics HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:39:57+08:00","message":"[192.168.35.248] [13.656ms] GET /admin/sessions/current HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [2.802ms] GET /admin/statistics/month/0 HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [2.844ms] GET /admin/statistics/sort HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [4.424ms] GET /admin/statistics/gender HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [4.193ms] GET /admin/statistics/area HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [4.615ms] GET /admin/statistics HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"token expired."}
+{"level":"info","time":"2019-03-15T14:40:00+08:00","message":"[192.168.35.248] [4.592ms] GET /admin/sessions/current HTTP/1.1 400 44"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [2.944ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [2.103ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [2.432ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [6.409ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [18.704ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:40:01+08:00","message":"[192.168.35.248] [46.372ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [3.844ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [14.370ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [8.243ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [7.639ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [10.590ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:40:51+08:00","message":"[192.168.35.248] [67.867ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [16.020ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [9.609ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [35.092ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [35.712ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [50.524ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:40:52+08:00","message":"[192.168.35.248] [185.512ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [2.628ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [2.628ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [3.177ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [3.049ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [5.556ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:40:53+08:00","message":"[192.168.35.248] [10.733ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:42:33+08:00","message":"[192.168.35.248] [14.314ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:42:33+08:00","message":"[192.168.35.248] [43.548ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:42:33+08:00","message":"[192.168.35.248] [352.176ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:42:33+08:00","message":"[192.168.35.248] [363.209ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:42:33+08:00","message":"[192.168.35.248] [381.337ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:42:34+08:00","message":"[192.168.35.248] [402.544ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [8.875ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [23.707ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [25.758ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [48.559ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [56.377ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [66.217ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [4.934ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [9.619ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [11.297ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [15.963ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:43:11+08:00","message":"[192.168.35.248] [4.744ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:43:12+08:00","message":"[192.168.35.248] [3.216ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:43:12+08:00","message":"[192.168.35.248] [8.237ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:43:12+08:00","message":"[192.168.35.248] [4.204ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [10.127ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [4.489ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [14.512ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [3.217ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [4.232ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [9.331ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [13.960ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [7.051ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:43:13+08:00","message":"[192.168.35.248] [21.485ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [6.513ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [12.731ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [17.034ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [7.592ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [17.604ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:45:53+08:00","message":"[192.168.35.248] [25.307ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [23.307ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [53.264ms] GET /admin/statistics HTTP/1.1 200 99"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [67.721ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [73.814ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [68.494ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:45:54+08:00","message":"[192.168.35.248] [305.930ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:51:00+08:00","message":"[192.168.35.248] [10.599ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:51:00+08:00","message":"[192.168.35.248] [13.676ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:51:00+08:00","message":"[192.168.35.248] [19.014ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:51:00+08:00","message":"[192.168.35.248] [21.177ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:52:28+08:00","message":"[192.168.35.248] [5.212ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:52:28+08:00","message":"[192.168.35.248] [16.247ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:52:28+08:00","message":"[192.168.35.248] [16.909ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:52:28+08:00","message":"[192.168.35.248] [49.792ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:52:52+08:00","message":"[192.168.35.248] [6.298ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:52:52+08:00","message":"[192.168.35.248] [13.078ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:52:52+08:00","message":"[192.168.35.248] [14.139ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:52:52+08:00","message":"[192.168.35.248] [20.672ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:53:53+08:00","message":"[192.168.35.248] [5.764ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:53:53+08:00","message":"[192.168.35.248] [9.891ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:53:53+08:00","message":"[192.168.35.248] [5.127ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:53:53+08:00","message":"[192.168.35.248] [3.794ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:54:21+08:00","message":"[192.168.35.248] [5.402ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:54:21+08:00","message":"[192.168.35.248] [4.767ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:54:21+08:00","message":"[192.168.35.248] [4.342ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:54:21+08:00","message":"[192.168.35.248] [2.565ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:54:21+08:00","message":"[192.168.35.248] [12.816ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:54:37+08:00","message":"[192.168.35.248] [3.207ms] POST /admin/announcements HTTP/1.1 200 0"}
+{"level":"info","time":"2019-03-15T14:54:47+08:00","message":"[192.168.35.248] [0.896ms] GET /user/sessions/false HTTP/1.1 403 73"}
+{"level":"info","time":"2019-03-15T14:54:47+08:00","message":"[192.168.35.248] [3.377ms] GET /article/articles HTTP/1.1 200 5808"}
+{"level":"info","time":"2019-03-15T14:54:47+08:00","message":"[192.168.35.248] [21.468ms] GET /article/articles/hot/top10 HTTP/1.1 200 2378"}
+{"level":"info","time":"2019-03-15T14:54:47+08:00","message":"[192.168.35.248] [1.995ms] GET /admin/announcements HTTP/1.1 200 39"}
+{"level":"info","time":"2019-03-15T14:54:47+08:00","message":"[192.168.35.248] [0.145ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-03-15T14:54:58+08:00","message":"[192.168.35.248] [3.423ms] POST /admin/announcements HTTP/1.1 200 0"}
+{"level":"info","time":"2019-03-15T14:55:04+08:00","message":"[192.168.35.248] [3.686ms] GET /user/sessions/false HTTP/1.1 403 73"}
+{"level":"info","time":"2019-03-15T14:55:04+08:00","message":"[192.168.35.248] [3.961ms] GET /article/articles HTTP/1.1 200 5808"}
+{"level":"info","time":"2019-03-15T14:55:04+08:00","message":"[192.168.35.248] [5.041ms] GET /admin/announcements HTTP/1.1 200 129"}
+{"level":"info","time":"2019-03-15T14:55:04+08:00","message":"[192.168.35.248] [17.989ms] GET /article/articles/hot/top10 HTTP/1.1 200 2378"}
+{"level":"info","time":"2019-03-15T14:55:04+08:00","message":"[192.168.35.248] [0.060ms] GET /static HTTP/1.1 404 10"}
+{"level":"info","time":"2019-03-15T14:55:41+08:00","message":"[192.168.35.248] [2.301ms] POST /admin/announcements HTTP/1.1 200 0"}
+{"level":"info","time":"2019-03-15T14:55:45+08:00","message":"[192.168.35.248] [4.570ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:55:45+08:00","message":"[192.168.35.248] [2.339ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:55:45+08:00","message":"[192.168.35.248] [5.947ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:55:45+08:00","message":"[192.168.35.248] [7.498ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:55:45+08:00","message":"[192.168.35.248] [3.291ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [4.170ms] POST /admin/announcements HTTP/1.1 200 0"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [8.345ms] GET /admin/statistics/gender HTTP/1.1 200 46"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [11.513ms] GET /admin/statistics/month/0 HTTP/1.1 200 36"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [43.450ms] GET /admin/sessions/current HTTP/1.1 200 213"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [51.338ms] GET /admin/statistics/area HTTP/1.1 200 76"}
+{"level":"info","time":"2019-03-15T14:56:10+08:00","message":"[192.168.35.248] [61.666ms] GET /admin/statistics/sort HTTP/1.1 200 54"}
+{"level":"info","time":"2019-03-15T14:56:15+08:00","message":"[192.168.35.248] [2.014ms] GET /article/articles HTTP/1.1 200 5808"}
+{"level":"info","time":"2019-03-15T14:56:15+08:00","message":"[192.168.35.248] [4.162ms] GET /user/sessions/false HTTP/1.1 403 73"}
+{"level":"info","time":"2019-03-15T14:56:15+08:00","message":"[192.168.35.248] [2.492ms] GET /article/articles/hot/top10 HTTP/1.1 200 2378"}
+{"level":"info","time":"2019-03-15T14:56:15+08:00","message":"[192.168.35.248] [1.721ms] GET /admin/announcements HTTP/1.1 200 130"}
+{"level":"info","time":"2019-03-15T14:56:15+08:00","message":"[192.168.35.248] [0.048ms] GET /static HTTP/1.1 404 10"}
