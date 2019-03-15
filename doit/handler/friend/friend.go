@@ -8,9 +8,37 @@ import (
 	"Project/doit/handler/session"
 	"Project/doit/service"
 	"Project/doit/util"
+	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/go-ozzo/ozzo-routing"
+	"github.com/pkg/errors"
 	"net/http"
 )
+
+//删除好友
+func DeleteFriend(c *routing.Context) (err error) {
+	userID := session.GetUserSession(c).ID
+	recID := c.Query("record_id")
+	var rec entity.Friend
+	err = app.DB.Select().Where(dbx.HashExp{"id": recID}).One(&rec)
+	if err != nil {
+		if util.IsDBNotFound(err) {
+			err = code.New(http.StatusBadRequest, code.CodeRecordNotExist)
+			return
+		}
+		err = errors.WithStack(err)
+		return
+	}
+	if userID != rec.UserID && userID != rec.FriendID {
+		err = code.New(http.StatusBadRequest, code.CodeUserAccessSessionInvalid)
+		return
+	}
+	err = app.DB.Delete("friend", dbx.NewExp("id={:id}", dbx.Params{"id": recID})).
+		All(&rec)
+	if err != nil {
+		return err
+	}
+	return
+}
 
 //好友申请授权
 func AddAuthorization(c *routing.Context) (err error) {
