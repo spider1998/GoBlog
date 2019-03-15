@@ -19,7 +19,7 @@ var Friend = FriendService{}
 
 type FriendService struct{}
 
-//拉黑好友
+//拉黑好友/解除拉黑
 func (f *FriendService) PullBlack(userID, recID, state string) (err error) {
 	var status entity.FriendStatus
 	if state == "1" {

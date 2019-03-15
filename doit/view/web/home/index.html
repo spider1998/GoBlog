@@ -74,7 +74,9 @@
     <div style="margin-top: 100px">
         <p style="color: #0c5460;margin-left: 100px;position: absolute;top: 700px">Advertising space for rent</p>
     </div>
-
+    <marquee behavior="scroll" direction="left" style="background-color: #e8e5bc">
+        <p id="announce"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;通知，本站点正在更新中，有任何问题请联系管理员！</p>
+    </marquee>
     <!-- Main Content -->
     <div class="container">
       <div class="row">
@@ -215,6 +217,19 @@
               },
               error : function() {
                   alert("search blog failed");
+              }
+          });
+
+          $.ajax({
+              type: "GET",//方法类型
+              contentType: "application/json",
+              url: "http://192.168.35.193:8081/admin/announcements",
+              success: function (data) {
+                  var html = `<i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;`+data.content+`&nbsp;&nbsp;`+data.date;
+                  $("#announce").html(html);//动态插入html
+              },
+              error : function() {
+                  alert("search announce failed");
               }
           });
 

@@ -66,4 +66,8 @@ type CreateArticleSortRequest struct {
 	Sort 	string `json:"sort"`
 }
 
+type AnnounceRequest struct {
+	Date string `json:"date"`
+	Content string `json:"content"`
+}
 

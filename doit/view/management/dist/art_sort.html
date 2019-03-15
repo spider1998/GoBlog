@@ -129,7 +129,13 @@
                         <a href="backup.html" class="nav-link" id="backup">
                             <i class="icon icon-umbrella"></i> 数据备份
                         </a>
-                    </li>s
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="setting.html" class="nav-link"  id="setting">
+                            <i class="icon icon-people"></i> 站点配置
+                        </a>
+                    </li>
                     
                     
             
@@ -229,6 +235,7 @@
         $("#admin_log").attr("href","admin_log.html?token="+token)
         $("#art_sort").attr("href","art_sort.html?token="+token)
         $("#backup").attr("href","backup.html?token="+token)
+        $("#setting").attr("href","setting.html?token="+token)
         //页面初始化获取管理员登陆信息/
         $.ajax({
                 type: "GET",//方法类型
