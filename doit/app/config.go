@@ -11,14 +11,14 @@ type Config struct {
 	DebugHTTP bool   `json:"debug_http"`                //http调试
 	HTTPAddr  string `json:"http_addr" default:":8081"` // HTTP 服务地址
 	//数据库配置
-	Mysql     string `json:"mysql" default:"root:123456@tcp(192.168.35.193:3306)/doit?charset=utf8mb4&parseTime=true"` // mysql DSN
-	Redis     string `json:"redis" default:"192.168.35.193:6379"`
+	Mysql     string `json:"mysql" default:"root:123456@tcp(mysql:3306)/doi?charset=utf8mb4&parseTime=true"` // mysql DSN
+	Redis     string `json:"redis" default:"redis:6379"`
 	LikeRedis string `json:"like_redis" default:"goblog"`
 	//日志配置
 	ConfPath       string `json:"conf_path" default:"."`        //日志文件路径
 	PaginationPage int64  `json:"pagination_page" default:"1"`  //分页页数
 	PaginationSize int64  `json:"pagination_size" default:"50"` //分页大小
-	NSQD           string `json:"nsqd" default:"192.168.35.193:4150"`
+	NSQD           string `json:"nsqd" default:"nsqd:4150"`
 	//邮件配置
 	Email string `json:"email" default:"2387805574@qq.com"` //服务器邮箱地址
 	Epass string `json:"epass" default:"henuqnarpnucdjci"`  //邮箱密钥
@@ -40,8 +40,7 @@ type Config struct {
 	BlogModify   string `json:"blog_modify" default:"Blog Modify"`   //文章修改消息标题
 	FriendNotice string `json:"friend_notice"`                       //好友消息
 	//公告密钥
-	AnnounceKey	string `json:"announce_key" default:"sess:go-blog-announce"`
-
+	AnnounceKey string `json:"announce_key" default:"sess:go-blog-announce"`
 }
 
 //加载配置
