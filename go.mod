@@ -6,7 +6,6 @@ require (
 	github.com/afocus/captcha v0.0.0-20170421134744-6d694b359d1a
 	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf // indirect
 	github.com/astaxie/beego v1.11.1
-	github.com/caeret/ozzo-routing v2.1.4+incompatible
 	github.com/denisenkom/go-mssqldb v0.0.0-20190204142019-df6d76eb9289 // indirect
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/go-ozzo/ozzo-dbx v1.0.15

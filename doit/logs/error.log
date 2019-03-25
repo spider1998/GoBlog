@@ -148,3 +148,6 @@
 {"level":"error","error":"dial tcp 192.168.35.193:4150: connect: connection refused","time":"2019-03-15T10:45:51+08:00","message":"fail to connect to nsqd."}
 {"level":"error","error":"dial tcp 192.168.35.193:4150: connect: connection refused","time":"2019-03-15T10:46:50+08:00","message":"fail to connect to nsqd."}
 {"level":"error","error":"dial tcp 192.168.35.193:4150: connect: connection refused","time":"2019-03-15T10:46:51+08:00","message":"fail to connect to nsqd."}
+{"level":"error","error":"dial tcp 192.168.35.193:4150: connect: connection refused","time":"2019-03-22T14:30:01+08:00","message":"fail to connect to nsqd."}
+{"level":"error","error":"dial tcp: lookup nsqd on 192.168.35.99:53: no such host","time":"2019-03-22T16:43:28+08:00","message":"fail to connect to nsqd."}
+{"level":"error","error":"dial tcp: lookup nsqd on 192.168.35.99:53: no such host","time":"2019-03-22T16:45:15+08:00","message":"fail to connect to nsqd."}
