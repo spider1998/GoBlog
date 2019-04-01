@@ -1,89 +1,20 @@
-version: '2'
+version: '1'
 services:
   gateway:
-    image: registry.sdkeji.top/sdkeji/gateway:master
+    image: spider1998/go-blog:v1
     ports:
-    - ${API_PORT}:80
-    - ${MINIO_PORT}:9000
-    - ${NSQ_ADMIN_PORT}:4171
-    restart: unless-stopped
-
-  platform:
-    image: registry.sdkeji.top/sdkeji/platform:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  personnel:
-    image: registry.sdkeji.top/sdkeji/personnel:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  verification:
-    image: registry.sdkeji.top/sdkeji/verification:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  device:
-    image: registry.sdkeji.top/sdkeji/device:master
-    env_file:
-    - ${PWD}/env/common.env
-    ports:
-    - ${LISTENER_PORT}:9020
-    restart: unless-stopped
-
-  enterprise:
-    image: registry.sdkeji.top/sdkeji/enterprise:develop
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  ruledemo:
-    image: registry.sdkeji.top/sdkeji/ruledemo:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  visitor:
-    image: registry.sdkeji.top/sdkeji/visitor:develop
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  payment:
-    image: registry.sdkeji.top/sdkeji/payment:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  s3:
-    image: registry.sdkeji.top/sdkeji/s3:master
-    env_file:
-    - ${PWD}/env/common.env
-    restart: unless-stopped
-
-  backup:
-    image: registry.sdkeji.top/sdkeji/backup:master
-    env_file:
-    - ${PWD}/env/common.env
-    volumes:
-    - ${PWD}/env:/app/env
-    - ${PWD}/docker-compose.yml:/app/docker-compose.yml
-    - ${PWD}/backups:/app/backups
-    - /var/run/docker.sock:/var/run/docker.sock
+    - 8081:8081
     restart: unless-stopped
 
   mysql:
     image: mysql:5.7.16
     ports:
-    - ${MYSQL_PORT}:3306
+    - $3306:3306
     volumes:
-    - ${PWD}/mysql_data:/var/lib/mysql
+    - ~/go-blog/mysql_data:/var/lib/mysql
     environment:
     - TZ=Asia/Shanghai
-    - MYSQL_ROOT_PASSWORD=shengdian
+    - MYSQL_ROOT_PASSWORD=123456
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: unless-stopped
 
@@ -91,26 +22,6 @@ services:
     image: redis:3
     ports:
     - 6379:6379
-    restart: unless-stopped
-
-  etcd:
-    image: 'bitnami/etcd:latest'
-    ports:
-    - 2379:2379
-    environment:
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
-      - ETCDCTL_API=3
-    restart: unless-stopped
-
-  minio:
-    image: 'minio/minio:RELEASE.2019-01-23T23-18-58Z'
-    volumes:
-    - ${PWD}/minio_data:/data
-    environment:
-    - MINIO_ACCESS_KEY=sdkeji
-    - MINIO_SECRET_KEY=sdkeji.com
-    command: server /data
     restart: unless-stopped
 
   nsqlookupd:

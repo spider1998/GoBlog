@@ -2,3 +2,9 @@
 {"level":"error","error":"dial tcp 45.77.85.108:4150: i/o timeout","time":"2019-03-22T16:57:16+08:00","message":"fail to connect to nsqd."}
 {"level":"error","error":"dial tcp 45.77.85.108:4150: i/o timeout","time":"2019-03-25T15:16:10+08:00","message":"fail to connect to nsqd."}
 {"level":"error","error":"dial tcp 45.77.85.108:4150: i/o timeout","time":"2019-03-25T15:16:12+08:00","message":"fail to connect to nsqd."}
+{"level":"error","error":"open ../resource/fonts/comic.ttf: no such file or directory","time":"2019-03-26T18:31:13+08:00","message":"handler error."}
+{"level":"error","error":"open ../resource/fonts/comic.ttf: no such file or directory","time":"2019-03-26T18:31:14+08:00","message":"handler error."}
+{"level":"error","error":"open ./resource/fonts/comic.ttf: no such file or directory","time":"2019-03-26T18:32:12+08:00","message":"handler error."}
+{"level":"error","error":"fail to find user: sql: Scan error on column index 5, name \"create_time\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time","time":"2019-03-27T11:29:09+08:00","message":"handler error."}
+{"level":"error","error":"fail to query message.: Error 1054: Unknown column 'account_id' in 'where clause'","time":"2019-04-01T14:27:56+08:00","message":"handler error."}
+{"level":"error","error":"Error 1054: Unknown column 'account_id' in 'where clause'","time":"2019-04-01T16:24:35+08:00","message":"handler error."}

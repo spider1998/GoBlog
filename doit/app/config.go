@@ -38,7 +38,7 @@ type Config struct {
 	//消息
 	BlogForward  string `json:"blog_forward" default:"Blog Forward"` //文章转发消息标题
 	BlogModify   string `json:"blog_modify" default:"Blog Modify"`   //文章修改消息标题
-	FriendNotice string `json:"friend_notice"`                       //好友消息
+	FriendNotice string `json:"friend_notice" default:"Notice"`                       //好友消息
 	//公告密钥
 	AnnounceKey string `json:"announce_key" default:"sess:go-blog-announce"`
 }

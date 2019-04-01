@@ -19,7 +19,7 @@ func PullBlack(c *routing.Context) (err error) {
 	userID := session.GetUserSession(c).ID
 	recID := c.Query("record_id")
 	state := c.Query("state")
-	err = service.Friend.PullBlack(userID, recID,state)
+	err = service.Friend.PullBlack(userID, recID, state)
 	if err != nil {
 		return
 	}
@@ -92,7 +92,8 @@ func AddAuthorization(c *routing.Context) (err error) {
 	} else {
 		content = "申请拒绝！好友【" + session.GetUserSession(c).Name + "】拒绝好友申请！"
 	}
-	err = service.Message.Create(req.UserID, app.Conf.FriendNotice, req.FriendID, content, req.FriendID)
+	types := entity.MessageTypeNotice
+	err = service.Message.Create(req.UserID, app.Conf.FriendNotice, req.FriendID, content, req.FriendID, types)
 	if err != nil {
 		return
 	}
@@ -106,8 +107,9 @@ func AddFriends(c *routing.Context) (err error) {
 	if err != nil {
 		return
 	}
+	typs := entity.MessageTypeAuth
 	err = service.Message.Create(req.FriendID, app.Conf.FriendNotice, req.UserID,
-		req.Name+" 请求添加好友： 申请理由："+req.Reason, req.UserID)
+		req.Name+" 请求添加好友： 申请理由："+req.Reason, req.UserID, typs)
 	if err != nil {
 		return
 	}

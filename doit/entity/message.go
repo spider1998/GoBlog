@@ -15,7 +15,7 @@ const (
 
 type Message struct {
 	ID       string      `json:"id"`         //消息记录ID
-	UserID   string      `json:"account_id"` //用户ID
+	UserID   string      `json:"user_id"` //用户ID
 	OriginID string      `json:"origin_id"`  //来源用户ID
 	Type     MessageType `json:"type"`       //消息类型
 	ServerID string      `json:"server_id"`  //服务ID（授权，申请）

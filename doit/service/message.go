@@ -15,7 +15,7 @@ type MessageService struct{}
 
 var Message MessageService
 
-func (m MessageService) Create(accountID, title, serverID, content, originID string) error {
+func (m MessageService) Create(accountID, title, serverID, content, originID string, types entity.MessageType) error {
 	var message entity.Message
 	message.ID = uuid.New().String()
 	message.UserID = accountID
@@ -24,6 +24,7 @@ func (m MessageService) Create(accountID, title, serverID, content, originID str
 	message.Title = title
 	message.Content = content
 	message.Read = false
+	message.Type = types
 	message.DatetimeAware = entity.DatetimeAwareNow()
 	err := app.DB.Model(&message).Insert()
 	if err != nil {
@@ -35,7 +36,7 @@ func (m MessageService) Create(accountID, title, serverID, content, originID str
 
 //路由校验，提取消息uid,msgId和状态，调用该函数修改状态
 func (m MessageService) Read(uid, msgId string, read bool) (message entity.Message, err error) {
-	err = app.DB.Select().Where(dbx.HashExp{"id": msgId, "account_id": uid}).One(&message)
+	err = app.DB.Select().Where(dbx.HashExp{"id": msgId, "user_id": uid}).One(&message)
 	if err != nil {
 		if util.IsDBNotFound(err) {
 			err = code.New(http.StatusNotFound, code.CodeMessageNotExist)

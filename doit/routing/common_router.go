@@ -2,18 +2,18 @@ package routing
 
 import (
 	"Project/doit/app"
-	"Project/doit/routing/admin"
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/access"
 	"github.com/go-ozzo/ozzo-routing/content"
 	"github.com/go-ozzo/ozzo-routing/cors"
-	"github.com/go-ozzo/ozzo-routing/file"
 	"github.com/go-ozzo/ozzo-routing/slash"
-	"io"
 	"net/http"
+	"sync"
 	"os"
 	"regexp"
-	"sync"
+	"io"
+	"github.com/go-ozzo/ozzo-routing/file"
+	"Project/doit/routing/admin"
 )
 
 var (
@@ -33,7 +33,7 @@ func Run() error {
 			AllowOrigins:  "*",
 			AllowHeaders:  "*",
 			AllowMethods:  "*",
-			ExposeHeaders: "X-Page-Total, X-Page, X-Page-Size",
+			ExposeHeaders: "X-Page-Total, X-Page, X-Page-Size,X-Total-Count",
 		}),
 		//记录请求日志输出		[192.168.183.1] [0.137ms] GET /version HTTP/1.1 200 61(字节)
 		access.Logger(func(format string, a ...interface{}) {
@@ -62,11 +62,13 @@ func Run() error {
 
 	/*-----注册业务主路由-----*/
 	app.Logger.Info().Msg("registering routes.")
-	admin.ManagerRegisterRoutes(router.Group("/admin")) //管理员相关路由
+	admin.ManagerRegisterRoutes(router.Group("/admin"))	//管理员相关路由
 
-	UserRegisterRoutes(router.Group("/user"))       //用户相关路由
-	ArticleRegisterRoutes(router.Group("/article")) //文章相关路由
-	FriendRegisterRoutes(router.Group("/friend"))   //好友相关路由
+	UserRegisterRoutes(router.Group("/user"))				//用户相关路由
+	ArticleRegisterRoutes(router.Group("/article"))		//文章相关路由
+	FriendRegisterRoutes(router.Group("/friend"))			//好友相关路由
+
+
 
 	//遍历路由
 	for _, route := range router.Routes() {
