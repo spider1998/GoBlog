@@ -27,7 +27,7 @@ type AreaNum struct {
 	Count	int `json:"count"`
 }
 
-//获取文章排行
+//获取文章排行.
 func (s *OperatorService) GetArticleTop()(res form.ArticleTopResponse,err error) {
 	var art1 []entity.Article
 	err = app.DB.Select().OrderBy("hot desc").Limit(10).All(&art1)

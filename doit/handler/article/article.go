@@ -239,7 +239,8 @@ func ContributeArticle(c *routing.Context) error {
 		return err
 	}
 	content := "修改" + req.ArtName + "为: " + req.Content
-	err = service.Message.Create(req.AuthID, app.Conf.BlogModify, req.ArtID, content, req.UserID)
+	types := entity.MessageTypeAuth
+	err = service.Message.Create(req.AuthID, app.Conf.BlogModify, req.ArtID, content, req.UserID, types)
 	if err != nil {
 		return err
 	}
@@ -368,8 +369,10 @@ func ForwardArticle(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
+	req.UserID = session.GetUserSession(c).ID
+	req.Type = entity.MessageTypeAuth
 	//发送转发授权消息
-	err = service.Message.Create(authID, app.Conf.BlogForward, req.ArtID, req.Reason, req.UserID)
+	err = service.Message.Create(authID, app.Conf.BlogForward, req.ArtID, req.Reason, req.UserID, req.Type)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeCreateMessageError)
 	}
@@ -385,12 +388,13 @@ func ModifyAuthorization(c *routing.Context) error {
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err(err)
 	}
-	content,err := service.Article.ModifyAuthorization(req, state, authID)
+	content, err := service.Article.ModifyAuthorization(req, state, authID)
 	if err != nil {
 		return err
 	}
+	types := entity.MessageTypeNotice
 	//发送授权消息
-	err = service.Message.Create(req.UserID, app.Conf.BlogForward, req.ArtID, content, authID)
+	err = service.Message.Create(req.UserID, app.Conf.BlogForward, req.ArtID, content, authID, types)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeCreateMessageError)
 	}
@@ -408,8 +412,9 @@ func ForwardAuthorization(c *routing.Context) error {
 	if err != nil {
 		return err
 	}
+	typs := entity.MessageTypeNotice
 	//发送授权消息
-	err = service.Message.Create(req.UserID, app.Conf.BlogForward, req.ArtID, content, authID)
+	err = service.Message.Create(req.UserID, app.Conf.BlogForward, req.ArtID, content, authID, typs)
 	if err != nil {
 		return code.New(http.StatusBadRequest, code.CodeCreateMessageError)
 	}

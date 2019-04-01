@@ -551,7 +551,7 @@ func (a *ArticleService) ForwardAuthorization(req entity.ArticleAuthorization) (
 		res = art.Title + " 转发授权成功！"
 		return
 	}
-	if req.State == "2" {
+	if req.State == "4" {
 		res = art.Title + " 转发授权拒绝！"
 		return
 	}

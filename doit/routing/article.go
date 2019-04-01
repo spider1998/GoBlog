@@ -31,8 +31,8 @@ func ArticleRegisterRoutes(router *routing.RouteGroup) {
 	router.Get("/<article_id>/like", article.GetArticleLikeCount) // 获取文章点赞数
 
 	router.Patch("/<article_id>", article.ForwardArticle)                //转发文章
-	router.Patch("/Authorization/forward", article.ForwardAuthorization) //文章转发授权
-	router.Patch("/Authorization/modify", article.ModifyAuthorization)	//文章修改授权
+	router.Patch("/authorization/forward", article.ForwardAuthorization) //文章转发授权
+	router.Patch("/authorization/modify", article.ModifyAuthorization)   //文章修改授权
 
 	router.Post("/<art_id>/comment", article.CommentArticle)      //评论文章
 	router.Post("/comments/<com_id>/reply", article.CommentReply) //评论回复

@@ -104,6 +104,7 @@ type ArticleForwardRequest struct {
 	ArtID  string `json:"art_id"`
 	UserID string `json:"user_id"`
 	Reason string `json:"reason"`
+	Type MessageType `json:"type"`
 }
 
 type StateForward int8
@@ -125,9 +126,9 @@ type ArticleForward struct {
 }
 
 type ArticleAuthorization struct {
-	ArtID string `json:"art_id"`
-	State string `json:"state"`
-	UserID 	string `json:"user_id"`
+	ArtID  string `json:"art_id"`
+	State  string `json:"state"`
+	UserID string `json:"user_id"`
 }
 
 func (Article) TableName() string {

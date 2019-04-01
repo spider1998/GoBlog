@@ -36,7 +36,7 @@
 					<header class="mb-5"><h1>Go-Blog</h1></header>
 					<P class="mb-5">A sign-up letter template with three background images shuffling by fade in out movements. Thank you for visiting our site!</P>
                         <div class="tm-social-icons-container text-xs-center">
-                            <a href="./login.html" class="tm-social-link"><i class="fa font-awesome">login</i></a>
+                            <a href="login.html" class="tm-social-link"><i class="fa font-awesome">login</i></a>
                         </div>
                     <form action="#" method="get" class="subscribe-form">
                	    	<div class="row form-section">
@@ -147,7 +147,7 @@
 		                data: JSON.stringify({"name":name,"password":password,
 							"email":email,"cach":code,"area":area,"gender":gender}),//JSON.stringify()必须有,否则只会当做表单的格式提交,
 		                success: function (result) {
-		                        window.location.href = "./login.html"
+		                        window.location.href = "login.html"
 		                },
 		                error : function() {
 		                    alert(result.text);

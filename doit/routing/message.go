@@ -8,13 +8,13 @@ import (
 	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/pkg/errors"
 
-	"Project/doit/handler/session"
-	"github.com/go-ozzo/ozzo-routing"
 	"Project/doit/app"
-	"Project/doit/entity"
-	"Project/doit/util"
 	"Project/doit/code"
+	"Project/doit/entity"
+	"Project/doit/handler/session"
 	"Project/doit/service"
+	"Project/doit/util"
+	"github.com/go-ozzo/ozzo-routing"
 )
 
 //获取消息列表
@@ -27,8 +27,8 @@ func getMessagesList(c *routing.Context) error {
 	}
 	//查询记录总数
 	query := app.DB.Select("count(*)").From(entity.TableMessage).Where(dbx.HashExp{
-		"account_id": session.GetUserSession(c).ID,
-		"read":       read,
+		"user_id": session.GetUserSession(c).ID,
+		"read":    read,
 	})
 
 	var cnt int
@@ -55,7 +55,7 @@ func getMessagesList(c *routing.Context) error {
 
 //修改消息状态
 func changeMessageStatus(c *routing.Context) error {
-	msgId := c.Param("message_id")
+	msgId := c.Query("message_id")
 	if msgId == "" {
 		return code.New(http.StatusBadRequest, code.CodeBadRequest).Err("request content is empty")
 	}

@@ -5,6 +5,7 @@ import (
 	"Project/doit/code"
 	"Project/doit/resource"
 	"bytes"
+	"fmt"
 	"github.com/afocus/captcha"
 	"github.com/mediocregopher/radix.v2/redis"
 	"github.com/pkg/errors"
@@ -12,6 +13,7 @@ import (
 	"image/jpeg"
 	"math/rand"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -19,11 +21,41 @@ var Captcha = &CaptchaService{}
 
 type CaptchaService struct{}
 
+func file2Bytes(filename string) ([]byte, error) {
+
+	// File
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	// FileInfo:
+	stats, err := file.Stat()
+	if err != nil {
+		return nil, err
+	}
+
+	// []byte
+	data := make([]byte, stats.Size())
+	count, err := file.Read(data)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Printf("read file %s len: %d \n", filename, count)
+	return data, nil
+}
+
 func (s *CaptchaService) Generate() (token string, image []byte, err error) {
 	token = RandString(32)
 	captchaKey := s.captchaKey(token)
 	c := captcha.New()
-	err = c.AddFontFromBytes(resource.FontBox.Bytes("comic.ttf"))
+	fmt.Println(resource.FontBox.Path)
+	data, err := file2Bytes("doit/resource/fonts/comic.ttf")
+	if err != nil {
+		return
+	}
+	err = c.AddFontFromBytes(data)
 	if err != nil {
 		err = errors.WithStack(err)
 		return
